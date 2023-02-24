@@ -11,6 +11,12 @@ from fluxr import *
 __package__ = pkg_n()
 
 
+#   MODULE VARS
+__SYS_MODULES: list = [
+    None,
+]
+
+
 #   MODULE CLASSES
 class RuntimeFramework:
     pass
