@@ -34,6 +34,7 @@ def pkg_v() -> str:
 from .const import *
 from .ext_cde import *
 from .exc import FrameworkExceptionManager
+from .svc import ServiceProvider
 from .rfw import RuntimeFramework
 ...
 
