@@ -4,6 +4,7 @@
 
 #   MODULE IMPORTS
 from fluxr import *
+from .exc import FrameworkExceptionManager
 ...
 
 
