@@ -26,3 +26,7 @@ class RuntimeFramework:
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
         return
+
+    def __runnable(self) -> bool:
+        """ Determines if system conditions are appropriate """
+        return
