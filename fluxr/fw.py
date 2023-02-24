@@ -19,4 +19,10 @@ __SYS_MODULES: list = [
 
 #   MODULE CLASSES
 class RuntimeFramework:
-    pass
+    def __init__(self, meta=None, app=None, dev: bool = True):
+        """ Runtime-engine framework """
+        return
+
+    def system_exit(self, **kwargs):
+        """ Shutdown runtime-engine """
+        return
