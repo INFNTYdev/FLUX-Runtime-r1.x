@@ -58,7 +58,9 @@ class ExceptionLogEntry:
 
 
 class ExceptionLog:
-    pass
+    def __init__(self, **kwargs):
+        """ Framework exception log """
+        return
 
 
 class FrameworkExceptionManager:
