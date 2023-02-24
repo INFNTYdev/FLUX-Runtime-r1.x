@@ -8,7 +8,7 @@ from fluxr import *
 
 
 #   MODULE PACKAGE
-__package__ = None
+__package__ = pkg_n()
 
 
 #   MODULE CLASSES
