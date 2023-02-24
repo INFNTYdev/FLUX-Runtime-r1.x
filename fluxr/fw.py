@@ -19,7 +19,7 @@ __SYS_MODULES: list = [
 
 #   MODULE CLASSES
 class RuntimeFramework:
-    def __init__(self, meta=None, app=None, dev: bool = True):
+    def __init__(self, dev: bool = True, **kwargs):
         """ Runtime-engine framework """
         return
 
