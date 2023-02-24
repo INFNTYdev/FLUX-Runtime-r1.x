@@ -11,7 +11,7 @@ __package__ = pkg_n()
 
 
 #   MODULE CLASSES
-class ExceptionEntry:
+class ExceptionLogEntry:
     def __init__(self, **kwargs):
         """ Exception log entry """
         self.__exc_index: int = None
@@ -44,17 +44,21 @@ class ExceptionEntry:
         """ Returns a string of the exceptions author """
         return
 
-    def type(self) -> str:
+    def get_type(self) -> str:
         """ Returns the exception type """
         return
 
-    def cause(self) -> str:
+    def get_cause(self) -> str:
         """ Returns the exception cause """
         return
 
-    def pointer(self) -> str:
+    def get_pointer(self) -> str:
         """ Returns the exception pointer """
         return
+
+
+class ExceptionLog:
+    pass
 
 
 class FrameworkExceptionManager:
