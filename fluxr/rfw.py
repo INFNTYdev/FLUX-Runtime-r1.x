@@ -5,6 +5,7 @@
 #   MODULE IMPORTS
 from fluxr import *
 from .exc import FrameworkExceptionManager
+from .svc import ServiceProvider
 ...
 
 
