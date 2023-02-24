@@ -11,5 +11,9 @@ __package__ = pkg_n()
 
 
 #   MODULE CLASSES
+class ExceptionEntry:
+    pass
+
+
 class FrameworkExceptionManager:
     pass
