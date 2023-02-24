@@ -30,3 +30,11 @@ class RuntimeFramework:
     def __runnable(self) -> bool:
         """ Determines if system conditions are appropriate """
         return
+
+    def __console_out(self):
+        """ Send text to the console """
+        return
+
+    def __master_console_out(self, **kwargs):
+        """ Master console output """
+        return
