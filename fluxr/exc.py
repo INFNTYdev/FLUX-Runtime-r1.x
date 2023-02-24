@@ -14,53 +14,62 @@ __package__ = pkg_n()
 class ExceptionLogEntry:
     def __init__(self, **kwargs):
         """ Exception log entry """
-        self.__exc_index: int = None
-        self.__exc_date: str = None
-        self.__exc_time: str = None
-        self.__unaccounted: bool = None
-        self.__author: str = None
-        self.__type: str = None
-        self.__exc_cause: str = None
-        self.__exc_pointer: str = None
+        self.__exc_index: int = kwargs.get('index')
+        self.__exc_date: str = kwargs.get('date')
+        self.__exc_time: str = kwargs.get('time')
+        self.__unaccounted: bool = kwargs.get('unaccounted')
+        self.__author: str = kwargs.get('author')
+        self.__type: str = kwargs.get('type')
+        self.__exc_cause: str = kwargs.get('cause')
+        self.__exc_pointer: str = kwargs.get('pointer')
         return
 
     def get_index(self) -> int:
         """ Returns the exceptions index """
-        return
+        return self.__exc_index
 
     def get_date(self) -> str:
         """ Returns the exceptions occurrence date """
-        return
+        return self.__exc_date
 
     def get_time(self) -> str:
         """ Returns the exceptions occurrence time """
-        return
+        return self.__exc_time
 
     def is_unaccounted(self) -> bool:
         """ Determines if the exception is unaccounted """
-        return
+        return self.__unaccounted
 
     def authoring_class(self) -> str:
         """ Returns a string of the exceptions author """
-        return
+        return self.__author
 
     def get_type(self) -> str:
         """ Returns the exception type """
-        return
+        return self.__type
 
     def get_cause(self) -> str:
         """ Returns the exception cause """
-        return
+        return self.__exc_cause
 
     def get_pointer(self) -> str:
         """ Returns the exception pointer """
-        return
+        return self.__exc_pointer
 
 
 class ExceptionLog:
     def __init__(self, **kwargs):
         """ Framework exception log """
+        self.__exc_log: list = []
         return
+
+    def log(self):
+        """ Log an exception to the log """
+        return
+
+    def length(self) -> int:
+        """ Returns the number of exception logged """
+        return len(self.__exc_log)
 
 
 class FrameworkExceptionManager:
