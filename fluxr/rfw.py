@@ -4,6 +4,7 @@
 
 #   MODULE IMPORTS
 from fluxr import *
+from .stat import FrameworkStatusManager
 from .exc import FrameworkExceptionManager
 from .svc import ServiceProvider
 ...
