@@ -23,6 +23,13 @@ __SYS_MODULES: list = [
 class RuntimeFramework:
     def __init__(self, dev: bool = True, **kwargs):
         """ Runtime-engine framework """
+        self.run: bool = True
+        self.dev: bool = dev
+        self.__start_up: bool = True
+        self.__fatal_error: bool = False
+        self.__asset_chain: dict = {}
+        self.__META_REF = kwargs.get('meta')
+        self.__APPLICATION = kwargs.get('application')
         return
 
     def system_exit(self, **kwargs):
