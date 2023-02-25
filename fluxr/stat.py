@@ -13,5 +13,5 @@ __package__ = pkg_n()
 #   MODULE CLASSES
 class FrameworkStatusManager:
     def __init__(self, fw: any):
-        """ Framework module monitor """
+        """ Framework status module """
         return
