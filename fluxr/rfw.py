@@ -32,7 +32,7 @@ class RuntimeFramework:
         self.__META_REF = kwargs.get('meta')
         self.__APPLICATION = kwargs.get('application')
 
-        self.__status: FrameworkStatusManager = FrameworkStatusManager(fw=self)
+        self.__status: FrameworkStatusManager = FrameworkStatusManager()
         return
 
     def system_exit(self, **kwargs):
