@@ -1,5 +1,5 @@
 
-""" FLUX Runtime-Engine Framework Status """
+""" FLUX Runtime-Engine Framework Status Manager """
 
 
 #   MODULE IMPORTS
