@@ -13,7 +13,7 @@ __package__ = pkg_n()
 #   MODULE CLASSES
 class ExceptionLogEntry:
     def __init__(self, **kwargs):
-        """ Exception log entry """
+        """ Framework exception log entry """
         self.__exc_index: int = kwargs.get('index')
         self.__exc_date: str = kwargs.get('date')
         self.__exc_time: str = kwargs.get('time')
@@ -73,4 +73,6 @@ class ExceptionLog:
 
 
 class FrameworkExceptionManager:
-    pass
+    def __init__(self):
+        """ Framework exception manager """
+        return
