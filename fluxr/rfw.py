@@ -30,6 +30,8 @@ class RuntimeFramework:
         self.__asset_chain: dict = {}
         self.__META_REF = kwargs.get('meta')
         self.__APPLICATION = kwargs.get('application')
+
+        self.__status = None
         return
 
     def system_exit(self, **kwargs):
