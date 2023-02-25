@@ -33,7 +33,7 @@ def pkg_v() -> str:
 #   MODULE IMPORTS
 from .const import *
 from .ext_cde import *
-from .exc_types import *
+from .cexc import *
 from .exc import FrameworkExceptionManager
 from .svc import ServiceProvider
 from .rfw import RuntimeFramework
