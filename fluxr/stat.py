@@ -12,7 +12,7 @@ __package__ = pkg_n()
 
 #   MODULE CLASSES
 class FrameworkStatusManager:
-    def __init__(self, fw: any):
+    def __init__(self):
         """ Framework status module """
         self.__status: dict = {
             'exception_ready*': [FrameworkExceptionManager, False],
