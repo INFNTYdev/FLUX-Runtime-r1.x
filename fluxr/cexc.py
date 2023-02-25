@@ -1,5 +1,5 @@
 
-""" FLUX Runtime-Engine Framework Exception Classes """
+""" FLUX Runtime-Engine Framework Custom Exceptions """
 
 
 #   MODULE CLASSES
