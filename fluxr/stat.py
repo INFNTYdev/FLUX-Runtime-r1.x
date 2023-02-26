@@ -37,22 +37,38 @@ class FrameworkStatusManager:
                     return bool(self.__status[str(module+'_ready')][1])
                 return bool(self.__status[module][1])
             else:
-                return self.__status_by_class(module)
+                return self.__get_status_by_class(module)
         else:
             pass
         return
 
     def set(self, module: any, status: bool):
         """ Set the status of a system module """
+        if self.__status_exist(module):
+            if type(module) is str:
+                if self.__is_shortened(module):
+                    self.__status[str(module+'_ready')][1] = status
+                else:
+                    self.__status[module][1] = status
+            else:
+                self.__set_status_by_class(module, status)
+        else:
+            pass
         return
 
     def core_systems_active(self) -> bool:
         """ Determines if required modules are active """
-        return
+        for mod in [x for x in self.__status.keys()]:
+            if (mod[-1] == '*') and (not bool(self.__status[mod][1])):
+                return False
+        return True
 
     def all_systems_active(self) -> bool:
         """ Determines if all modules are actvie """
-        return
+        for mod in [x for x in self.__status.keys()]:
+            if not self.__status[mod][1]:
+                return False
+        return True
 
     @staticmethod
     def __is_shortened(s_key: str) -> bool:
@@ -75,12 +91,22 @@ class FrameworkStatusManager:
                 break
         return short
 
-    def __status_by_class(self, module: any) -> bool:
+    def __get_status_by_class(self, module: any) -> bool:
         """ Retrieves a modules status by class """
         for k in [x for x in self.__status.keys()]:
-            if self.__status[k][0] == type(module):
+            if (self.__status[k][0] == type(module))\
+                    or (self.__status[k][0] == module):
                 return bool(self.__status[k][1])
         return None
+
+    def __set_status_by_class(self, module: any, status: bool):
+        """ Set the status of a module by class """
+        for k in [x for x in self.__status.keys()]:
+            if (self.__status[k][0] == type(module)) \
+                    or (self.__status[k][0] == module):
+                self.__status[k][1] = status
+                break
+        return
 
     def __status_exist(self, module: any) -> bool:
         """ Determines if the provided modules status exist """
@@ -89,6 +115,7 @@ class FrameworkStatusManager:
                 if (module == k) or (module == self.__shorten(k)):
                     return True
             else:
-                if type(module) == self.__status[k][0]:
+                if (type(module) == self.__status[k][0])\
+                        or (module == self.__status[k][0]):
                     return True
         return False
