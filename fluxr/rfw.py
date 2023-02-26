@@ -37,7 +37,8 @@ class RuntimeFramework:
         try:
             pass
         except ExcFailureError as ExcFailure:
-            self.console_out()
+            self.console_out(ExcFailure.notice, error=True)
+            self.system_exit(code=None)
 
         ...
         return
