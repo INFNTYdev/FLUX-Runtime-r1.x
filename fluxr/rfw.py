@@ -51,7 +51,7 @@ class RuntimeFramework:
 
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
-        exit(kwargs.get('code'))
+        exit(kwargs.get('code', DEFAULT_EXIT))
 
     # STATUS METHODS
     def __set_module_status(self, module: any, status: bool):
