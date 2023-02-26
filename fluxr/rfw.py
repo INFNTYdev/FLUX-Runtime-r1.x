@@ -57,11 +57,16 @@ class RuntimeFramework:
 
     def exception(self, cls: any, exc_o: any, exc_info: tuple, **kwargs):
         """ Handle system raised exceptions """
+        self.__exc.exception(cls, exc_o, exc_info, **kwargs)
         return
 
     def base_services(self) -> dict:
         """ Provides access to basic framework services """
-        return {'console': self.console_out, 'exit': self.system_exit}
+        return {
+            'console': self.console_out,
+            'exc': self.exception,
+            'exit': self.system_exit
+        }
 
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
