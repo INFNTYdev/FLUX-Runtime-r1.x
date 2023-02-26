@@ -32,7 +32,7 @@ def pkg_v() -> str:
 
 
 def fw_obj(fw: any) -> any:
-    """ Confirm framework parameter """
+    """ Confirm framework object """
     try:
         if fw.is_fw():
             return fw
