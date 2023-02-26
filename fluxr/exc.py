@@ -88,7 +88,7 @@ class FrameworkExceptionManager:
         return
 
     def exception(self, cls: type, exc_o: any, exc_info: tuple, **kwargs):
-        """ Handle system raised exception """
+        """ Handle system raised exceptions """
         self.__exception_log.log(
             ExceptionLogEntry(
                 index=self.__exception_log.length(),
