@@ -55,6 +55,10 @@ class RuntimeFramework:
         self.__master_console_out(text=text, **kwargs)
         return
 
+    def exception(self, cls: any, exc_o: any, exc_info: tuple, **kwargs):
+        """ Handle system raised exceptions """
+        return
+
     def base_services(self) -> dict:
         """ Provides access to basic framework services """
         return {'console': self.console_out, 'exit': self.system_exit}
@@ -85,6 +89,9 @@ class RuntimeFramework:
     def __all_active(self) -> bool:
         """ Determines if all modules are actvie """
         return self.__stat.all_systems_active()
+
+    # EXCEPTION METHODS
+    pass
 
     # BASEMENT METHODS
     def __runnable(self) -> bool:
