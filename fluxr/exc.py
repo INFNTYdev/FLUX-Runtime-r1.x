@@ -80,12 +80,16 @@ class ExceptionLog:
 class FrameworkExceptionManager:
     def __init__(self, fw: any):
         """ Framework exception manager """
-        self.__FW = fw_obj(fw)
-        self.__S: dict = fw.base_services()
+        try:
+            self.__FW = fw_obj(fw)
+            self.__S: dict = fw.base_services()
 
-        self.__out("Initializing exception manager...")
-        self.__exception_log: ExceptionLog = ExceptionLog()
-        return
+            self.__out("Initializing exception manager...")
+            self.__exception_log: ExceptionLog = ExceptionLog()
+        except BaseException as Unknown:
+            raise ExcFailureError
+        finally:
+            return
 
     def exception(self, cls: type, exc_o: any, exc_info: tuple, **kwargs):
         """ Handle system raised exceptions """
