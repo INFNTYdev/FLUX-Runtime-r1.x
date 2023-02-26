@@ -33,10 +33,16 @@ class RuntimeFramework:
         self.__APPLICATION = kwargs.get('application')
         self.__status: FrameworkStatusManager = FrameworkStatusManager()
 
+        self.console_out("Initializing runtime framework...")
         ...
         return
 
     # CORE METHODS
+    def console_out(self, text: str, **kwargs):
+        """ Send text to the console """
+        self.__master_console_out(text=text, **kwargs)
+        return
+
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
         return
@@ -64,10 +70,24 @@ class RuntimeFramework:
         """ Determines if system conditions are appropriate """
         return
 
-    def __console_out(self):
-        """ Send text to the console """
-        return
-
     def __master_console_out(self, **kwargs):
         """ Master console output """
-        return
+        try:
+            # err_msg
+            # skip_line
+            # *prefix
+            if (kwargs.get('root', False)) or (not self.__get_module_status('console')):
+                p_str: str = f"\t{kwargs.get('prefix', '')}- >  "
+                if kwargs.get('error', False):
+                    p_str += "[ ERROR ] : "
+                p_str += kwargs.get('text')
+                if kwargs.get('skip', False):
+                    p_str = f'\n{p_str}'
+                if self.dev:
+                    print(p_str)
+            else:
+                pass
+        except BaseException as Unknown:
+            pass
+        finally:
+            return
