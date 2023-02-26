@@ -48,6 +48,8 @@ class RuntimeFramework:
 
         try:
             pass
+        except SvcFailureError as SvcFailure:
+            pass
         except BaseException as SvcFailure:
             pass
 
