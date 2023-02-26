@@ -40,7 +40,7 @@ class ServiceProvider:
         """ Returns list of all current services """
         return
 
-    def new_service(self, call: str, cls: type, func: any, clearance: str):
+    def new_service(self, call: str, cls: any, func: any, clearance: str):
         """ Add a function to the service provider """
         return
 
@@ -48,12 +48,18 @@ class ServiceProvider:
         """ Returns appropriate services to requestor """
         return
 
-    def whitelist_class(self, requestor: type, cls: any, clearance: str):
+    def whitelist_class(self, requestor: any, cls: any, clearance: str):
         """ Add a class to the providers whitelist """
+        if self.__authorized(requestor):
+            pass
         return
 
-    def authorize_class(self, requestor: type, cls: any):
+    def authorize_class(self, requestor: any, cls: any):
         """ Add a class to the providers administration """
+        return
+
+    def __authorized(self, requestor: any) -> bool:
+        """ Determines if requestor has administrative rights """
         return
 
     def __out(self, text: str, **kwargs):
