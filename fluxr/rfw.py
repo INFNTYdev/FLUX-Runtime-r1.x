@@ -47,7 +47,7 @@ class RuntimeFramework:
             self.system_exit(code=EXC_FAILURE)
 
         try:
-            self.__svc: ServiceProvider = ServiceProvider()
+            self.__svc: ServiceProvider = ServiceProvider(fw=self)
             self.__asset_chain[ServiceProvider] = self.__svc
             self.__set_module_status(ServiceProvider, True)
             self.console_out("Successfully initialized service provider")
