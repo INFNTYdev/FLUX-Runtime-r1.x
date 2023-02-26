@@ -65,7 +65,12 @@ class ExceptionLog:
 
     def log(self, log: ExceptionLogEntry):
         """ Log an exception to the log """
+        self.__exc_log.append(log)
         return
+
+    def get(self, index: int):
+        """ Return exception log at index """
+        return self.__exc_log[index]
 
     def length(self) -> int:
         """ Returns the number of exception logged """
@@ -91,11 +96,14 @@ class FrameworkExceptionManager:
                 time=None,
                 unaccounted=kwargs.get('unaccounted', False),
                 author=str(cls.__class__.__name__),
-                type=str(exc_info[0].__name__),
+                type=str(exc_o.__class__.__name__),
                 cause=str(exc_info[1]),
                 pointer=kwargs.get('pointer', None)
             )
         )
+        self.__out(f"EXCEPTION @ {str(cls.__class__.__name__)}."
+                   f"{kwargs.get('pointer', '#unprovided')}", error=True)
+        self.__out(f"{str(exc_o.__class__.__name__)} : {str(exc_info[1])}", error=True)
         return
 
     def __out(self, text: str, **kwargs):
