@@ -6,4 +6,5 @@
 CLEAN: int = 0
 DEFAULT_EXIT: int = 5
 EXC_FAILURE: int = 10
+SVC_FAILURE: int = 20
 ...
