@@ -15,8 +15,8 @@ class FrameworkStatusManager:
     def __init__(self):
         """ Framework status module """
         self.__status: dict = {
-            'exception_ready*': [FrameworkExceptionManager, False],
-            'service_ready*': [ServiceProvider, False],
+            'exception_ready*': [None, False],
+            'service_ready*': [None, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
@@ -25,7 +25,7 @@ class FrameworkStatusManager:
             # '#_ready': [None, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
-            'framework_ready': [RuntimeFramework, False],
+            'framework_ready': [None, False],
         }
         return
 
@@ -34,7 +34,10 @@ class FrameworkStatusManager:
         if self.__status_exist(module):
             if type(module) is str:
                 if self.__is_shortened(module):
-                    return bool(self.__status[str(module+'_ready')][1])
+                    try:
+                        return bool(self.__status[str(module+'_ready')][1])
+                    except KeyError as CoreModuleSuffix:
+                        return bool(self.__status[str(module+'_ready*')][1])
                 return bool(self.__status[module][1])
             else:
                 return self.__get_status_by_class(module)
@@ -47,7 +50,10 @@ class FrameworkStatusManager:
         if self.__status_exist(module):
             if type(module) is str:
                 if self.__is_shortened(module):
-                    self.__status[str(module+'_ready')][1] = status
+                    try:
+                        self.__status[str(module+'_ready')][1] = status
+                    except KeyError as CoreModuleSuffix:
+                        self.__status[str(module+'_ready*')][1] = status
                 else:
                     self.__status[module][1] = status
             else:
