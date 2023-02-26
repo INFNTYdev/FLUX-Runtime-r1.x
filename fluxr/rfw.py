@@ -34,6 +34,7 @@ class RuntimeFramework:
         self.__stat: FrameworkStatusManager = FrameworkStatusManager()
         self.__asset_chain[FrameworkStatusManager] = self.__stat
         self.console_out("Initializing runtime framework...", skip=True)
+        
         try:
             self.__exc: FrameworkExceptionManager = FrameworkExceptionManager(fw=self)
             self.__asset_chain[FrameworkExceptionManager] = self.__exc
