@@ -38,6 +38,8 @@ class RuntimeFramework:
         try:
             self.__exc: FrameworkExceptionManager = FrameworkExceptionManager()
             self.__set_module_status(FrameworkExceptionManager, True)
+            self.__asset_chain[FrameworkExceptionManager] = self.__exc
+            self.console_out("Successfully initialized exception manager")
         except ExcFailureError as ExcFailure:
             self.console_out(ExcFailure.notice, error=True)
             self.system_exit(code=EXC_FAILURE)
