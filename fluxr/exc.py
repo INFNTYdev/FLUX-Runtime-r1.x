@@ -63,7 +63,7 @@ class ExceptionLog:
         self.__exc_log: list = []
         return
 
-    def log(self):
+    def log(self, log: ExceptionLogEntry):
         """ Log an exception to the log """
         return
 
@@ -84,6 +84,18 @@ class FrameworkExceptionManager:
 
     def exception(self, cls: type, exc_o: any, **kwargs):
         """ Handle system raised exception """
+        self.__exception_log.log(
+            ExceptionLogEntry(
+                index=self.__exception_log.length(),
+                date=None,
+                time=None,
+                unaccounted=kwargs.get('unaccounted', False),
+                author=str(cls.__class__.__name__),
+                type=None,
+                cause=None,
+                pointer=kwargs.get('pointer', None)
+            )
+        )
         return
 
     def __out(self, text: str, **kwargs):
