@@ -11,3 +11,13 @@ class ExcFailureError(Exception):
         if value is not None:
             self.value += f': {value}'
         return
+
+
+class SvcFailureError(Exception):
+    def __init__(self, value=None):
+        """ Framework service provider failure """
+        self.value: str = 'The runtime service provider failed'
+        self.notice: str = f"\n\n\t[ FATAL RUNTIME ERROR ] : {self.value}"
+        if value is not None:
+            self.value += f': {value}'
+        return
