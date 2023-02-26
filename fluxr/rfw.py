@@ -22,7 +22,7 @@ __SYS_MODULES: list = [
 
 #   MODULE CLASSES
 class RuntimeFramework:
-    def __init__(self, dev: bool = True, **kwargs):
+    def __init__(self, dev: bool = False, **kwargs):
         """ Runtime-engine framework """
         self.run: bool = True
         self.dev: bool = dev
@@ -73,9 +73,6 @@ class RuntimeFramework:
     def __master_console_out(self, **kwargs):
         """ Master console output """
         try:
-            # err_msg
-            # skip_line
-            # *prefix
             if (kwargs.get('root', False)) or (not self.__get_module_status('console')):
                 p_str: str = f"\t{kwargs.get('prefix', '')}- >  "
                 if kwargs.get('error', False):
