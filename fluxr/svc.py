@@ -29,6 +29,7 @@ class ServiceProvider:
 
         self.__out("Initializing service provider...")
         self.__serve: dict = {}
+        self.__init_attr(**kwargs)
         return
 
     def __init_attr(self, **kwargs):
