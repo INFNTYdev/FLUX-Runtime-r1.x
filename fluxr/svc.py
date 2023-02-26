@@ -13,4 +13,6 @@ __package__ = pkg_n()
 
 #   MODULE CLASSES
 class ServiceProvider:
-    pass
+    def __init__(self):
+        """ Framework service provider """
+        return
