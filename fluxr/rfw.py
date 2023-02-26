@@ -46,6 +46,11 @@ class RuntimeFramework:
             self.console_out(f"\n\n\t[ RUNTIME EXC ERROR ] : {ExcFailure}")
             self.system_exit(code=EXC_FAILURE)
 
+        try:
+            pass
+        except BaseException as SvcFailure:
+            pass
+
         ...
         return
 
