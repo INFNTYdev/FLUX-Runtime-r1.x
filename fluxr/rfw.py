@@ -57,7 +57,7 @@ class RuntimeFramework:
 
     def base_services(self) -> dict:
         """ Provides access to basic framework services """
-        return {'console': self.console_out, 'exc': None}
+        return {'console': self.console_out, 'exit': self.system_exit()}
 
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
