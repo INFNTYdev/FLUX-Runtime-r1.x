@@ -33,7 +33,7 @@ class RuntimeFramework:
         self.__APPLICATION = kwargs.get('application')
         self.__status: FrameworkStatusManager = FrameworkStatusManager()
 
-        self.console_out("Initializing runtime framework...")
+        self.console_out("Initializing runtime framework...", skip=True)
         ...
         return
 
