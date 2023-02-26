@@ -80,3 +80,7 @@ class FrameworkExceptionManager:
 
         ...
         return
+
+    def __out(self, text: str, **kwargs):
+        """ Send text to the console """
+        return
