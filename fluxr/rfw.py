@@ -32,6 +32,7 @@ class RuntimeFramework:
         self.__META_REF = kwargs.get('meta')
         self.__APPLICATION = kwargs.get('application')
         self.__stat: FrameworkStatusManager = FrameworkStatusManager()
+        self.__asset_chain[FrameworkStatusManager] = self.__stat
 
         self.console_out("Initializing runtime framework...", skip=True)
         try:
