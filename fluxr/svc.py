@@ -13,6 +13,10 @@ __package__ = pkg_n()
 
 #   MODULE CLASSES
 class ServiceProvider:
+
+    __whitelist: dict = {}
+    __admin: list = []
+
     def __init__(self, fw: any, **kwargs):
         """ Framework service provider """
         self.__FW = fw_obj(fw)
