@@ -31,7 +31,7 @@ class RuntimeFramework:
         self.__asset_chain: dict = {}
         self.__META_REF = kwargs.get('meta')
         self.__APPLICATION = kwargs.get('application')
-        self.__status: FrameworkStatusManager = FrameworkStatusManager()
+        self.__stat: FrameworkStatusManager = FrameworkStatusManager()
 
         self.console_out("Initializing runtime framework...", skip=True)
         try:
@@ -56,20 +56,20 @@ class RuntimeFramework:
     # STATUS METHODS
     def __set_module_status(self, module: any, status: bool):
         """ Set the status of a system module """
-        self.__status.set(module, status)
+        self.__stat.set(module, status)
         return
 
     def __get_module_status(self, module: any) -> bool:
         """ Get the current status of a system module """
-        return self.__status.get(module)
+        return self.__stat.get(module)
 
     def __core_active(self) -> bool:
         """ Determines if required modules are active """
-        return self.__status.core_systems_active()
+        return self.__stat.core_systems_active()
 
     def __all_active(self) -> bool:
         """ Determines if all modules are actvie """
-        return self.__status.all_systems_active()
+        return self.__stat.all_systems_active()
 
     # BASEMENT METHODS
     def __runnable(self) -> bool:
