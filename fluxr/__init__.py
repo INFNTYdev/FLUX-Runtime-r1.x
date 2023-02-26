@@ -31,6 +31,17 @@ def pkg_v() -> str:
     return __PACKAGE_VERSION
 
 
+def fw_obj(fw: any) -> any:
+    """ Confirm framework parameter """
+    try:
+        if fw.is_fw():
+            return fw
+        return None
+    except BaseException as non_fw:
+        del non_fw
+        return None
+
+
 #   MODULE IMPORTS
 from .const import *
 from .ext_cde import *
