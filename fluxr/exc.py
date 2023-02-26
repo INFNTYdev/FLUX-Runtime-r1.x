@@ -76,11 +76,13 @@ class FrameworkExceptionManager:
     def __init__(self, fw: any):
         """ Framework exception manager """
         self.__FW = fw_obj(fw)
-        self.__S: dict = None
+        self.__S: dict = fw.base_services()
 
+        self.__out("Initializing exception manager...")
         ...
         return
 
     def __out(self, text: str, **kwargs):
         """ Send text to the console """
+        self.__S['console'](text, **kwargs)
         return
