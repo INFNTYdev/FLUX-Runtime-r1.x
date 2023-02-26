@@ -15,8 +15,8 @@ class FrameworkStatusManager:
     def __init__(self):
         """ Framework status module """
         self.__status: dict = {
-            'exception_ready*': [None, False],
-            'service_ready*': [None, False],
+            'exception_ready*': [(importlib.import_module('.exc', 'fluxr')).FrameworkExceptionManager, False],
+            'service_ready*': [(importlib.import_module('.svc', 'fluxr')).ServiceProvider, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
@@ -25,7 +25,7 @@ class FrameworkStatusManager:
             # '#_ready': [None, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
-            'framework_ready': [None, False],
+            'framework_ready': [(importlib.import_module('.rfw', 'fluxr')).RuntimeFramework, False],
         }
         return
 
