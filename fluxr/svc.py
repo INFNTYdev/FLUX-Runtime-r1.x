@@ -29,10 +29,10 @@ class ServiceProvider:
 
         self.__out("Initializing service provider...")
         self.__serve: dict = {}
-        self.__init_attr(**kwargs)
+        self.__eval_param(**kwargs)
         return
 
-    def __init_attr(self, **kwargs):
+    def __eval_param(self, **kwargs):
         """ Initialize provider parameters """
         return
 
