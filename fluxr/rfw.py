@@ -37,6 +37,7 @@ class RuntimeFramework:
         self.console_out("Initializing runtime framework...", skip=True)
         try:
             self.__exc: FrameworkExceptionManager = FrameworkExceptionManager()
+            self.__set_module_status(FrameworkExceptionManager, True)
         except ExcFailureError as ExcFailure:
             self.console_out(ExcFailure.notice, error=True)
             self.system_exit(code=EXC_FAILURE)
