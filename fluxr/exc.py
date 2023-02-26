@@ -75,4 +75,8 @@ class ExceptionLog:
 class FrameworkExceptionManager:
     def __init__(self, fw: any):
         """ Framework exception manager """
+        self.__FW = fw_obj(fw)
+        self.__S: dict = None
+
+        ...
         return
