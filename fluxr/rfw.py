@@ -36,8 +36,8 @@ class RuntimeFramework:
         self.console_out("Initializing runtime framework...", skip=True)
         try:
             self.__exc: FrameworkExceptionManager = FrameworkExceptionManager(fw=self)
-            self.__set_module_status(FrameworkExceptionManager, True)
             self.__asset_chain[FrameworkExceptionManager] = self.__exc
+            self.__set_module_status(FrameworkExceptionManager, True)
             self.console_out("Successfully initialized exception manager")
         except ExcFailureError as ExcFailure:
             self.console_out(ExcFailure.notice, error=True)
@@ -47,11 +47,16 @@ class RuntimeFramework:
             self.system_exit(code=EXC_FAILURE)
 
         try:
-            pass
+            self.__svc: ServiceProvider = ServiceProvider()
+            self.__asset_chain[ServiceProvider] = self.__svc
+            self.__set_module_status(ServiceProvider, True)
+            self.console_out("Successfully initialized service provider")
         except SvcFailureError as SvcFailure:
-            pass
+            self.console_out(SvcFailure.notice, error=True)
+            self.system_exit(code=SVC_FAILURE)
         except BaseException as SvcFailure:
-            pass
+            self.console_out(f"\n\n\t[ RUNTIME SVC ERROR ] : {SvcFailure}")
+            self.system_exit(code=SVC_FAILURE)
 
         ...
         return
