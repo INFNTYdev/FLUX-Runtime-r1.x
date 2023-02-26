@@ -90,3 +90,7 @@ class FrameworkExceptionManager:
         """ Send text to the console """
         self.__S['console'](text, **kwargs)
         return
+
+    def __exit(self, code: int):
+        """ Shutdown the runtime engine """
+        self.__S['exit'](code=code)
