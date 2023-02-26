@@ -60,6 +60,11 @@ class RuntimeFramework:
         """ Shutdown runtime-engine """
         exit(kwargs.get('code', DEFAULT_EXIT))
 
+    @staticmethod
+    def is_fw() -> bool:
+        """ Confirm runtime-engine object """
+        return True
+
     # STATUS METHODS
     def __set_module_status(self, module: any, status: bool):
         """ Set the status of a system module """
