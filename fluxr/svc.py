@@ -33,7 +33,7 @@ class ServiceProvider:
         return
 
     def __eval_param(self, **kwargs):
-        """ Initialize provider parameters """
+        """ Evaluate provider parameters """
         return
 
     def services(self) -> list:
