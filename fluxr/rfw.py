@@ -34,6 +34,11 @@ class RuntimeFramework:
         self.__status: FrameworkStatusManager = FrameworkStatusManager()
 
         self.console_out("Initializing runtime framework...", skip=True)
+        try:
+            pass
+        except ExcFailureError as ExcFailure:
+            self.console_out()
+
         ...
         return
 
