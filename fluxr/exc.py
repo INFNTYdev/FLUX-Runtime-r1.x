@@ -73,6 +73,6 @@ class ExceptionLog:
 
 
 class FrameworkExceptionManager:
-    def __init__(self):
+    def __init__(self, fw: any):
         """ Framework exception manager """
         return
