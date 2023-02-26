@@ -33,10 +33,9 @@ class RuntimeFramework:
         self.__APPLICATION = kwargs.get('application')
         self.__stat: FrameworkStatusManager = FrameworkStatusManager()
         self.__asset_chain[FrameworkStatusManager] = self.__stat
-
         self.console_out("Initializing runtime framework...", skip=True)
         try:
-            self.__exc: FrameworkExceptionManager = FrameworkExceptionManager()
+            self.__exc: FrameworkExceptionManager = FrameworkExceptionManager(fw=self)
             self.__set_module_status(FrameworkExceptionManager, True)
             self.__asset_chain[FrameworkExceptionManager] = self.__exc
             self.console_out("Successfully initialized exception manager")
