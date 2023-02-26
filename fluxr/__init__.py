@@ -27,7 +27,7 @@ def pkg_n() -> str:
 
 
 def pkg_v() -> str:
-    """ Returns the package version """
+    """ Returns package version """
     return __PACKAGE_VERSION
 
 
