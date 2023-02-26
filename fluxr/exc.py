@@ -82,7 +82,7 @@ class FrameworkExceptionManager:
         self.__exception_log: ExceptionLog = ExceptionLog()
         return
 
-    def exception(self, cls: type, exc_o: any, **kwargs):
+    def exception(self, cls: type, exc_o: any, exc_info: tuple, **kwargs):
         """ Handle system raised exception """
         self.__exception_log.log(
             ExceptionLogEntry(
@@ -91,8 +91,8 @@ class FrameworkExceptionManager:
                 time=None,
                 unaccounted=kwargs.get('unaccounted', False),
                 author=str(cls.__class__.__name__),
-                type=None,
-                cause=None,
+                type=str(exc_info[0].__name__),
+                cause=str(exc_info[1]),
                 pointer=kwargs.get('pointer', None)
             )
         )
