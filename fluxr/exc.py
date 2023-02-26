@@ -79,7 +79,11 @@ class FrameworkExceptionManager:
         self.__S: dict = fw.base_services()
 
         self.__out("Initializing exception manager...")
-        ...
+        self.__exception_log: ExceptionLog = ExceptionLog()
+        return
+
+    def exception(self, cls: type, exc_o: any, **kwargs):
+        """ Handle system raised exception """
         return
 
     def __out(self, text: str, **kwargs):
