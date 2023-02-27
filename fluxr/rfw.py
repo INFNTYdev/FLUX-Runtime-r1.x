@@ -7,6 +7,7 @@ from fluxr import *
 from .stat import FrameworkStatusManager
 from .exc import FrameworkExceptionManager
 from .svc import ServiceProvider
+from .sys_thread import SystemThreadManager
 ...
 
 
@@ -18,7 +19,7 @@ __package__ = pkg_n()
 class RuntimeFramework:
 
     __SYS_MODULES: list = [
-        None,
+        [SystemThreadManager, False],
     ]
 
     def __init__(self, dev: bool = False, **kwargs):
