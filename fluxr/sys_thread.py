@@ -22,6 +22,8 @@ class SystemThreadManager:
         """ Framework thread manager """
         self.__FW = fw_obj(fw)
         self.__S = fw.service_call()
+
+        self.__out("TEST")
         return
 
     def __out(self, text: str, **kwargs):
