@@ -155,6 +155,7 @@ class RuntimeFramework:
 
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
+        self.run = False
         exit(kwargs.get('code', DEFAULT_EXIT))
 
     @staticmethod
