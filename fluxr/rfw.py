@@ -97,10 +97,10 @@ class RuntimeFramework:
             self.__start_up = False
             self.console_out("Runtime framework ready")
             self.__set_module_status(self, True)
+            return
         else:
             input(RFW_FAIL_NOTICE)
             self.system_exit(code=None)
-        return
 
     # CORE METHODS
     def console_out(self, text: str, **kwargs):
