@@ -12,6 +12,27 @@ __package__ = pkg_n()
 
 
 #   MODULE CLASSES
+class ServiceUnit:
+    def __init__(self, cls: any, func: any, clearance: int):
+        """ Framework service unit """
+        self.__class = cls
+        self.__func = func
+        self.__clearance: int = clearance
+        return
+
+    def get_class(self) -> type:
+        """ Returns the service units class """
+        return self.__class
+
+    def func(self) -> any:
+        """ Returns the units function """
+        return self.__func
+
+    def lvl(self) -> int:
+        """ Returns the units clearance value """
+        return self.__clearance
+
+
 class ServiceProvider:
 
     __whitelist: dict = {}
@@ -34,7 +55,6 @@ class ServiceProvider:
 
     def __eval_param(self, **kwargs):
         """ Evaluate provider parameters """
-        self.whitelist_class(requestor=self, cls=self.__FW, clearance=self.__HIGH)
         self.authorize_class(requestor=self, cls=self.__FW)
         if ('whitelist' in kwargs) and (kwargs.get('whitelist') is list):
             for li in kwargs.get('whitelist'):
@@ -42,16 +62,28 @@ class ServiceProvider:
         return
 
     def services(self) -> list:
-        """ Returns list of all current services """
-        return
+        """ Returns list of all current service calls """
+        return [call for call in self.__serve.keys()]
 
-    def new_service(self, call: str, cls: any, func: any, clearance: str):
-        """ Add a function to the service provider """
+    def new_service(self, call: str, cls: any, func: any, **kwargs):
+        """ Add a function reference to the service provider """
+        if callable(func):
+            if not self.__existing_call(call):
+                self.__serve[call] = ServiceUnit(
+                    cls=self.p_obj(cls),
+                    func=func,
+                    clearance=self.__value_to_const(kwargs.get('clearance', 0))
+                )
         return
 
     def serve(self, requestor: any) -> dict:
         """ Returns appropriate services to requestor """
-        return
+        svcs: dict = {}
+        if self.__whitelisted(requestor):
+            s: list = [x for x in self.__serve.keys() if self.__has_authority(requestor, x)]
+            for approved in s:
+                svcs[approved] = self.__serve[approved].func()
+        return svcs
 
     def whitelist_class(self, requestor: any, cls: any, clearance: str = 'any'):
         """ Add a class to the providers whitelist """
@@ -80,6 +112,17 @@ class ServiceProvider:
         return bool((self.p_obj(requestor) in self.__admin)
                     or (requestor == self))
 
+    def __whitelisted(self, requestor: any) -> bool:
+        """ Determines if requestor is whitelisted """
+        return bool(self.p_obj(requestor) in list(self.__whitelist.keys()))
+
+    def __has_authority(self, requestor: any, call: str):
+        """ Determines if a class has authority to use a service """
+        if self.__whitelisted(requestor):
+            if self.__whitelist[self.p_obj(requestor)] >= self.__serve[call].lvl():
+                return True
+        return False
+
     def __value_to_const(self, value: any) -> int:
         """ Returns class constant value from string or integer """
         if type(value) is str:
@@ -95,6 +138,10 @@ class ServiceProvider:
             if value <= 3:
                 return value
         return
+
+    def __existing_call(self, call: str) -> bool:
+        """ Determines whether a given call value already exist """
+        return bool(call in self.services())
 
     def __out(self, text: str, **kwargs):
         """ Send text to the console """
