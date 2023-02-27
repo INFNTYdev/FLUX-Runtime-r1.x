@@ -178,11 +178,13 @@ class RuntimeFramework:
     # BASEMENT METHODS
     def __inject_base_services(self):
         """ Add low-level framework services to provider """
+        self.__implement_service('console', self, self.console_out, clearance='any')
+        self.__implement_service('exc', self.__exc, self.exception, clearance='any')
+        self.__implement_service('exit', self, self.system_exit, clearance='any')
         self.__implement_service('gstat', self.__stat, self.__get_module_status, clearance='any')
         self.__implement_service('sstat', self.__stat, self.__set_module_status, clearance='low')
         self.__implement_service('cstat', self.__stat, self.__core_active, clearance='any')
-        self.__implement_service('astat', self.__stat, self.__stat.all_systems_active, clearance='any')
-        self.__implement_service('exc', self.__exc, self.__all_active, clearance='any')
+        self.__implement_service('astat', self.__stat, self.__all_active, clearance='any')
         self.__implement_service('nsvc', self.__svc, self.__implement_service, clearance='any')
         self.__implement_service('wcls', self.__svc, self.__whitelist_class, clearance='any')
         self.__implement_service('acls', self.__svc, self.__authorize_class, clearance='any')
