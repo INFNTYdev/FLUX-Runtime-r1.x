@@ -61,6 +61,7 @@ class SystemDatetimeManager:
         """ Convert 24-hr to 12-hr """
         return
 
+    # FRAMEWORK CONTROL BOILER PLATE
     def __inject_services(self):
         """ Add datetime manager functions to service provider """
         return
@@ -72,10 +73,21 @@ class SystemDatetimeManager:
 
     def __status(self, status: bool):
         """ Update the modules status """
+        self.__S(self)['setstat'](self, status)
         return
+
+    def __threads(self) -> list:
+        """ Returns a list of stored thread handles """
+        return self.__S(self)['threads']()
 
     def __new_thread(self, handle: str, thread: Thread, **kwargs):
         """ Establish new thread in thread host """
+        self.__S(self)['nthread'](handle, thread, **kwargs)
+        return
+
+    def __delete_thread(self, handle: str):
+        """ Delete requested thread """
+        self.__S(self)['dthread'](handle)
         return
 
     def __exc(self, cls: any, exc_o: any, exc_info: tuple, **kwargs):
