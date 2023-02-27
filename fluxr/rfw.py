@@ -67,7 +67,7 @@ class RuntimeFramework:
             try:
                 self.console_out(f"Initializing {module[0].__name__}...")
                 self.__whitelist_class(self, module[0], clearance='high')
-                pass
+                self.__asset_chain[module[0]] = module[0](fw=self, svc_c=self.service_call)
                 if module[1]:
                     self.console_out(f"Starting {module[0].__name__} thread...")
                     pass
