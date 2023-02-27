@@ -55,6 +55,7 @@ class RuntimeFramework:
             self.__asset_chain[ServiceProvider] = self.__svc
             self.__set_module_status(ServiceProvider, True)
             self.console_out("Successfully initialized service provider")
+            self.__inject_base_services()
         except SvcFailureError as SvcFailure:
             self.console_out(SvcFailure.notice, error=True)
             self.system_exit(code=SVC_FAILURE)
@@ -111,13 +112,52 @@ class RuntimeFramework:
         """ Determines if all modules are actvie """
         return self.__stat.all_systems_active()
 
-    # EXCEPTION METHODS
-    pass
+    # SERVICE METHODS
+    def __whitelist_class(self, requestor: any, cls: any, **kwargs):
+        """ Add a class to the providers whitelist """
+        self.__svc.whitelist_class(requestor=requestor, cls=cls, **kwargs)
+        self.console_out(f"Added '{requestor}' to provider whitelist")
+        return
+
+    def __authorize_class(self, requestor: any, cls: any):
+        """ Add a class to the providers administration """
+        self.__svc.authorize_class(requestor=requestor, cls=cls)
+        return
+
+    def __implement_service(self, call: str, cls: any, func: any, **kwargs):
+        """ Add a function reference to the service provider """
+        self.__svc.new_service(call=call, cls=cls, func=func, **kwargs)
+        self.console_out(f"Successfully added '{self.__readable_func_name(func)}' to services")
+        return
 
     # BASEMENT METHODS
+    def __inject_base_services(self):
+        """ Add low-level framework services to provider """
+        self.__implement_service('gstat', self.__stat, self.__get_module_status, clearance='any')
+        self.__implement_service('sstat', self.__stat, self.__set_module_status, clearance='low')
+        self.__implement_service('cstat', self.__stat, self.__core_active, clearance='any')
+        self.__implement_service('astat', self.__stat, self.__stat.all_systems_active, clearance='any')
+        self.__implement_service('exc', self.__exc, self.__all_active, clearance='any')
+        self.__implement_service('nsvc', self.__svc, self.__implement_service, clearance='any')
+        self.__implement_service('wcls', self.__svc, self.__whitelist_class, clearance='any')
+        self.__implement_service('acls', self.__svc, self.__authorize_class, clearance='any')
+        return
+
     def __runnable(self) -> bool:
         """ Determines if system conditions are appropriate """
         return
+
+    @staticmethod
+    def __readable_func_name(func: any) -> str:
+        """ Format function name to readable text """
+        n: str = ''
+        for index in range(0, len(str(func.__name__))):
+            if str(func.__name__)[index] != '_':
+                n += str(func.__name__)[index]
+            else:
+                if index > 1:
+                    n += ' '
+        return n
 
     def __master_console_out(self, **kwargs):
         """ Master console output """
