@@ -177,7 +177,7 @@ class RuntimeFramework:
     def __whitelist_class(self, requestor: any, cls: any, **kwargs):
         """ Add a class to the providers whitelist """
         self.__svc.whitelist_class(requestor=requestor, cls=cls, **kwargs)
-        self.console_out(f"Added '{requestor}' to provider whitelist")
+        self.console_out(f"Added '{requestor.__class__.__name__}' to provider whitelist")
         return
 
     def __authorize_class(self, requestor: any, cls: any):
