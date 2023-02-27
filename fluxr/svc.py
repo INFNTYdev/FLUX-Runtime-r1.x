@@ -53,7 +53,7 @@ class ServiceProvider:
         """ Returns appropriate services to requestor """
         return
 
-    def whitelist_class(self, requestor: any, cls: any, clearance: str):
+    def whitelist_class(self, requestor: any, cls: any, clearance: str = 'any'):
         """ Add a class to the providers whitelist """
         if self.__authorized(requestor):
             self.__whitelist[self.p_obj(cls)] = self.__value_to_const(clearance)
