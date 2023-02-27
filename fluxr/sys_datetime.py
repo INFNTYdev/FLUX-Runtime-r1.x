@@ -34,7 +34,11 @@ class SystemDatetimeManager:
 
     def start(self):
         """ Start datetime manager """
-        self.__new_thread('sys-datetime', Thread(target=self.__datetime), start=True)
+        self.__new_thread(
+            handle='sys-datetime',
+            thread=Thread(target=self.__datetime),
+            start=True
+        )
         return
 
     def current_date(self) -> str:
