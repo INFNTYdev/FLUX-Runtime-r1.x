@@ -47,7 +47,10 @@ class SystemDatetimeManager:
     def __runnable(self) -> bool:
         """ Determines if the module
         has permission to execute """
-        return
+        if self.RUN and self.__fw_stable():
+            return True
+        else:
+            return False
 
     def __datetime(self):
         """ Datetime manager main loop """
@@ -79,7 +82,7 @@ class SystemDatetimeManager:
         self.__S(self)['setstat'](self, status)
         return
 
-    def __fw_status(self) -> bool:
+    def __fw_stable(self) -> bool:
         """ Determines if required system modules are active """
         return self.__S(self)['corestat']()
 
