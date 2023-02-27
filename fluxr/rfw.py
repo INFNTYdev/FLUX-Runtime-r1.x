@@ -100,7 +100,7 @@ class RuntimeFramework:
             return
         else:
             input(RFW_FAIL_NOTICE)
-            self.system_exit(code=None)
+            self.system_exit(code=RFW_FAILURE)
 
     # CORE METHODS
     def console_out(self, text: str, **kwargs):
