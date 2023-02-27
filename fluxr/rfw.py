@@ -78,6 +78,8 @@ class RuntimeFramework:
         else:
             pass
 
+        ...
+
         self.__start_up = False
         self.console_out("Runtime framework ready")
         return
