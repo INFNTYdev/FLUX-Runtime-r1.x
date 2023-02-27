@@ -65,7 +65,7 @@ class RuntimeFramework:
 
         for module in self.__SYS_MODULES:
             try:
-                pass
+                self.console_out(f"Initializing {module[0].__name__}...")
             except BaseException as Unknown:
                 self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
                                pointer='__init__()')
