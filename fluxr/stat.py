@@ -18,7 +18,7 @@ class FrameworkStatusManager:
             'exception_ready*': [(importlib.import_module('.exc', 'fluxr')).FrameworkExceptionManager, False],
             'service_ready*': [(importlib.import_module('.svc', 'fluxr')).ServiceProvider, False],
             'thread_ready*': [(importlib.import_module('.sys_thread', 'fluxr')).SystemThreadManager, False],
-            # '#_ready': [None, False],
+            'datetime_ready*': [(importlib.import_module('.sys_datetime', 'fluxr')).SystemDatetimeManager, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
