@@ -47,7 +47,7 @@ class SystemDatetimeManager:
     def __runnable(self) -> bool:
         """ Determines if the module
         has permission to execute """
-        if self.RUN and self.__fw_stable():
+        if self.RUN:
             return True
         else:
             return False
