@@ -92,7 +92,11 @@ class RuntimeFramework:
             if kwargs.get('application') is not None:
                 self.console_out("Initializing application...")
                 self.__whitelist_class(self, kwargs.get('application'), clearance='high')
-                self.__APPLICATION = kwargs.get('application')(fw=self, svc_c=self.service_call)
+                try:
+                    self.__APPLICATION = kwargs.get('application')(fw=self, svc_c=self.service_call)
+                except BaseException as ImproperAppArgSetup:
+                    self.exception(self, ImproperAppArgSetup, sys.exc_info(), pointer='__init__()')
+                    self.console_out("Applications __init__ method missing required 'fw' and 'svc_c' parameters", error=True)
                 self.__set_module_status('application', True)
                 self.console_out("Application ready")
             else:
