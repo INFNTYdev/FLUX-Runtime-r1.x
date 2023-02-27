@@ -66,7 +66,12 @@ class RuntimeFramework:
         for module in self.__SYS_MODULES:
             try:
                 self.console_out(f"Initializing {module[0].__name__}...")
+                self.__whitelist_class(self, module[0], clearance='high')
                 pass
+                if module[1]:
+                    self.console_out(f"Starting {module[0].__name__} thread...")
+                    pass
+                self.__set_module_status(module[0], True)
                 self.console_out(f"{module[0].__name__} ready")
             except BaseException as Unknown:
                 self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
