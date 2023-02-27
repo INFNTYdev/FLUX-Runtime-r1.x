@@ -63,7 +63,7 @@ class ServiceProvider:
             f'< REQUESTOR INFORMATION >'
             f'\nOBJ : {requestor}'
             f'\nTYPE: {str(type(requestor))}'
-            f'\n{"="*len(str(type(requestor)))}\n'
+            f'\n{"="*(len(str(requestor))+7)}'
             f'\n< AUTHORIZEE INFORMATION >'
             f'\nOBJ : {cls}'
             f'\nTYPE: {str(type(cls))}'
