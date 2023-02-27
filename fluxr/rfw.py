@@ -8,6 +8,7 @@ from .stat import FrameworkStatusManager
 from .exc import FrameworkExceptionManager
 from .svc import ServiceProvider
 from .sys_thread import SystemThreadManager
+from .sys_datetime import SystemDatetimeManager
 ...
 
 
@@ -20,6 +21,7 @@ class RuntimeFramework:
 
     __SYS_MODULES: list = [
         [SystemThreadManager, False],
+        [SystemDatetimeManager, True],
     ]
 
     def __init__(self, dev: bool = False, **kwargs):
@@ -69,8 +71,13 @@ class RuntimeFramework:
                 self.__whitelist_class(self, module[0], clearance='high')
                 self.__asset_chain[module[0]] = module[0](fw=self, svc_c=self.service_call)
                 if module[1]:
-                    self.console_out(f"Starting {module[0].__name__} thread...")
-                    self.asset_function(module[0], 'start')
+                    try:
+                        self.console_out(f"Starting {module[0].__name__} thread...")
+                        self.asset_function(module[0], 'start')
+                    except BaseException as Unknown:
+                        self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
+                                       pointer='__init__()')
+                        self.console_out(f"Failed to start {module[0].__name__} thread", error=True)
                 self.__set_module_status(module[0], True)
                 self.console_out(f"{module[0].__name__} ready")
             except BaseException as Unknown:
