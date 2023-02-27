@@ -34,6 +34,7 @@ class SystemDatetimeManager:
 
     def start(self):
         """ Start datetime manager """
+        self.__new_thread('sys-datetime', Thread(target=self.__datetime), start=True)
         return
 
     def current_date(self) -> str:
@@ -81,7 +82,7 @@ class SystemDatetimeManager:
         """ Convert 24-hr to 12-hr """
         return
 
-    # FRAMEWORK CONTROL BOILER PLATE - lvl1
+    # FRAMEWORK SERVICE BOILER PLATE - lvl1
     def __inject_services(self):
         """ Add class functions to service provider """
         self.__new_service('date', self, self.current_date)
