@@ -96,7 +96,7 @@ class RuntimeFramework:
                     self.__APPLICATION = kwargs.get('application')(fw=self, svc_c=self.service_call)
                 except BaseException as ImproperAppArgSetup:
                     self.exception(self, ImproperAppArgSetup, sys.exc_info(), pointer='__init__()')
-                    self.console_out("Applications __init__ method missing required 'fw' and 'svc_c' parameters", error=True)
+                    self.console_out(MISSING_APP_ARGS, error=True)
                 self.__set_module_status('application', True)
                 self.console_out("Application ready")
             else:
