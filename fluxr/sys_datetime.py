@@ -47,14 +47,30 @@ class SystemDatetimeManager:
     def __runnable(self) -> bool:
         """ Determines if the module
         has permission to execute """
-        if self.RUN:
+        if self.RUN and self.__fw_active():
             return True
         else:
             return False
 
     def __datetime(self):
         """ Datetime manager main loop """
-        return
+        self.RUN = True
+        self.__out("Starting datetime module...")
+        try:
+            self.__update()
+            self.__status(True)
+            while self.__runnable():
+                time.sleep(0.1)
+                self.__update()
+        except BaseException as Unknown:
+            self.__status(False)
+            self.__exc(self, Unknown, sys.exc_info(), unaccounted=True,
+                       pointer='__datetime()')
+            self.__out("An error occurred in the datetime main loop", error=True)
+        finally:
+            self.__status(False)
+            self.__out("Datetime module stopped running")
+            return
 
     def __update(self):
         """ Update datetime manager object """
