@@ -107,7 +107,7 @@ class FrameworkExceptionManager:
         )
         self.__out(f"EXCEPTION @ {str(cls.__class__.__name__)}."
                    f"{kwargs.get('pointer', ' #unprovided')}", error=True)
-        self.__out(f"{str(exc_o.__class__.__name__)} : {str(exc_info[1])}", error=True)
+        self.__out(f"{str(exc_o.__class__.__name__)} - > {str(exc_info[1])}", error=True)
         return
 
     def __out(self, text: str, **kwargs):
