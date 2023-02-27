@@ -74,12 +74,15 @@ class RuntimeFramework:
                     try:
                         self.console_out(f"Starting {module[0].__name__} thread...")
                         self.asset_function(module[0], 'start')
+                        self.__set_module_status(module[0], True)
+                        self.console_out(f"{module[0].__name__} ready")
                     except BaseException as Unknown:
                         self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
                                        pointer='__init__()')
                         self.console_out(f"Failed to start {module[0].__name__} thread", error=True)
-                self.__set_module_status(module[0], True)
-                self.console_out(f"{module[0].__name__} ready")
+                else:
+                    self.__set_module_status(module[0], True)
+                    self.console_out(f"{module[0].__name__} ready")
             except BaseException as Unknown:
                 self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
                                pointer='__init__()')
