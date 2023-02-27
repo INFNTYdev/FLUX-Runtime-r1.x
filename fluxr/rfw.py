@@ -98,7 +98,11 @@ class RuntimeFramework:
             self.console_out("Runtime framework ready")
             self.__set_module_status(self, True)
         else:
-            print("Shiiiiiit")
+            input(
+                f'\n\t[ Runtime Framework Failed ]'
+                f'\n\tUnable to start due to resource failure, press enter to exit...'
+            )
+            self.system_exit(code=None)
         return
 
     # CORE METHODS
