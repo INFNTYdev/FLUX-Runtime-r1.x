@@ -85,6 +85,12 @@ class RuntimeFramework:
             'exit': self.system_exit
         }
 
+    def service_call(self, requestor: any) -> dict:
+        """ Returns appropriate services to requestor """
+        if self.__get_module_status(ServiceProvider):
+            return self.__svc.serve(requestor)
+        return
+
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
         exit(kwargs.get('code', DEFAULT_EXIT))
