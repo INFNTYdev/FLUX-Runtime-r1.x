@@ -149,11 +149,11 @@ class RuntimeFramework:
         """ Get the current status of a system module """
         return self.__stat.get(module)
 
-    def __core_active(self) -> bool:
+    def __core_status(self) -> bool:
         """ Determines if required modules are active """
         return self.__stat.core_systems_active()
 
-    def __all_active(self) -> bool:
+    def __all_status(self) -> bool:
         """ Determines if all modules are actvie """
         return self.__stat.all_systems_active()
 
@@ -183,8 +183,8 @@ class RuntimeFramework:
         self.__implement_service('exit', self, self.system_exit, clearance='any')
         self.__implement_service('gstat', self.__stat, self.__get_module_status, clearance='any')
         self.__implement_service('sstat', self.__stat, self.__set_module_status, clearance='low')
-        self.__implement_service('cstat', self.__stat, self.__core_active, clearance='any')
-        self.__implement_service('astat', self.__stat, self.__all_active, clearance='any')
+        self.__implement_service('cstat', self.__stat, self.__core_status, clearance='any')
+        self.__implement_service('astat', self.__stat, self.__all_status, clearance='any')
         self.__implement_service('nsvc', self.__svc, self.__implement_service, clearance='any')
         self.__implement_service('wcls', self.__svc, self.__whitelist_class, clearance='any')
         self.__implement_service('acls', self.__svc, self.__authorize_class, clearance='any')
