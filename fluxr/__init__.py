@@ -36,7 +36,6 @@ def fw_obj(fw: any) -> any:
     try:
         if fw.is_fw():
             return fw
-        return None
     except BaseException as non_fw:
         del non_fw, fw
         return None
