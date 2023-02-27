@@ -127,7 +127,7 @@ class SystemThreadManager:
         return
 
     def __inject_services(self):
-        """ Add thread manager functions to service provider """
+        """ Add class functions to service provider """
         self.__S(self)['nsvc']('threads', self, self.threads)
         self.__S(self)['nsvc']('nthread', self, self.new)
         self.__S(self)['nsvc']('sthread', self, self.start)
