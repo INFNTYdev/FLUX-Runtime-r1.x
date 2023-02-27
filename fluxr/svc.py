@@ -56,7 +56,7 @@ class ServiceProvider:
     def __eval_param(self, **kwargs):
         """ Evaluate provider parameters """
         self.authorize_class(requestor=self, cls=self.__FW)
-        if ('whitelist' in kwargs) and (kwargs.get('whitelist') is list):
+        if ('whitelist' in kwargs) and (type(kwargs.get('whitelist')) is list):
             for li in kwargs.get('whitelist'):
                 self.whitelist_class(self.__FW, li[0], li[1])
         return
