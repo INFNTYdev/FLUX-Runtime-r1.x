@@ -150,6 +150,10 @@ class RuntimeFramework:
                         return getattr(self.__asset_chain[asset], func)(**kwargs)
         return
 
+    def run_status(self) -> bool:
+        """ Returns frameworks run status """
+        return self.run
+
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
         exit(kwargs.get('code', DEFAULT_EXIT))
@@ -198,6 +202,7 @@ class RuntimeFramework:
     # BASEMENT METHODS
     def __inject_base_services(self):
         """ Add low-level framework services to provider """
+        self.__implement_service('runstat', self, self.run_status)
         self.__implement_service('console', self, self.console_out)
         self.__implement_service('exc', self.__exc, self.exception)
         self.__implement_service('exit', self, self.system_exit)
