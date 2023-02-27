@@ -85,15 +85,20 @@ class RuntimeFramework:
                                pointer='__init__()')
                 self.console_out(f"An error occurred initializing {str(module[0].__name__)}", error=True)
 
-        if kwargs.get('application') is not None:
-            pass
+        if self.__core_status():
+            if kwargs.get('application') is not None:
+                self.console_out("Initializing application...")
+                self.__whitelist_class(self, kwargs.get('application'), clearance='high')
+                self.__APPLICATION = kwargs.get('application')(fw=self, svc_c=self.service_call)
+                self.__set_module_status('application', True)
+                self.console_out("Application ready")
+            else:
+                self.console_out("No application provided")
+            self.__start_up = False
+            self.console_out("Runtime framework ready")
+            self.__set_module_status(self, True)
         else:
-            pass
-
-        ...
-
-        self.__start_up = False
-        self.console_out("Runtime framework ready")
+            print("Shiiiiiit")
         return
 
     # CORE METHODS
