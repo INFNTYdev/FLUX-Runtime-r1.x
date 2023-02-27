@@ -135,7 +135,7 @@ class ServiceProvider:
             elif value.lower() == 'a' or value.lower() == 'any':
                 return self.__ANY
         elif type(value) is int:
-            if value <= 3:
+            if value >= 0 and value <= 3:
                 return value
         return
 
