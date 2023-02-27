@@ -17,7 +17,7 @@ class FrameworkStatusManager:
         self.__status: dict = {
             'exception_ready*': [(importlib.import_module('.exc', 'fluxr')).FrameworkExceptionManager, False],
             'service_ready*': [(importlib.import_module('.svc', 'fluxr')).ServiceProvider, False],
-            # '#_ready': [None, False],
+            'thread_ready*': [(importlib.import_module('.sys_thread', 'fluxr')).SystemThreadManager, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
             # '#_ready': [None, False],
