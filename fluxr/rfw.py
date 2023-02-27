@@ -70,7 +70,7 @@ class RuntimeFramework:
                 self.__asset_chain[module[0]] = module[0](fw=self, svc_c=self.service_call)
                 if module[1]:
                     self.console_out(f"Starting {module[0].__name__} thread...")
-                    pass
+                    self.asset_function(module[0], 'start')
                 self.__set_module_status(module[0], True)
                 self.console_out(f"{module[0].__name__} ready")
             except BaseException as Unknown:
