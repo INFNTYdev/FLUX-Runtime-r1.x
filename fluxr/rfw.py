@@ -114,6 +114,10 @@ class RuntimeFramework:
             return self.__svc.serve(requestor)
         return
 
+    def asset_function(self, cls: type or str, func: str, **kwargs):
+        """ Execute the function of a system asset """
+        return
+
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
         exit(kwargs.get('code', DEFAULT_EXIT))
