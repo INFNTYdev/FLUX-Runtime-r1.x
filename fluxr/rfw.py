@@ -116,6 +116,18 @@ class RuntimeFramework:
 
     def asset_function(self, cls: type or str, func: str, **kwargs):
         """ Execute the function of a system asset """
+        for asset in self.__asset_chain.keys():
+            if inspect.isclass(cls):
+                if func[:2] == '__':
+                    return getattr(self.__asset_chain[cls], str('_'+func[2:]))(**kwargs)
+                else:
+                    return getattr(self.__asset_chain[cls], func)(**kwargs)
+            elif type(cls) is str:
+                if str(asset) == cls:
+                    if func[:2] == '__':
+                        return getattr(self.__asset_chain[asset], str('_'+func[2:]))(**kwargs)
+                    else:
+                        return getattr(self.__asset_chain[asset], func)(**kwargs)
         return
 
     def system_exit(self, **kwargs):
