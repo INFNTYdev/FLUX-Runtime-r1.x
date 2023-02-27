@@ -15,7 +15,7 @@ __package__ = pkg_n()
 class ServiceUnit:
     def __init__(self, cls: any, func: any, clearance: int):
         """ Framework service unit """
-        self.__class = cls
+        self.__class: type = cls
         self.__func = func
         self.__clearance: int = clearance
         return
