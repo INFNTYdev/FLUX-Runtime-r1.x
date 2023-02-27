@@ -62,7 +62,7 @@ class SystemDatetimeManager:
         """ Convert 24-hr to 12-hr """
         return
 
-    # FRAMEWORK CONTROL BOILER PLATE
+    # FRAMEWORK CONTROL BOILER PLATE - LVL1
     def __inject_services(self):
         """ Add class functions to service provider """
         self.__new_service('date', self, self.current_date)
