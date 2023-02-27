@@ -34,6 +34,8 @@ class ServiceProvider:
 
     def __eval_param(self, **kwargs):
         """ Evaluate provider parameters """
+        self.authorize_class(requestor=self, cls=self.__FW)
+        self.whitelist_class(requestor=self, cls=self.__FW, clearance=self.HIGH)
         return
 
     def services(self) -> list:
@@ -56,6 +58,17 @@ class ServiceProvider:
 
     def authorize_class(self, requestor: any, cls: any):
         """ Add a class to the providers administration """
+        print(
+            f'\n'
+            f'< REQUESTOR INFORMATION >'
+            f'\nOBJ : {requestor}'
+            f'\nTYPE: {str(type(requestor))}'
+            f'\n{"="*len(str(type(requestor)))}\n'
+            f'\n< AUTHORIZEE INFORMATION >'
+            f'\nOBJ : {cls}'
+            f'\nTYPE: {str(type(cls))}'
+            f'\n'
+        )
         return
 
     def __authorized(self, requestor: any) -> bool:
