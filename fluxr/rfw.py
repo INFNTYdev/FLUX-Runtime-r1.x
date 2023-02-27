@@ -14,14 +14,13 @@ from .svc import ServiceProvider
 __package__ = pkg_n()
 
 
-#   MODULE VARS
-__SYS_MODULES: list = [
-    None,
-]
-
-
 #   MODULE CLASSES
 class RuntimeFramework:
+
+    __SYS_MODULES: list = [
+        None,
+    ]
+
     def __init__(self, dev: bool = False, **kwargs):
         """ Runtime-engine framework """
         self.run: bool = True
@@ -63,7 +62,21 @@ class RuntimeFramework:
             self.console_out(f"\n\n\t[ RUNTIME SVC ERROR ] : {SvcFailure}")
             self.system_exit(code=SVC_FAILURE)
 
-        ...
+        for module in self.__SYS_MODULES:
+            try:
+                pass
+            except BaseException as Unknown:
+                self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
+                               pointer='__init__()')
+                self.console_out(f"An error occurred initializing {str(module[0].__name__)}", error=True)
+
+        if kwargs.get('application') is not None:
+            pass
+        else:
+            pass
+
+        self.__start_up = False
+        self.console_out("Runtime framework ready")
         return
 
     # CORE METHODS
