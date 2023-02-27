@@ -79,6 +79,10 @@ class SystemDatetimeManager:
         self.__S(self)['setstat'](self, status)
         return
 
+    def __fw_status(self) -> bool:
+        """ Determines if required system modules are active """
+        return self.__S(self)['corestat']()
+
     def __new_service(self, call: str, cls: any, func: any, **kwargs):
         """ Add a function reference to the service provider """
         self.__S(self)['nsvc'](call, cls, func, **kwargs)
