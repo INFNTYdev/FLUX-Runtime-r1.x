@@ -29,6 +29,7 @@ class SystemDatetimeManager:
         self.__time: str = None
         self.__phase: str = None
         self.RUN: bool = False
+        self.__inject_services()
         return
 
     def start(self):
@@ -63,7 +64,9 @@ class SystemDatetimeManager:
 
     # FRAMEWORK CONTROL BOILER PLATE
     def __inject_services(self):
-        """ Add datetime manager functions to service provider """
+        """ Add class functions to service provider """
+        self.__new_service('date', self, self.current_date)
+        self.__new_service('time', self, self.current_time)
         return
 
     def __out(self, text: str, **kwargs):
@@ -74,6 +77,11 @@ class SystemDatetimeManager:
     def __status(self, status: bool):
         """ Update the modules status """
         self.__S(self)['setstat'](self, status)
+        return
+
+    def __new_service(self, call: str, cls: any, func: any, **kwargs):
+        """ Add a function reference to the service provider """
+        self.__S(self)['nsvc'](call, cls, func, **kwargs)
         return
 
     def __threads(self) -> list:
