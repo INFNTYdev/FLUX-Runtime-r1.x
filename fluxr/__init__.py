@@ -52,6 +52,7 @@ from .svc import ServiceProvider
 from .sys_thread import SystemThreadManager
 from .sys_datetime import SystemDatetimeManager
 from .sys_rt import SystemRuntimeClock
+from .sys_console import SystemConsoleManager
 ...
 from .rfw import RuntimeFramework
 
