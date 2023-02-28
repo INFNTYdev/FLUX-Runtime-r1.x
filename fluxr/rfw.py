@@ -75,7 +75,7 @@ class RuntimeFramework:
                     try:
                         self.console_out(f"Starting {module[0].__name__}...")
                         self.asset_function(module[0], 'start')
-                        self.console_out(f"{module[0].__name__} thread started")
+                        self.console_out(f"{module[0].__name__} thread active")
                     except BaseException as Unknown:
                         self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
                                        pointer='__init__()')
