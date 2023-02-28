@@ -141,10 +141,11 @@ class RuntimeFramework:
         """ Execute the function of a system asset """
         for asset in self.__asset_chain.keys():
             if inspect.isclass(cls):
-                if func[:2] == '__':
-                    return getattr(self.__asset_chain[cls], str('_'+func[2:]))(**kwargs)
-                else:
-                    return getattr(self.__asset_chain[cls], func)(**kwargs)
+                if asset is cls:
+                    if func[:2] == '__':
+                        return getattr(self.__asset_chain[cls], str('_' + func[2:]))(**kwargs)
+                    else:
+                        return getattr(self.__asset_chain[cls], func)(**kwargs)
             elif type(cls) is str:
                 if str(asset) == cls:
                     if func[:2] == '__':
@@ -248,7 +249,9 @@ class RuntimeFramework:
                 if self.dev:
                     print(p_str)
             else:
-                self.asset_function(SystemConsoleManager, 'console_out')(**kwargs)
+                t: str = kwargs.get('text')
+                del kwargs['text']
+                self.asset_function(SystemConsoleManager, 'console_out', text=t, **kwargs)
         except BaseException as Unknown:
             pass
         finally:
