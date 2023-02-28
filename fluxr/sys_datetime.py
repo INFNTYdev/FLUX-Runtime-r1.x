@@ -41,6 +41,11 @@ class SystemDatetimeManager:
         )
         return
 
+    def stop(self):
+        """ Stop datetime manager """
+        self.RUN = False
+        return
+
     def current_date(self) -> str:
         """ Returns the current date """
         return self.__date
