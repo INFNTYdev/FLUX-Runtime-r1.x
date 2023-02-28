@@ -18,16 +18,16 @@ class SystemDatetimeManager:
         self.__S = svc_c
 
         self.__local_datetime: dict = {
-            'sec': 0,
-            'min': 0,
-            'hr': 0,
-            'day': 0,
-            'month': 0,
-            'year': 0
+            'sec': '',
+            'min': '',
+            'hr': '',
+            'day': '',
+            'month': '',
+            'year': '',
+            'phase': ''
         }
         self.__date: str = None
         self.__time: str = None
-        self.__phase: str = None
         self.RUN: bool = False
         self.__inject_services()
         return
@@ -79,7 +79,22 @@ class SystemDatetimeManager:
 
     def __update(self):
         """ Update datetime manager object """
+        now: list = datetime.now().strftime('%S-%M-%I-%d-%m-%Y-%p').split('-')
+        i: int = 0
+        for point in self.__local_datetime:
+            self.__local_datetime[point] = now[i]
+            i += 1
+        self.__date = str(
+            f"{self.__get_point('month')}/{self.__get_point('day')}/{self.__get_point('year')}"
+        )
+        self.__time = str(
+            f"{self.__get_point('hr')}:{self.__get_point('min')}:{self.__get_point('sec')} {self.__get_point('phase')}"
+        )
         return
+
+    def __get_point(self, point: str):
+        """ Returns a point in time from local datetime object """
+        return self.__local_datetime[point]
 
     @staticmethod
     def __convert_24_hr(hr: str):
