@@ -18,13 +18,13 @@ class SystemDatetimeManager:
         self.__S = svc_c
 
         self.__local_datetime: dict = {
-            'sec': '',
-            'min': '',
-            'hr': '',
-            'day': '',
-            'month': '',
-            'year': '',
-            'phase': ''
+            'sec': None,
+            'min': None,
+            'hr': None,
+            'day': None,
+            'month': None,
+            'year': None,
+            'phase': None
         }
         self.__date: str = None
         self.__time: str = None
