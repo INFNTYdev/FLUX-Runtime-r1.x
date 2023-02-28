@@ -1,6 +1,4 @@
-
 """ FLUX Runtime-Engine Framework """
-
 
 #   MODULE IMPORTS
 from fluxr import *
@@ -11,8 +9,8 @@ from .sys_thread import SystemThreadManager
 from .sys_datetime import SystemDatetimeManager
 from .sys_rt import SystemRuntimeClock
 from .sys_console import SystemConsoleManager
-...
 
+...
 
 #   MODULE PACKAGE
 __package__ = pkg_n()
@@ -20,7 +18,6 @@ __package__ = pkg_n()
 
 #   MODULE CLASSES
 class RuntimeFramework:
-
     __SYS_MODULES: list = [
         [SystemThreadManager, False],
         [SystemDatetimeManager, True],
@@ -40,7 +37,7 @@ class RuntimeFramework:
         self.__stat: FrameworkStatusManager = FrameworkStatusManager()
         self.__asset_chain[FrameworkStatusManager] = self.__stat
         self.console_out("Initializing runtime framework...", skip=True)
-        
+
         try:
             self.__exc: FrameworkExceptionManager = FrameworkExceptionManager(fw=self)
             self.__asset_chain[FrameworkExceptionManager] = self.__exc
@@ -149,7 +146,7 @@ class RuntimeFramework:
             elif type(cls) is str:
                 if str(asset) == cls:
                     if func[:2] == '__':
-                        return getattr(self.__asset_chain[asset], str('_'+func[2:]))(**kwargs)
+                        return getattr(self.__asset_chain[asset], str('_' + func[2:]))(**kwargs)
                     else:
                         return getattr(self.__asset_chain[asset], func)(**kwargs)
         return
@@ -253,6 +250,8 @@ class RuntimeFramework:
                 del kwargs['text']
                 self.asset_function(SystemConsoleManager, 'console_out', text=t, **kwargs)
         except BaseException as Unknown:
-            pass
+            self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
+                           pointer='__master_console_out()')
+            self.console_out("There was an issue printing the previous console request", root=True, error=True)
         finally:
             return
