@@ -28,11 +28,24 @@ class ConsoleLog:
         """ Framework console log """
         self.__console_log: dict = {}
         self.__console_queue: list = []
+        self.__index: int = 0
         return
 
     def log(self):
-        """ Log console output to console log """
+        """ Log console output to console log and queue """
         return
+
+    def queue_length(self) -> int:
+        """ Returns the queues current length """
+        return len(self.__console_queue)
+
+    def log_length(self) -> int:
+        """ Returns the current length of the log """
+        return len(self.__console_log.keys())
+
+    def log_index(self) -> int:
+        """ Returns the logs current index """
+        return self.__index
 
 
 class SystemConsoleManager:
@@ -40,10 +53,25 @@ class SystemConsoleManager:
         """ Framework console manager """
         self.__FW = fw_obj(fw)
         self.__S = svc_c
+
+        self.__console_host: ConsoleLog = ConsoleLog()
+        self.__inject_services()
         return
 
     def start(self):
         """ Start framework console manager """
+        return
+
+    def console_out(self, text: str, **kwargs):
+        """ Send text to the console manager log for output """
+        p_config: dict = {
+            'is_error': kwargs.get('error', False),
+            'skip_line': kwargs.get('skip', bool(self.__console_host.log_index() == 0)),
+            'prefix': kwargs.get('prefix', ''),
+            'seperator': kwargs.get('sepr', '|'),
+            'show_date': kwargs.get('c_date', True),
+            'show_time': kwargs.get('c_time', True)
+        }
         return
 
     # FRAMEWORK SERVICE BOILER PLATE - lvl3
