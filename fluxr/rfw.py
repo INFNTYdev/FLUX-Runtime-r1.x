@@ -9,6 +9,7 @@ from .exc import FrameworkExceptionManager
 from .svc import ServiceProvider
 from .sys_thread import SystemThreadManager
 from .sys_datetime import SystemDatetimeManager
+from .sys_rt import SystemRuntimeClock
 ...
 
 
@@ -22,6 +23,7 @@ class RuntimeFramework:
     __SYS_MODULES: list = [
         [SystemThreadManager, False],
         [SystemDatetimeManager, True],
+        [SystemRuntimeClock, True],
     ]
 
     def __init__(self, dev: bool = False, **kwargs):
