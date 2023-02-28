@@ -252,7 +252,9 @@ class SystemConsoleManager:
     # FRAMEWORK SERVICE BOILER PLATE - lvl3
     def __inject_services(self):
         """ Add class functions to service provider """
-        pass
+        self.__new_service('pauseConsole', self, self.pause, clearance='m')
+        self.__new_service('resumeConsole', self, self.resume, clearance='m')
+        return
 
     def __root_out(self, text: str, **kwargs):
         """ Send text to the console """
