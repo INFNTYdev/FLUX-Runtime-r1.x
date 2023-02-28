@@ -21,7 +21,7 @@ class SystemConsoleManager:
     # FRAMEWORK SERVICE BOILER PLATE - lvl3
     def __inject_services(self):
         """ Add class functions to service provider """
-        return
+        pass
 
     def __out(self, text: str, **kwargs):
         """ Send text to the console """
@@ -32,6 +32,18 @@ class SystemConsoleManager:
         """ Update the modules status """
         self.__S(self)['setstat'](self, status)
         return
+
+    def __date(self) -> str:
+        """ Returns the current date """
+        return self.__S(self)['date']()
+
+    def __time(self) -> str:
+        """ Returns the current time """
+        return self.__S(self)['time']()
+
+    def __runtime(self) -> str:
+        """ Returns the current runtime """
+        return self.__S(self)['rt']()
 
     def __fw_stable(self) -> bool:
         """ Determines if required system modules are active """
