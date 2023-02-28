@@ -20,6 +20,10 @@ class SystemFileIOManager:
         self.RUN: bool = False
         return
 
+    def start(self):
+        """ Start system file manager """
+        return
+
     def stop(self):
         """ Stop framework file manager """
         self.RUN = False
