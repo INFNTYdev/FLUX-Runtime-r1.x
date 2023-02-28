@@ -24,9 +24,24 @@ class RuntimeClock:
         self.__run: bool = False
         return
 
+    def resume_from(self, origin: list):
+        """ Set the runtime clock to an intial value """
+        if (not self.__run) and (self.__empty()):
+            i: int = 0
+            for point in self.__runtime.keys():
+                if len(origin) > i:
+                    self.__runtime[point] = origin[i]
+                else:
+                    break
+                i += 1
+        return
+
     def start(self, **kwargs):
         """ Start runtime clock """
+        if ('with' in kwargs) and (type(kwargs.get('with')) is list):
+            self.resume_from(kwargs.get('with'))
         self.__host = Thread(target=self.__clock)
+        self.__host.start()
         return
 
     def runtime(self) -> str:
@@ -81,3 +96,10 @@ class RuntimeClock:
             time.sleep(1)
             self.__update()
         return
+
+    def __empty(self) -> bool:
+        """ Determines if the runtime clock is at 0 """
+        for point in self.__runtime.keys():
+            if self.__runtime[point] != 0:
+                return False
+        return True
