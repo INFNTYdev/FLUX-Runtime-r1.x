@@ -21,9 +21,8 @@ class FrameworkStatusManager:
             'datetime_ready*': [(importlib.import_module('.sys_datetime', 'fluxr')).SystemDatetimeManager, False],
             'runtime_ready': [(importlib.import_module('.sys_rt', 'fluxr')).SystemRuntimeClock, False],
             'console_ready': [(importlib.import_module('.sys_console', 'fluxr')).SystemConsoleManager, False],
-            # '#_ready': [None, False],
-            # '#_ready': [None, False],
-            # '#_ready': [None, False],
+            # 'io_ready': [(importlib.import_module('.sys_io', 'fluxr')).SystemFileIOManager, False],
+            # 'monitor_ready': [(importlib.import_module('.sys_watch', 'fluxr')).SystemMonitor, False],
             # '#_ready': [None, False],
             'framework_ready': [(importlib.import_module('.rfw', 'fluxr')).RuntimeFramework, False],
         }
