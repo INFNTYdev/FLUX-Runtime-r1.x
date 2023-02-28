@@ -43,11 +43,11 @@ class SystemDatetimeManager:
 
     def current_date(self) -> str:
         """ Returns the current date """
-        return
+        return self.__date
 
     def current_time(self) -> str:
         """ Returns the current time """
-        return
+        return self.__time
 
     def __runnable(self) -> bool:
         """ Determines if the module
