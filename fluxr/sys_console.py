@@ -89,6 +89,7 @@ class ConsoleLog:
         )
         if self.__H.do_print():
             self.__console_queue[self.__index] = ConsoleQueueEntry(
+                index=self.__index,
                 text=text,
                 p_config=p_config
             )
