@@ -21,6 +21,7 @@ class SystemRuntimeClock(RuntimeClock):
         if ('with' in kwargs) and (type(kwargs.get('with')) is list):
             self.__out(f"Resuming runtime clock from previous point")
             self.resume_from(kwargs.get('with'))
+        self.__inject_services()
         return
 
     def start(self, **kwargs):
@@ -29,19 +30,16 @@ class SystemRuntimeClock(RuntimeClock):
             handle='sys-runtime',
             thread=Thread(
                 target=self.override_start,
-                args=[self.__FW]
+                args=(self.__FW,)
             ),
             start=True
         )
         return
 
-    def stop(self):
-        """ Stop runtime clock """
-        return
-
     # FRAMEWORK SERVICE BOILER PLATE - lvl2
     def __inject_services(self):
         """ Add class functions to service provider """
+        self.__new_service('rt', self, self.runtime)
         return
 
     def __out(self, text: str, **kwargs):
