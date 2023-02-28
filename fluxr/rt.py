@@ -98,7 +98,7 @@ class RuntimeClock:
         """ Runtime clock main loop """
         self.__run = True
         while self.__run:
-            time.sleep(1)
+            time.sleep(0.1)
             self.__update()
         return
 
