@@ -19,7 +19,7 @@ class SystemRuntimeClock(RuntimeClock):
 
         RuntimeClock.__init__(self)
         if ('with' in kwargs) and (type(kwargs.get('with')) is list):
-            self.__out(f"Resuming runtime clock from previous point")
+            self.__out(f"System runtime clock starting from previous point")
             self.resume_from(kwargs.get('with'))
         self.__inject_services()
         return
@@ -28,13 +28,29 @@ class SystemRuntimeClock(RuntimeClock):
         """ Start framework runtime clock """
         self.__new_thread(
             handle='sys-runtime',
-            thread=Thread(
-                target=self.override_start,
-                args=(self.__FW,)
-            ),
+            thread=Thread(target=self.__override_start),
             start=True
         )
+        initial: str = self.runtime()[-2:]
+        while self.runtime()[-2:] == initial:
+            time.sleep(0.2)
+        self.__out("Master clock active")
+        self.__status(True)
         return
+
+    def __override_start(self):
+        """ Override runtime clock start sequence """
+        try:
+            self.override_start(self.__FW)
+        except BaseException as Unknown:
+            self.__status(False)
+            self.__exc(self, Unknown, sys.exc_info(), unaccounted=True,
+                       pointer='__override_start()')
+            self.__out("An error occurred in the system runtime clock main loop", error=True)
+        finally:
+            self.__status(False)
+            self.__out("System runtime clock module stopped")
+            return
 
     # FRAMEWORK SERVICE BOILER PLATE - lvl2
     def __inject_services(self):
