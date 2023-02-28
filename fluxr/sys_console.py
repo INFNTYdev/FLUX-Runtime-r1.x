@@ -144,7 +144,7 @@ class SystemConsoleManager:
         )
         return
 
-    def console_out(self, **kwargs):
+    def console_out(self, text: str, **kwargs):
         """ Send text to the console manager log for output """
         p_config: dict = {
             'is_error': kwargs.get('error', False),
@@ -154,7 +154,7 @@ class SystemConsoleManager:
             'show_date': kwargs.get('c_date', True),
             'show_time': kwargs.get('c_time', True)
         }
-        self.__console.log(text=kwargs.get('text'), p_config=p_config)
+        self.__console.log(text=text, p_config=p_config)
         return
 
     def d_call(self, requestor: any, call: any, **kwargs) -> any:
