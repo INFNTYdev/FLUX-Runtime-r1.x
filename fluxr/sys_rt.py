@@ -27,7 +27,10 @@ class SystemRuntimeClock(RuntimeClock):
         """ Start framework runtime clock """
         self.__new_thread(
             handle='sys-runtime',
-            thread=Thread(target=None),
+            thread=Thread(
+                target=self.override_start,
+                args=[self.__FW]
+            ),
             start=True
         )
         return
