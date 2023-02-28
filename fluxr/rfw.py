@@ -107,6 +107,7 @@ class RuntimeFramework:
             self.__set_module_status(self, True)
             return
         else:
+            self.asset_function(SystemConsoleManager, 'pause')
             input(RFW_FAIL_NOTICE)
             self.system_exit(code=RFW_FAILURE)
 

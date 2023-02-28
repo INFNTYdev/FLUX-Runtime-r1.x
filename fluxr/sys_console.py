@@ -145,6 +145,16 @@ class SystemConsoleManager:
         )
         return
 
+    def pause(self):
+        """ Pause the console queue output """
+        self.__pause = True
+        return
+
+    def resume(self):
+        """ Resume the console queue output """
+        self.__pause = False
+        return
+
     def console_out(self, text: str, **kwargs):
         """ Send text to the console manager log for output """
         p_config: dict = {
