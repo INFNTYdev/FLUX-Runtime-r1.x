@@ -11,11 +11,39 @@ __package__ = pkg_n()
 
 
 #   MODULE CLASSES
+class ConsoleQueueEntry:
+    def __init__(self):
+        """ Console queue entry """
+        return
+
+
+class ConsoleLogEntry:
+    def __init__(self):
+        """ Console log entry """
+        return
+
+
+class ConsoleLog:
+    def __init__(self):
+        """ Framework console log """
+        self.__console_log: dict = {}
+        self.__console_queue: list = []
+        return
+
+    def log(self):
+        """ Log console output to console log """
+        return
+
+
 class SystemConsoleManager:
     def __init__(self, fw: any, svc_c: any):
         """ Framework console manager """
         self.__FW = fw_obj(fw)
         self.__S = svc_c
+        return
+
+    def start(self):
+        """ Start framework console manager """
         return
 
     # FRAMEWORK SERVICE BOILER PLATE - lvl3
