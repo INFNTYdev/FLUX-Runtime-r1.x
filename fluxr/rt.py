@@ -44,6 +44,11 @@ class RuntimeClock:
         self.__host.start()
         return
 
+    def override_start(self, fw: any):
+        """ Override runtime clock start sequence """
+        if fw_obj(fw) is not None:
+            self.__clock()
+
     def runtime(self) -> str:
         """ Returns the current runtime """
         if self.get_point('d') == 0:
