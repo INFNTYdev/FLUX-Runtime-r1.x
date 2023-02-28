@@ -248,7 +248,7 @@ class RuntimeFramework:
                 if self.dev:
                     print(p_str)
             else:
-                pass
+                self.asset_function(SystemConsoleManager, 'console_out')(**kwargs)
         except BaseException as Unknown:
             pass
         finally:
