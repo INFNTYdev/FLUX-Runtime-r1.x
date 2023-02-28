@@ -68,6 +68,14 @@ class SystemRuntimeClock(RuntimeClock):
         self.__S(self)['setstat'](self, status)
         return
 
+    def __date(self) -> str:
+        """ Returns the current date """
+        return self.__S(self)['date']()
+
+    def __time(self) -> str:
+        """ Returns the current time """
+        return self.__S(self)['time']()
+
     def __fw_stable(self) -> bool:
         """ Determines if required system modules are active """
         return self.__S(self)['corestat']()
