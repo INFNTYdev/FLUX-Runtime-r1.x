@@ -85,21 +85,16 @@ class SystemDatetimeManager:
             self.__local_datetime[point] = now[i]
             i += 1
         self.__date = str(
-            f"{self.__get_point('month')}/{self.__get_point('day')}/{self.__get_point('year')}"
+            f"{self.__getp('month')}/{self.__getp('day')}/{self.__getp('year')}"
         )
         self.__time = str(
-            f"{self.__get_point('hr')}:{self.__get_point('min')}:{self.__get_point('sec')} {self.__get_point('phase')}"
+            f"{self.__getp('hr')}:{self.__getp('min')}:{self.__getp('sec')} {self.__getp('phase')}"
         )
         return
 
-    def __get_point(self, point: str):
+    def __getp(self, point: str) -> str:
         """ Returns a point in time from local datetime object """
         return self.__local_datetime[point]
-
-    @staticmethod
-    def __convert_24_hr(hr: str):
-        """ Convert 24-hr to 12-hr """
-        return
 
     # FRAMEWORK SERVICE BOILER PLATE - lvl1
     def __inject_services(self):
