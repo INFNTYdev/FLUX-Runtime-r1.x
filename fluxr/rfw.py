@@ -10,6 +10,7 @@ from .svc import ServiceProvider
 from .sys_thread import SystemThreadManager
 from .sys_datetime import SystemDatetimeManager
 from .sys_rt import SystemRuntimeClock
+from .sys_console import SystemConsoleManager
 ...
 
 
@@ -24,6 +25,7 @@ class RuntimeFramework:
         [SystemThreadManager, False],
         [SystemDatetimeManager, True],
         [SystemRuntimeClock, True],
+        [SystemConsoleManager, True],
     ]
 
     def __init__(self, dev: bool = False, **kwargs):
