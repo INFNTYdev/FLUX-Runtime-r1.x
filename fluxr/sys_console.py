@@ -145,6 +145,11 @@ class SystemConsoleManager:
         )
         return
 
+    def stop(self):
+        """ Stop framework console manager """
+        self.RUN = False
+        return
+
     def pause(self):
         """ Pause the console queue output """
         self.__pause = True

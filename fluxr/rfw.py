@@ -159,6 +159,11 @@ class RuntimeFramework:
 
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """
+        self.console_out("Shutting down runtime-engine...")
+        for __module in self.__SYS_MODULES:
+            if __module[1] is True:
+                self.console_out(f"Stopping {__module[0].__name__}...")
+                self.__asset_chain[__module[0]].stop()
         self.run = False
         exit(kwargs.get('code', DEFAULT_EXIT))
 
