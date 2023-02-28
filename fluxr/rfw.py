@@ -9,7 +9,7 @@ from .sys_thread import SystemThreadManager
 from .sys_datetime import SystemDatetimeManager
 from .sys_rt import SystemRuntimeClock
 from .sys_console import SystemConsoleManager
-
+from .sys_io import SystemFileIOManager
 ...
 
 #   MODULE PACKAGE
@@ -23,6 +23,7 @@ class RuntimeFramework:
         [SystemDatetimeManager, True],
         [SystemRuntimeClock, True],
         [SystemConsoleManager, True],
+        [SystemFileIOManager, True],
     ]
 
     def __init__(self, dev: bool = False, **kwargs):
