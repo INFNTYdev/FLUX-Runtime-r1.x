@@ -10,7 +10,7 @@ from .sys_datetime import SystemDatetimeManager
 from .sys_rt import SystemRuntimeClock
 from .sys_console import SystemConsoleManager
 from .sys_io import SystemFileIOManager
-...
+from .sys_watch import SystemMonitor
 
 #   MODULE PACKAGE
 __package__ = pkg_n()
@@ -24,6 +24,7 @@ class RuntimeFramework:
         [SystemRuntimeClock, True],
         [SystemConsoleManager, True],
         [SystemFileIOManager, True],
+        [SystemMonitor, True],
     ]
 
     def __init__(self, dev: bool = False, **kwargs):

@@ -22,7 +22,7 @@ class FrameworkStatusManager:
             'runtime_ready': [(importlib.import_module('.sys_rt', 'fluxr')).SystemRuntimeClock, False],
             'console_ready': [(importlib.import_module('.sys_console', 'fluxr')).SystemConsoleManager, False],
             'io_ready': [(importlib.import_module('.sys_io', 'fluxr')).SystemFileIOManager, False],
-            # 'monitor_ready*': [(importlib.import_module('.sys_watch', 'fluxr')).SystemMonitor, False],
+            'monitor_ready*': [(importlib.import_module('.sys_watch', 'fluxr')).SystemMonitor, False],
             # '#_ready': [None, False],
             'framework_ready': [(importlib.import_module('.rfw', 'fluxr')).RuntimeFramework, False],
         }
