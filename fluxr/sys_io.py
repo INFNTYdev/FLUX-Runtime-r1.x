@@ -35,8 +35,8 @@ class RegistryFile:
         """ Evaluate object parameters """
         self.__path = os.path.abspath(kw.get('fp'))
         self.__name = os.path.basename(kw.get('fp'))
-        self.__title = None
-        self.__type = None
+        self.__title = self.__name.split('.')[0]
+        self.__type = self.__EXT_DICT[self.__name.split('.')[1]]
         self.__size = round(float(os.path.getsize(self.__path)/1024), 2)
         self.__last_modified = os.stat(self.__path)[stat.ST_MTIME]
         return

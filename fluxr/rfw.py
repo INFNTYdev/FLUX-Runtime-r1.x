@@ -2,7 +2,7 @@
 
 #   MODULE IMPORTS
 from fluxr import *
-from .stat import FrameworkStatusManager
+from .sys_stat import FrameworkStatusManager
 from .exc import FrameworkExceptionManager
 from .svc import ServiceProvider
 from .sys_thread import SystemThreadManager
@@ -105,6 +105,7 @@ class RuntimeFramework:
             self.__start_up = False
             self.console_out("Runtime framework ready")
             self.__set_module_status(self, True)
+            self.__svc.serve(self)['loadFile'](fp='test.txt')
             return
         else:
             self.asset_function(SystemConsoleManager, 'pause')

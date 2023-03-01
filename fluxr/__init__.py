@@ -17,7 +17,7 @@ import os
 
 #   PACKAGE META
 __PACKAGE_NAME: str = str(__file__).split('\\')[-2]
-__PACKAGE_VERSION: str = '1.0.0.2'
+__PACKAGE_VERSION: str = '1.0.0.3'
 
 
 #   PACKAGE METHODS
@@ -46,7 +46,7 @@ from .const import *
 from .ext_cde import *
 from .cexc import *
 from .rt import RuntimeClock
-from .stat import FrameworkStatusManager
+from .sys_stat import FrameworkStatusManager
 from .exc import FrameworkExceptionManager
 from .svc import ServiceProvider
 from .sys_thread import SystemThreadManager
