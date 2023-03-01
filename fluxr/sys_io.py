@@ -53,6 +53,7 @@ class RegistryFile:
                 self.__contents = content
             elif mode == 'append':
                 self.__contents += content
+            self.__last_modified = os.stat(self.__path)[stat.ST_MTIME]
         return
 
     def abs_path(self) -> str:
@@ -156,6 +157,15 @@ class FileRegistry:
             del self.__registry[fn]
         return
 
+    def evaluate_registry(self):
+        """ Check for changes of registered files """
+        for fn in self.__registry.keys():
+            __f: RegistryFile = self.__registry[fn]
+            if str(os.stat(__f.abs_path())[stat.ST_MTIME]) != __f.last_modified():
+                self.__H.d_call(self, 'console', text=f"Updating '{__f.name()}'...")
+                __f.update_contents(self.read_file(__f), 'overwrite')
+        return
+
 
 class SystemFileIOManager:
     def __init__(self, fw: any, svc_c: any):
@@ -164,7 +174,7 @@ class SystemFileIOManager:
         self.__S = svc_c
 
         self.__file_host: FileRegistry = FileRegistry(self)
-        self.__refresh: float = 2.2
+        self.__refresh: float = 1.6
         self.RUN: bool = False
         self.__inject_services()
         return
@@ -227,7 +237,7 @@ class SystemFileIOManager:
         try:
             while self.__runnable():
                 time.sleep(self.__refresh)
-                self.__eval_registry()
+                self.__file_host.evaluate_registry()
         except BaseException as Unknown:
             self.__status(False)
             self.__exc(self, Unknown, sys.exc_info(), unaccounted=True,
@@ -237,10 +247,6 @@ class SystemFileIOManager:
             self.__status(False)
             self.__out("System file manager stopped")
             return
-
-    def __eval_registry(self):
-        """ Evaluate hosted files in the registry """
-        return
 
     # FRAMEWORK SERVICE BOILER PLATE - lvl4
     def __inject_services(self):
