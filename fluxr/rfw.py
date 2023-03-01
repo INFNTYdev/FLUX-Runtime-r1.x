@@ -106,7 +106,6 @@ class RuntimeFramework:
             self.__start_up = False
             self.console_out("Runtime framework ready")
             self.__set_module_status(self, True)
-            self.__svc.serve(self)['loadFile'](fp='test.txt')
             return
         else:
             self.asset_function(SystemConsoleManager, 'pause')
