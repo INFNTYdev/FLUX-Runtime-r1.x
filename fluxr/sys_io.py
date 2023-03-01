@@ -29,10 +29,6 @@ class SystemFileIOManager:
         self.RUN = False
         return
 
-    def files(self) -> list:
-        """ Returns the list of file names in the file host """
-        return
-
     # FRAMEWORK SERVICE BOILER PLATE - lvl4
     def __inject_services(self):
         """ Add class functions to service provider """
