@@ -111,6 +111,13 @@ class FileRegistry:
         """ Determines if a file exist in the registry """
         return bool(fn in self.files())
 
+    def get_file(self, fn: str):
+        """ Returns the contents of the
+        requested file from the file host """
+        if self.file_exist(fn):
+            return self.__registry[fn].get_contents()
+        return
+
     def read_file(self, file: RegistryFile or str) -> str:
         """ Get the updated contents of a file """
         __cont: str = ''
@@ -176,6 +183,29 @@ class SystemFileIOManager:
         self.RUN = False
         return
 
+    def files(self) -> list:
+        """ Returns the list of file names in the registry """
+        return self.__file_host.files()
+
+    def get_file(self, fn: str):
+        """ Returns the contents of the
+        requested file from the file host """
+        return self.__file_host.get_file(fn)
+
+    def read_file(self, file: str or RegistryFile) -> str:
+        """ Read the updated contents of a file """
+        return self.__file_host.read_file(file)
+
+    def load_file(self, fp: str, **kwargs):
+        """ Add a file to the file registry """
+        self.__file_host.load_file(fp, **kwargs)
+        return
+
+    def truncate_file(self, fn: str):
+        """ Remove a file from the registry """
+        self.__file_host.truncate_file(fn)
+        return
+
     def d_call(self, requestor: any, call: any, **kwargs) -> any:
         """ Provide framework services to dependant object """
         if requestor is self.__file_host:
@@ -215,6 +245,11 @@ class SystemFileIOManager:
     # FRAMEWORK SERVICE BOILER PLATE - lvl4
     def __inject_services(self):
         """ Add class functions to service provider """
+        self.__new_service('fileHost', self, self.files, clearance='m')
+        self.__new_service('getFile', self, self.get_file, clearance='m')
+        self.__new_service('readFile', self, self.read_file, clearance='m')
+        self.__new_service('loadFile', self, self.load_file, clearance='m')
+        self.__new_service('removeFile', self, self.truncate_file, clearance='m')
         return
 
     def __out(self, text: str, **kwargs):
