@@ -210,7 +210,7 @@ class RuntimeFramework:
         return
 
     # BASEMENT METHODS
-    def bus_assetc(self, requestor: any):
+    def bus_assetc(self, requestor: any) -> dict:
         if type(requestor) == SystemMonitor:
             return self.__asset_chain
 

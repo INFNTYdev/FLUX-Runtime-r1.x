@@ -1,6 +1,6 @@
 
 """ FLUX Runtime-Engine Framework Monitor """
-
+import sys
 
 #   MODULE IMPORTS
 from fluxr import *
@@ -12,7 +12,20 @@ __package__ = pkg_n()
 
 #   MODULE CLASSES
 class ModuleWrapper:
-    pass
+    def __init__(self, m_class: any, m: any):
+        """ Framework monitor module wrapper """
+        self.__class = m_class
+        self.__class_o = m
+        self.__class_n: str = m_class.__name__
+        return
+
+    def class_name(self) -> str:
+        """ Returns the focused module class name """
+        return self.__class_n
+
+    def mod_class(self) -> any:
+        """ Returns the focused module class """
+        return self.__class
 
 
 class SystemMonitor:
@@ -21,18 +34,65 @@ class SystemMonitor:
         self.__FW = fw_obj(fw)
         self.__S = svc_c
 
-        self.__ref: list = fw.bus_assetc(self)
-        self.__assets: dict = {}
+        self.__ref: dict = fw.bus_assetc(self)
+        self.__assets: dict = self.__init_assets()
         self.__refresh: float = 0.3
         self.RUN: bool = False
         return
 
+    def __init_assets(self) -> dict:
+        """ Initialize module assets """
+        __a: dict = {}
+        for c in self.__ref:
+            if c != type(self):
+                __a[c.__name__] = ModuleWrapper(
+                    m_class=c,
+                    m=self.__ref[c]
+                )
+        return __a
+
     def start(self):
         """ Start system monitor """
+        self.__new_thread(
+            handle='sys-monitor',
+            thread=Thread(target=self.__system_watch),
+            start=True
+        )
         return
 
     def stop(self):
         """ Stop system monitor """
+        self.RUN = False
+        return
+
+    def __runnable(self) -> bool:
+        """ Determines if the module
+        has permission to execute """
+        if self.RUN and self.__fw_active():
+            return True
+        else:
+            return False
+
+    def __system_watch(self):
+        """ System monitor main loop """
+        self.RUN = True
+        self.__status(True)
+        try:
+            while self.__runnable():
+                time.sleep(self.__refresh)
+                self.__eval_assets()
+        except BaseException as Unknown:
+            self.__status(False)
+            self.__exc(self, Unknown, sys.exc_info(), unaccounted=True,
+                       pointer='__system_watch()')
+            self.__out("An error occurred in the system monitor main loop", error=True)
+        finally:
+            self.__status(False)
+            self.__out("System monitor stopped running")
+            return
+
+    def __eval_assets(self):
+        """ Evaluate monitor assets """
         return
 
     # FRAMEWORK SERVICE BOILER PLATE - Top Lvl
