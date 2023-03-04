@@ -210,6 +210,10 @@ class RuntimeFramework:
         return
 
     # BASEMENT METHODS
+    def bus_assetc(self, requestor: any):
+        if type(requestor) == SystemMonitor:
+            return self.__asset_chain
+
     def __inject_base_services(self):
         """ Add low-level framework services to provider """
         self.__implement_service('runstat', self, self.run_status)

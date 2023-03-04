@@ -1,18 +1,30 @@
+
 """ FLUX Runtime-Engine Framework Monitor """
+
 
 #   MODULE IMPORTS
 from fluxr import *
+
 
 #   MODULE PACKAGE
 __package__ = pkg_n()
 
 
 #   MODULE CLASSES
+class ModuleWrapper:
+    pass
+
+
 class SystemMonitor:
     def __init__(self, fw: any, svc_c: any):
         """ Framework monitor """
         self.__FW = fw_obj(fw)
         self.__S = svc_c
+
+        self.__ref: list = fw.bus_assetc(self)
+        self.__assets: dict = {}
+        self.__refresh: float = 0.3
+        self.RUN: bool = False
         return
 
     def start(self):
