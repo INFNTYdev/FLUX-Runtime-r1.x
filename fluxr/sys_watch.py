@@ -93,6 +93,25 @@ class SystemMonitor:
 
     def __eval_assets(self):
         """ Evaluate monitor assets """
+        for cls in self.__assets.keys():
+            if cls == 'FrameworkStatusManager':
+                pass
+            elif cls == 'FrameworkExceptionManager':
+                pass
+            elif cls == 'ServiceProvider':
+                pass
+            elif cls == 'SystemThreadManager':
+                pass
+            elif cls == 'SystemDatetimeManager':
+                pass
+            elif cls == 'SystemRuntimeClock':
+                pass
+            elif cls == 'SystemConsoleManager':
+                pass
+            elif cls == 'SystemFileIOManager':
+                pass
+            else:
+                pass
         return
 
     # FRAMEWORK SERVICE BOILER PLATE - Top Lvl
