@@ -33,6 +33,7 @@ class RuntimeFramework:
         self.run: bool = True
         self.dev: bool = dev
         self.__start_up: bool = True
+        self.__app_active: bool = False
         self.__fatal_error: bool = False
         self.__asset_chain: dict = {}
         self.__META_REF = kwargs.get('meta')
@@ -118,6 +119,22 @@ class RuntimeFramework:
         """ Send text to the console """
         self.__master_console_out(text=text, **kwargs)
         return
+
+    def invoke_application(self):
+        """ Launch embedded application """
+        try:
+            self.console_out("Launching application...")
+            self.__app_active = True
+            self.__APPLICATION.mainloop()
+        except BaseException as Unknown:
+            self.__app_active = False
+            self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
+                           pointer='invoke_application()')
+            self.console_out("A fatal error occurred in the application", error=True)
+        finally:
+            self.__app_active = False
+            self.console_out("Application has stopped")
+            return
 
     def exception(self, cls: any, exc_o: any, exc_info: tuple, **kwargs):
         """ Handle system raised exceptions """
