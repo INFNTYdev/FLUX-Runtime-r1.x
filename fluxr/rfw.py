@@ -134,7 +134,7 @@ class RuntimeFramework:
         finally:
             self.__app_active = False
             self.console_out("Application has stopped")
-            return
+            self.system_exit(code=CLEAN)
 
     def exception(self, cls: any, exc_o: any, exc_info: tuple, **kwargs):
         """ Handle system raised exceptions """
