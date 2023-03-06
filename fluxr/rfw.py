@@ -104,7 +104,8 @@ class RuntimeFramework:
                     self.console_out(MISSING_APP_ARGS, error=True)
                 except BaseException as Unknown:
                     self.__fatal_error = True
-                    self.exception(self, Unknown, sys.exc_info(), pointer='__init__()')
+                    self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
+                                   pointer='__init__()')
                     self.console_out("An error occurred intializing the application", error=True)
                 if not self.__fatal_error:
                     self.__set_module_status('application', True)
@@ -119,6 +120,7 @@ class RuntimeFramework:
                 self.__set_module_status(self, True)
                 return
             else:
+                self.console_out("FAILED TO INTIALIZE APPLICATION", error=True)
                 self.asset_function(SystemConsoleManager, 'pause')
                 input(RFW_FAIL_NOTICE)
                 self.system_exit(code=APP_FAILURE)
