@@ -122,7 +122,7 @@ class RuntimeFramework:
             else:
                 self.console_out("FAILED TO INTIALIZE APPLICATION", error=True)
                 self.asset_function(SystemConsoleManager, 'pause')
-                input(RFW_FAIL_NOTICE)
+                input(APP_FAIL_NOTICE)
                 self.system_exit(code=APP_FAILURE)
         else:
             self.asset_function(SystemConsoleManager, 'pause')

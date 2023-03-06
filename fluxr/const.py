@@ -8,7 +8,9 @@ RFW_FAIL_NOTICE: str = str(
 )
 
 APP_FAIL_NOTICE: str = str(
-    "A fatal error occurred initializing the applicaton"
+    f'\n\t[ APPLICATION FAILED ]'
+    f'\n\n\tUnable to start due to application failure, press enter to exit...'
+    f'\n\t'
 )
 
 MISSING_APP_ARGS: str = str(
