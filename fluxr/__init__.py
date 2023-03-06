@@ -17,7 +17,7 @@ import os
 
 #   PACKAGE META
 __PACKAGE_NAME: str = str(__file__).split('\\')[-2]
-__PACKAGE_VERSION: str = '1.0.0.4'
+__PACKAGE_VERSION: str = '1.0.0.5'
 
 
 #   PACKAGE METHODS

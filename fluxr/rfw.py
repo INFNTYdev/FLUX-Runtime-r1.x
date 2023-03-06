@@ -109,6 +109,8 @@ class RuntimeFramework:
                 if not self.__fatal_error:
                     self.__set_module_status('application', True)
                     self.console_out("Application ready")
+                else:
+                    self.console_out(APP_FAIL_NOTICE, error=True)
             else:
                 self.console_out("No application provided")
             if not self.__fatal_error:
@@ -119,7 +121,7 @@ class RuntimeFramework:
             else:
                 self.asset_function(SystemConsoleManager, 'pause')
                 input(RFW_FAIL_NOTICE)
-                self.system_exit(code=RFW_FAILURE)
+                self.system_exit(code=APP_FAILURE)
         else:
             self.asset_function(SystemConsoleManager, 'pause')
             input(RFW_FAIL_NOTICE)
