@@ -98,17 +98,28 @@ class RuntimeFramework:
                 self.__whitelist_class(self, kwargs.get('application'), clearance='high')
                 try:
                     self.__APPLICATION = kwargs.get('application')(fw=self, svc_c=self.service_call)
-                except BaseException as ImproperAppArgSetup:
+                except TypeError as ImproperAppArgSetup:
+                    self.__fatal_error = True
                     self.exception(self, ImproperAppArgSetup, sys.exc_info(), pointer='__init__()')
                     self.console_out(MISSING_APP_ARGS, error=True)
-                self.__set_module_status('application', True)
-                self.console_out("Application ready")
+                except BaseException as Unknown:
+                    self.__fatal_error = True
+                    self.exception(self, Unknown, sys.exc_info(), pointer='__init__()')
+                    self.console_out("An error occurred intializing the application", error=True)
+                if not self.__fatal_error:
+                    self.__set_module_status('application', True)
+                    self.console_out("Application ready")
             else:
                 self.console_out("No application provided")
-            self.__start_up = False
-            self.console_out("Runtime framework ready")
-            self.__set_module_status(self, True)
-            return
+            if not self.__fatal_error:
+                self.__start_up = False
+                self.console_out("Runtime framework ready")
+                self.__set_module_status(self, True)
+                return
+            else:
+                self.asset_function(SystemConsoleManager, 'pause')
+                input(RFW_FAIL_NOTICE)
+                self.system_exit(code=RFW_FAILURE)
         else:
             self.asset_function(SystemConsoleManager, 'pause')
             input(RFW_FAIL_NOTICE)
