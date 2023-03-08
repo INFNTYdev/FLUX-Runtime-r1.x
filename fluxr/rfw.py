@@ -171,8 +171,8 @@ class RuntimeFramework:
         return
 
     def app_service_call(self, requestor: any) -> dict:
-        """ Returns appropriate services to application """
-        if requestor is self.__APPLICATION:
+        """ Returns services to application """
+        if requestor.rfw_executable():
             return self.__svc.serve(self)
         return
 
