@@ -172,9 +172,8 @@ class RuntimeFramework:
 
     def app_service_call(self, requestor: any) -> dict:
         """ Returns appropriate services to application """
-        if self.__get_module_status('application'):
-            if requestor is self.__APPLICATION:
-                return self.__svc.serve(self)
+        if requestor is self.__APPLICATION:
+            return self.__svc.serve(self)
         return
 
     def asset_function(self, cls: type or str, func: str, **kwargs):
