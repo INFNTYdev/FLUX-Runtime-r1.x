@@ -97,7 +97,7 @@ class RuntimeFramework:
                 self.console_out("Initializing application...")
                 self.__whitelist_class(self, kwargs.get('application'), clearance='high')
                 try:
-                    self.__APPLICATION = kwargs.get('application')(fw=self, svc_c=self.service_call)
+                    self.__APPLICATION = kwargs.get('application')(fw=self, svc_c=self.app_service_call)
                 except TypeError as ImproperAppArgSetup:
                     self.__fatal_error = True
                     self.exception(self, ImproperAppArgSetup, sys.exc_info(), pointer='__init__()')
@@ -168,6 +168,13 @@ class RuntimeFramework:
         """ Returns appropriate services to requestor """
         if self.__get_module_status(ServiceProvider):
             return self.__svc.serve(requestor)
+        return
+
+    def app_service_call(self, requestor: any) -> dict:
+        """ Returns appropriate services to application """
+        if self.__get_module_status('application'):
+            if requestor is self.__APPLICATION:
+                return self.__svc.serve(self)
         return
 
     def asset_function(self, cls: type or str, func: str, **kwargs):
