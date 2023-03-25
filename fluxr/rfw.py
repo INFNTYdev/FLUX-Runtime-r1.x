@@ -176,12 +176,6 @@ class RuntimeFramework:
             return self.__svc.serve(requestor)
         return
 
-    def app_service_call(self, requestor: any) -> dict:
-        """ Returns services to application """
-        if requestor.rfw_executable():
-            return self.__svc.serve(self)
-        return
-
     def asset_function(self, cls: type or str, func: str, **kwargs):
         """ Execute the function of a system asset """
         for asset in self.__asset_chain.keys():
