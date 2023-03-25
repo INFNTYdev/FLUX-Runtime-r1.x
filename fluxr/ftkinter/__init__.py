@@ -17,7 +17,7 @@ def tkpkg_n() -> str:
     return __PACKAGE_NAME
 
 
-def tkpkg_v() -> str:
+def tkfw_v() -> str:
     """ Returns package version """
     return __PACKAGE_VERSION
 
