@@ -103,7 +103,7 @@ class RuntimeFramework:
                 self.console_out("Initializing application...")
                 self.__whitelist_class(self, kwargs.get('application'), clearance='high')
                 try:
-                    self.__APPLICATION = kwargs.get('application')(fw=self, svc_c=self.app_service_call)
+                    ...
                 except TypeError as ImproperAppArgSetup:
                     self.__fatal_error = True
                     self.exception(self, ImproperAppArgSetup, sys.exc_info(), pointer='__init__()')
