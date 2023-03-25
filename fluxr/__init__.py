@@ -54,6 +54,7 @@ from .sys_datetime import SystemDatetimeManager
 from .sys_rt import SystemRuntimeClock
 from .sys_console import SystemConsoleManager
 from .sys_io import SystemFileIOManager
+# from ftkinter import #
 from .sys_watch import SystemMonitor
 from .rfw import RuntimeFramework
 

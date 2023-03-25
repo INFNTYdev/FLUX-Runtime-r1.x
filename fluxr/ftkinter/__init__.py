@@ -4,6 +4,9 @@
 
 #   EXTERNAL IMPORTS
 from fluxr import *
+import tkinter as tk
+import customtkinter as ctk
+from tkinter import ttk
 
 
 #   PACKAGE META
