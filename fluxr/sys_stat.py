@@ -23,7 +23,7 @@ class FrameworkStatusManager:
             'console_ready': [(importlib.import_module('.sys_console', 'fluxr')).SystemConsoleManager, False],
             'io_ready': [(importlib.import_module('.sys_io', 'fluxr')).SystemFileIOManager, False],
             'monitor_ready*': [(importlib.import_module('.sys_watch', 'fluxr')).SystemMonitor, False],
-            'tkfw_ready': [(importlib.import_module('.ftkinter', 'fluxr')).tkfw.TkinterLibFramework, False],
+            # 'tkfw_ready': [(importlib.import_module('.ftkinter', 'fluxr')).tkfw.TkinterLibFramework, False],
             # '#_ready': [None, False],
             'framework_ready': [(importlib.import_module('.rfw', 'fluxr')).RuntimeFramework, False],
         }
