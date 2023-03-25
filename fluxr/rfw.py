@@ -4,6 +4,7 @@
 
 #   MODULE IMPORTS
 from fluxr import *
+import fluxr.ftkinter.tkfw
 from .sys_stat import FrameworkStatusManager
 from .exc import FrameworkExceptionManager
 from .svc import ServiceProvider
@@ -26,6 +27,7 @@ class RuntimeFramework:
         [SystemRuntimeClock, True],
         [SystemConsoleManager, True],
         [SystemFileIOManager, True],
+        [fluxr.ftkinter.tkfw.TkinterLibFramework, False],
         [SystemMonitor, True],
     ]
 
