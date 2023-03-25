@@ -85,10 +85,12 @@ class ServiceProvider:
                 svcs[approved] = self.__serve[approved].func()
         return svcs
 
-    def whitelist_class(self, requestor: any, cls: any, clearance: str = 'any'):
+    def whitelist_class(self, requestor: any, cls: any, clearance: str = 'any', **kwargs):
         """ Add a class to the providers whitelist """
         if self.__authorized(requestor):
             self.__whitelist[self.p_obj(cls)] = self.__value_to_const(clearance)
+            if kwargs.get('admin', False):
+                self.authorize_class(requestor, cls)
         return
 
     def authorize_class(self, requestor: any, cls: any):
@@ -96,6 +98,7 @@ class ServiceProvider:
         if self.__authorized(requestor):
             self.__admin.append(self.p_obj(cls))
             self.__whitelist[self.p_obj(cls)] = self.__HIGH
+            self.__out(F"Provided {str(self.p_obj(cls).__name__)} with service administrative rights")
         return
 
     @staticmethod
@@ -135,7 +138,7 @@ class ServiceProvider:
             elif value.lower() == 'a' or value.lower() == 'any':
                 return self.__ANY
         elif type(value) is int:
-            if value >= 0 and value <= 3:
+            if 0 <= value <= 3:
                 return value
         return
 

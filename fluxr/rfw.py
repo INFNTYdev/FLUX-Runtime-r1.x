@@ -76,7 +76,10 @@ class RuntimeFramework:
         for module in self.__SYS_MODULES:
             try:
                 self.console_out(f"Initializing {module[0].__name__}...")
-                self.__whitelist_class(self, module[0], clearance='high')
+                if str(module[0].__name__).__contains__('TkinterLibFramework'):
+                    self.__whitelist_class(self, module[0], clearance='high', admin=True)
+                else:
+                    self.__whitelist_class(self, module[0], clearance='high')
                 self.__asset_chain[module[0]] = module[0](fw=self, svc_c=self.service_call)
                 if module[1]:
                     try:
@@ -89,7 +92,7 @@ class RuntimeFramework:
                         self.console_out(f"Failed to start {module[0].__name__} thread", error=True)
                 else:
                     self.__set_module_status(module[0], True)
-                    self.console_out(f"{module[0].__name__} ready")
+                    self.console_out(f"{module[0].__name__} done")
             except BaseException as Unknown:
                 self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
                                pointer='__init__()')

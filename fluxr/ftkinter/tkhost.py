@@ -1,63 +1,28 @@
 
-""" FLUX Tkinter Application Framework """
+""" Tkinter Window Host """
+
 #   MODULE IMPORTS
 from fluxr import *
-import fluxr.ftkinter.tkhost
 
 #   MODULE PACKAGE
 __package__ = tkpkg_n()
 
 
 #   MODULE CLASSES
-class TkinterLibFramework:
-
-    __FW_MODULES: list = [
-        [fluxr.ftkinter.tkhost.TkWindowHost, True, 'tk-winhost']
-    ]
-
+class TkWindowHost:
     def __init__(self, fw: any, svc_c: any):
         """ FLUX Tkinter library framework """
         self.__FW: RuntimeFramework = fw_obj(fw)
         self.__S = svc_c
 
-        self.__out(f"Preparring {tkpkg_n()} modules...")
-        self.__asset_chain: dict = {}
-        try:
-            for _module in self.__FW_MODULES:
-                try:
-                    self.__out(f"Initializing {tkpkg_n()}.{str(_module[0].__name__)}...")
-                    self.__exe(service='wcls', requestor=self, cls=_module[0], clearance='m')
-                    self.__asset_chain[_module[0]] = _module[0](fw=fw, svc_c=svc_c)
-                    if _module[1]:
-                        try:
-                            self.__out(f"Starting {str(_module[0].__name__)}...")
-                            self.__new_thread(
-                                handle=_module[2],
-                                thread=Thread(
-                                    target=self.__asset_chain[list(self.__asset_chain.keys())[-1]].start_process
-                                ),
-                                start=True
-                            )
-                            self.__out(f"{str(_module[0].__name__)} thread active")
-                        except Exception as Unknown:
-                            self.__status(False)
-                            self.__exc(self, Unknown, exc_info=sys.exc_info(), unaccounted=True,
-                                       pointer='__init__()')
-                            self.__out(f"An error occurred starting {str(_module[0].__name__)} thread", error=True)
-                            raise ReferenceError
-                except Exception as Unknown:
-                    self.__status(False)
-                    self.__exc(self, Unknown, exc_info=sys.exc_info(), unaccounted=True,
-                               pointer='__init__()')
-                    self.__out(f"An error occurred initializing {str(_module[0].__name__)}", error=True)
-                    raise AttributeError
-        except Exception as Unknown:
-            self.__status(False)
-            self.__exc(self, Unknown, exc_info=sys.exc_info(), unaccounted=True,
-                       pointer='__init__()')
-            self.__out("An error occurred initializing the TkinterLibFramework", error=True)
-        finally:
-            return
+        ...
+        return
+
+    def start_process(self):
+        """ Start window host processes """
+        self.__out("Activating TkWindowHost...")
+        ...
+        return
 
     # FRAMEWORK SERVICE BOILER PLATE - Top Lvl
     def __inject_services(self):
