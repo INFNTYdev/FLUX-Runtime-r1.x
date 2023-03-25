@@ -1,6 +1,6 @@
 
 """ FLUX Runtime-Engine Framework """
-
+import fluxr.ftkinter.tkfw
 #   MODULE IMPORTS
 from fluxr import *
 from .sys_stat import FrameworkStatusManager
@@ -25,6 +25,7 @@ class RuntimeFramework:
         [SystemRuntimeClock, True],
         [SystemConsoleManager, True],
         [SystemFileIOManager, True],
+        [fluxr.ftkinter.tkfw.TkinterLibFramework, False],
         [SystemMonitor, True],
     ]
 

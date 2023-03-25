@@ -9,4 +9,5 @@ __package__ = tkpkg_n()
 
 
 #   MODULE CLASSES
-...
+class TkinterLibFramework:
+    pass
