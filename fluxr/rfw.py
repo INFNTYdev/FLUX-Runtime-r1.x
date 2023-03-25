@@ -1,6 +1,7 @@
 
 """ FLUX Runtime-Engine Framework """
-import fluxr.ftkinter.tkfw
+
+
 #   MODULE IMPORTS
 from fluxr import *
 from .sys_stat import FrameworkStatusManager
