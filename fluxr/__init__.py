@@ -5,7 +5,7 @@
 #   EXTERNAL IMPORTS
 from datetime import datetime
 from threading import Thread
-from ftkinter import *
+from fluxr.ftkinter import *
 import importlib
 import inspect
 import random
