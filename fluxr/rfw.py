@@ -25,7 +25,7 @@ class RuntimeFramework:
         [SystemRuntimeClock, True],
         [SystemConsoleManager, True],
         [SystemFileIOManager, True],
-        [fluxr.ftkinter.tkfw.TkinterLibFramework, False],
+        # [fluxr.ftkinter.tkfw.TkinterLibFramework, False],
         [SystemMonitor, True],
     ]
 
