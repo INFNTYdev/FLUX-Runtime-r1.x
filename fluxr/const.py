@@ -13,6 +13,10 @@ APP_FAIL_NOTICE: str = str(
     f'\n\t'
 )
 
+IMPROPER_APP_TYPE_NOTICE: str = str(
+    f'Applications main class is of tkinter.Tk type when it should be TkWindow type'
+)
+
 MISSING_APP_ARGS: str = str(
     "Applications __init__ method missing required 'fw' and 'svc_c' parameters"
 )

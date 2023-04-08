@@ -31,6 +31,8 @@ class RuntimeFramework:
         [SystemMonitor, True],
     ]
 
+    __FW_IN_USE = None
+
     def __init__(self, dev: bool = False, **kwargs):
         """ Runtime-engine framework """
         self.run: bool = True
@@ -78,6 +80,7 @@ class RuntimeFramework:
                 self.console_out(f"Initializing {module[0].__name__}...")
                 if str(module[0].__name__).__contains__('TkinterLibFramework'):
                     self.__whitelist_class(self, module[0], clearance='high', admin=True)
+                    self.__FW_IN_USE = module[0]
                 else:
                     self.__whitelist_class(self, module[0], clearance='high')
                 self.__asset_chain[module[0]] = module[0](fw=self, svc_c=self.service_call)
@@ -99,38 +102,16 @@ class RuntimeFramework:
                 self.console_out(f"An error occurred initializing {str(module[0].__name__)}", error=True)
 
         if self.__core_status():
-            if kwargs.get('application') is not None:
-                self.console_out("Initializing application...")
-                self.__whitelist_class(self, kwargs.get('application'), clearance='high')
-                try:
-                    ...
-                except TypeError as ImproperAppArgSetup:
-                    self.__fatal_error = True
-                    self.exception(self, ImproperAppArgSetup, sys.exc_info(), pointer='__init__()')
-                    self.console_out(MISSING_APP_ARGS, error=True)
-                except BaseException as Unknown:
-                    self.__fatal_error = True
-                    self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
-                                   pointer='__init__()')
-                    self.console_out("An error occurred intializing the application", error=True)
-                if not self.__fatal_error:
-                    self.__set_module_status('application', True)
-                    self.console_out("Application ready")
-                else:
-                    self.console_out(APP_FAIL_NOTICE, error=True)
-            else:
-                self.console_out("No application provided")
+            self.inject_app(application=kwargs.get('application'))
             if not self.__fatal_error:
                 self.__start_up = False
                 self.console_out("Runtime framework ready")
                 self.__set_module_status(self, True)
                 return
             else:
-                self.console_out("FAILED TO INTIALIZE APPLICATION", error=True)
-                self.asset_function(SystemConsoleManager, 'pause')
-                input(APP_FAIL_NOTICE)
-                self.system_exit(code=APP_FAILURE)
+                self.app_failure_sequence()
         else:
+            time.sleep(1)
             self.asset_function(SystemConsoleManager, 'pause')
             input(RFW_FAIL_NOTICE)
             self.system_exit(code=RFW_FAILURE)
@@ -141,21 +122,63 @@ class RuntimeFramework:
         self.__master_console_out(text=text, **kwargs)
         return
 
+    def inject_app(self, application: any):
+        """ Set the frameworks application """
+        if application is not None:
+            self.console_out("Initializing application...")
+            try:
+                if isinstance(application, TkWindow):
+                    self.__whitelist_class(self, application, clearance='high')
+                    self.__APPLICATION = application
+                elif isinstance(application, getattr(TkWindow, '__bases__')):
+                    self.console_out(IMPROPER_APP_TYPE_NOTICE, error=True)
+                    self.__fatal_error = True
+                else:
+                    self.console_out(
+                        text=f"'{type(application)}' type is not a valid application",
+                        error=True
+                    )
+                    self.__fatal_error = True
+            except TypeError as ImproperAppArgSetup:
+                self.__fatal_error = True
+                self.exception(self, ImproperAppArgSetup, sys.exc_info(), pointer='__init__()')
+                self.console_out(MISSING_APP_ARGS, error=True)
+            except BaseException as Unknown:
+                self.__fatal_error = True
+                self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
+                               pointer='__init__()')
+                self.console_out("An error occurred intializing the application", error=True)
+            if not self.__fatal_error:
+                self.__set_module_status('application', True)
+                self.console_out("Application ready")
+            else:
+                self.app_failure_sequence()
+        else:
+            self.console_out("No application provided")
+            # self.system_exit(code=CLEAN)
+        return
+
     def invoke_application(self):
         """ Launch embedded application """
-        try:
-            self.console_out("Launching application...")
-            self.__app_active = True
-            self.__APPLICATION.mainloop()
-        except BaseException as Unknown:
-            self.__app_active = False
-            self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
-                           pointer='invoke_application()')
-            self.console_out("A fatal error occurred in the application", error=True)
-        finally:
-            self.__app_active = False
-            self.console_out("Application has stopped")
-            self.system_exit(code=CLEAN)
+        if not self.__fatal_error:
+            try:
+                self.console_out("Launching application...")
+                self.__app_active = True
+                self.asset_function(TkinterLibFramework, 'add_window', window=self.__APPLICATION)
+                self.asset_function(
+                    cls=TkinterLibFramework,
+                    func='invoke_window',
+                    window=self.__APPLICATION.primary_identifier()
+                )
+            except BaseException as Unknown:
+                self.__app_active = False
+                self.exception(self, Unknown, sys.exc_info(), unaccounted=True,
+                               pointer='invoke_application()')
+                self.console_out("A fatal error occurred in the application", error=True)
+            finally:
+                self.__app_active = False
+                self.console_out("Application has stopped")
+                self.system_exit(code=CLEAN)
 
     def exception(self, cls: any, exc_o: any, exc_info: tuple, **kwargs):
         """ Handle system raised exceptions """
@@ -196,6 +219,14 @@ class RuntimeFramework:
     def run_status(self) -> bool:
         """ Returns frameworks run status """
         return self.run
+
+    def app_failure_sequence(self):
+        """ | """
+        self.console_out("FAILED TO INTIALIZE APPLICATION", error=True)
+        time.sleep(1)
+        self.asset_function(SystemConsoleManager, 'pause')
+        input(APP_FAIL_NOTICE)
+        self.system_exit(code=APP_FAILURE)
 
     def system_exit(self, **kwargs):
         """ Shutdown runtime-engine """

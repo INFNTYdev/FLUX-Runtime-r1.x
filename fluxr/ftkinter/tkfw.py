@@ -1,8 +1,9 @@
 
 """ FLUX Tkinter Application Framework """
+
+
 #   MODULE IMPORTS
-from fluxr import *
-import fluxr.ftkinter.tkhost
+from fluxr.ftkinter import *
 
 #   MODULE PACKAGE
 __package__ = tkpkg_n()
@@ -12,12 +13,12 @@ __package__ = tkpkg_n()
 class TkinterLibFramework:
 
     __FW_MODULES: list = [
-        [fluxr.ftkinter.tkhost.TkWindowHost, True, 'tk-winhost']
+        [tkhost.TkWindowHost, True, 'tk-winhost']
     ]
 
     def __init__(self, fw: any, svc_c: any):
         """ FLUX Tkinter library framework """
-        self.__FW: RuntimeFramework = fw_obj(fw)
+        self.__FW = fw
         self.__S = svc_c
 
         self.__out(f"Preparring {tkpkg_n()} modules...")
@@ -26,7 +27,10 @@ class TkinterLibFramework:
             for _module in self.__FW_MODULES:
                 try:
                     self.__out(f"Initializing {tkpkg_n()}.{str(_module[0].__name__)}...")
-                    self.__exe(service='wcls', requestor=self, cls=_module[0], clearance='m')
+                    if str(_module[0].__name__).__contains__('TkWindowHost'):
+                        self.__exe(service='wcls', requestor=self, cls=_module[0], admin=True)
+                    else:
+                        self.__exe(service='wcls', requestor=self, cls=_module[0], clearance='m')
                     self.__asset_chain[_module[0]] = _module[0](fw=fw, svc_c=svc_c)
                     if _module[1]:
                         try:
@@ -58,6 +62,25 @@ class TkinterLibFramework:
             self.__out("An error occurred initializing the TkinterLibFramework", error=True)
         finally:
             return
+
+    def new_window(self, identifier: str, **kwargs) -> TkWindow:
+        """ Create a new application window """
+        return self.__asset_chain[TkWindowHost].new_window(
+            identifier=identifier,
+            **kwargs
+        )
+
+    def add_window(self, window: TkWindow):
+        """ Add a TkWindow to the window host """
+        self.__asset_chain[TkWindowHost].add_to_window_host(
+            window=window
+        )
+        return
+
+    def invoke_window(self, window: TkWindow or str):
+        """ | """
+        self.__asset_chain[TkWindowHost].invoke_window(window)
+        return
 
     # FRAMEWORK SERVICE BOILER PLATE - Top Lvl
     def __inject_services(self):
