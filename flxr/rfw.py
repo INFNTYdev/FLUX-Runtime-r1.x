@@ -83,7 +83,7 @@ class Flxr:
         init_count: int = 1
         for module in self.__SYS_MODS:
             try:
-                self._console_out(f"Initializing {module[1].__name__} ({init_count}/{len(self.__SYS_MODS)})...")
+                self._console_out(f"Initializing {module[1].__name__} - ({init_count}/{len(self.__SYS_MODS)})...")
                 self._service_host.whitelist(
                     requestor=self,
                     cls=module[1],

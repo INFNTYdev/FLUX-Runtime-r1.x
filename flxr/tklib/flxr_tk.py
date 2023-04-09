@@ -53,10 +53,15 @@ class FlxrTkinterLibrary:
             bg=kwargs.get('bg', '#F2F7F9'),
         )
 
+    def destroy_all(self):
+        """ Destroy all tkinter window instances """
+        self.__dispatcher.destroy_all()
+
     def _inject_services(self):
         """ Inject datetime services into distributor """
         injectables: list = [
             ('TkWindow', TkinterWindowDispatcher, self.dispatch_new_window, LOW),
+            ('breakTk', TkinterWindowDispatcher, self.destroy_all, MED)
         ]
         for new in injectables:
             self.__S(self)['nsvc'](
