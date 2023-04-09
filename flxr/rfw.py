@@ -18,7 +18,7 @@ class Flxr:
         ['runtime', FlxrRuntimeClock, True],
         ['console', FlxrConsoleManager, True],
         ['io', FlxrFileIOManager, True],
-        # ['tkinter', FlxrTkinterManager, None], #
+        # ['tkinter', FlxrTkinterLibrary, True],
         ['monitor*', FlxrRuntimeMonitor, True],
     ]
 
