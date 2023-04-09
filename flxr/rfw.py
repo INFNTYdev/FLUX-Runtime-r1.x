@@ -36,7 +36,7 @@ class Flxr:
         self._start_up: bool = True
         self._active_enviroment: bool = False
         self._fatal_error: bool = False
-        self._load_wait: int = 0
+        self._load_wait: float = 0.
         self._app_main = kwargs.get('main')
 
         self.__sys_assets: AssetChain = AssetChain()
@@ -111,11 +111,11 @@ class Flxr:
 
         self._console_out("Waiting for framework modules...")
         while self._run and (not self._status.core_modules_active()):
-            time.sleep(1)
-            self._load_wait += 1
-            if self._load_wait == 10:
+            time.sleep(0.1)
+            self._load_wait += 0.1
+            if self._load_wait == 10.0:
                 self._console_out("Framework startup taking longer than usual")
-            elif self._load_wait == 20:
+            elif self._load_wait == 20.0:
                 self._fatal_error = True
                 self._console_out("Framework startup took too long")
                 self.system_exit()
@@ -123,7 +123,7 @@ class Flxr:
         self._wait(2)
         if self._status.core_modules_active():
             if not self._fatal_error:
-                self._console_out("Framework modules ready")
+                self._console_out(f"Framework modules ready ({round(self._load_wait, 2)}s)")
                 self.test = self._service_host.serve(self)['TkWindow'](
                     identifier='test',
                     width=900,
