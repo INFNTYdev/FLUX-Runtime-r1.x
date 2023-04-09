@@ -1,9 +1,15 @@
 
-#   FRAMEWORK IMPORT
-from fluxr import *
+print('Importing framework...')
+from flxr import *
 
-
-#   DEV
-if __name__ == '__main__':
-    print(pkg_n(), pkg_v())
-    sys: RuntimeFramework = RuntimeFramework(dev=True)
+try:
+    print(f'{pkg_n()} {pkg_v()}\n')
+    test: Flxr = Flxr(dev=True)
+    print('\nSuccessful')
+except Exception as Failure:
+    print(f'\nFailed:\n{Failure}\n{sys.exc_info()}')
+    pass
+except KeyboardInterrupt as ForcedStop:
+    print(f'\nApplication was forced to stop')
+finally:
+    print('\nDone.')
