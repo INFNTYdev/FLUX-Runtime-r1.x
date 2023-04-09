@@ -1,32 +1,37 @@
 
 import tkinter as tk
-from fluxr import *
+from flxr import *
 
 
 class App1(tk.Tk):
-    def __init__(self, fw_p):
+    def __init__(self, hfw: any, svc: any):
+        self.__FW = fw_obj(hfw)
+        self.__S = svc
+
         tk.Tk.__init__(self)
         self.geometry("1200x500")
         self.title("Test Application 1")
-        return
 
-
-class App2(TkWindow):
-    def __init__(self, fw_p):
-        TkWindow.__init__(
-            self=self,
-            identifier='test',
-            fw=fw_p,
-            svc_c=fw_p.service_call
+        self.button = tk.Button(
+            master=self,
+            text='Click for new window',
+            command=self.new_win
         )
-        self.geometry("1200x500")
-        self.title("Test Application 2")
-        self.t = tk.Button(self, text='Hello world!')
-        self.t.pack(expand=True)
+        self.button.pack(
+            expand=True
+        )
         return
+
+    def new_win(self):
+        self.__S(App1)['TkWindow'](
+            identifier=self.__S(App1)['time'](),
+            title=self.__S(App1)['time'](),
+            width=700
+        )
 
 
 if __name__ == '__main__':
-    fw = RuntimeFramework(dev=True)
-    fw.inject_app(App2(fw))
-    fw.invoke_application()
+    fw = Flxr(
+        dev=True,
+        main=App1
+    )

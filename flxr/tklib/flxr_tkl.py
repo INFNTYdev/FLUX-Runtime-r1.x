@@ -42,6 +42,14 @@ class FlxrTkinterLibrary:
         )
         self._inject_services()
 
+    def set_main(self, main: tk.Tk):
+        """ Set the window dispatchers main window """
+        self.__dispatcher.set_main(main)
+
+    def launch_main(self):
+        """ Launch main application window """
+        self.__dispatcher.launch_main()
+
     def dispatch_new_window(self, identifier: str, **kwargs) -> TkinterWindow:
         """ Dispatch a new tkinter window """
         return self.__dispatcher.new_window(
@@ -61,6 +69,8 @@ class FlxrTkinterLibrary:
         """ Inject datetime services into distributor """
         injectables: list = [
             ('TkWindow', TkinterWindowDispatcher, self.dispatch_new_window, LOW),
+            ('mainTk', TkinterWindowDispatcher, self.set_main, MED),
+            ('launchMain', TkinterWindowDispatcher, self.launch_main, LOW),
             ('breakTk', TkinterWindowDispatcher, self.destroy_all, MED)
         ]
         for new in injectables:

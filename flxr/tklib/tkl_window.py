@@ -114,6 +114,16 @@ class TkinterWindowDispatcher:
 
         self.__window_host: dict = {}
 
+    def set_main(self, main: tk.Tk):
+        """ Set the window dispatchers main window """
+        self.__window_host['main-win'] = main
+        self.__S(self)['console'](text="Successfully set main application window")
+
+    def launch_main(self):
+        """ Launch main application window """
+        self.__S(self)['console'](text="Launching main application window...")
+        self.__window_host['main-win'].mainloop()
+
     def new_window(self, identifier: str, **kwargs) -> TkinterWindow:
         """ Dispatch a new tkinter window """
         window: TkinterWindow = TkinterWindow(

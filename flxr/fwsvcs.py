@@ -119,6 +119,8 @@ class ServiceHost:
             ]
             for approved in s:
                 svcs[approved] = self.__services[approved].execute
+        if len(svcs) < 1:
+            self._base['console'](f"{self._class_of(requestor)} does not have access to services", error=True)
         return svcs
 
     def _whitelisted(self, requestor: any) -> bool:

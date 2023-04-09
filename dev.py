@@ -4,7 +4,7 @@ from flxr import *
 
 try:
     print(f'{pkg_n()} {pkg_v()}\n')
-    test: Flxr = Flxr(dev=True)
+    test: Flxr = Flxr(dev=True, main=None)
     print('\nSuccessful')
 except Exception as Failure:
     print(f'\nFailed:\n{Failure}\n{sys.exc_info()}')

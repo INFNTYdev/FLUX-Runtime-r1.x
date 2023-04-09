@@ -121,17 +121,31 @@ class Flxr:
                 self.system_exit()
 
         self._wait(2)
-        if self._status.core_modules_active():
-            if not self._fatal_error:
-                self._console_out(f"Framework modules ready ({round(self._load_wait, 2)}s)")
-                self.test = self._service_host.serve(self)['TkWindow'](
-                    identifier='test',
-                    width=900,
-                    height=400,
-                    borderless=False,
-                    bg='tan'
+        if self._status.core_modules_active() and (not self._fatal_error):
+            self._console_out(f"Framework ready ({round(self._load_wait, 2)}s)")
+            if self._app_main is not None:
+                self._console_out(f"Initializing application...")
+                self._service_host.whitelist(
+                    requestor=self,
+                    cls=self._app_main,
+                    clearance=MED
                 )
-                self.test.mainloop()
+                self._wait(2)
+                self.__sys_assets.func(
+                    asset=FlxrTkinterLibrary,
+                    func='set_main',
+                    main=self._app_main(
+                        hfw=self,
+                        svc=self._service_host.serve
+                    )
+                )
+                self.__sys_assets.func(
+                    asset=FlxrTkinterLibrary,
+                    func='launch_main'
+                )
+                self.system_exit(code=CLEAN_EXIT)
+            else:
+                self._console_out(f"No application provided")
         else:
             self._console_out("Failed to initialize core modules", error=True)
             self.system_exit()
