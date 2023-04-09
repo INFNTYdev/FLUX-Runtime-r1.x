@@ -4,7 +4,9 @@
 
 #   EXTERNAL IMPORTS
 import tkinter as tk
+from flxr import fw_obj
 from tkinter import ttk
+from flxr.const import *
 import customtkinter as ctk
 from threading import Thread
 
