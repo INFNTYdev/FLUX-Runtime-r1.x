@@ -119,13 +119,13 @@ class Flxr:
                 self._console_out("Framework startup took too long")
                 self.system_exit()
 
+        self._wait(2)
         if self._status.core_modules_active():
             if not self._fatal_error:
-                pass
+                self._console_out("Framework modules ready")
         else:
-            pass
-
-        pass
+            self._console_out("Failed to initialize core modules", error=True)
+            self.system_exit()
 
     def active(self) -> bool:
         """ Returns the frameworks run status """
@@ -210,6 +210,12 @@ class Flxr:
                 func=new[2],
                 clearance=new[3]
             )
+
+    @staticmethod
+    def _wait(secs: int):
+        """ Freeze main thread for specified time """
+        if secs <= 10:
+            time.sleep(secs)
 
     def _master_console_output(self, t: str, **kwargs):
         """ Master console output """
