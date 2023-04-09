@@ -18,7 +18,7 @@ class Flxr:
         ['runtime', FlxrRuntimeClock, True],
         ['console', FlxrConsoleManager, True],
         ['io', FlxrFileIOManager, True],
-        # ['tkinter', FlxrTkinterLibrary, True],
+        ['tkinter', FlxrTkinterLibrary, False],
         ['monitor*', FlxrRuntimeMonitor, True],
     ]
 
@@ -69,6 +69,7 @@ class Flxr:
             self._service_host: ServiceHost = ServiceHost(fw=self, svc=self.base_services())
             self.__sys_assets[ServiceHost] = self._service_host
             self._status.set(module=ServiceHost, active=True)
+            self._service_host.authorize(requestor=self, cls=FlxrTkinterLibrary)
             self._inject_services()
         except Exception as SvcFailure:
             self._exception(self, SvcFailure, sys.exc_info(), known=False, pointer='__init__()')

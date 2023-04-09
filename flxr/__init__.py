@@ -40,8 +40,7 @@ def pkg_dir() -> str:
 
 def fwsvcs(**kwargs) -> any:
     """ Returns framework services call """
-    if 'mode' in kwargs:
-        pass
+    pass
 
 
 def fw_obj(fw: any) -> any:
@@ -68,6 +67,7 @@ from .fw_dt import FlxrDatetime
 from .fw_rt import FlxrRuntimeClock
 from .fw_console import FlxrConsoleManager
 from .fw_io import FlxrFileIOManager
+from .tklib import FlxrTkinterLibrary
 ...
 from .fw_watch import FlxrRuntimeMonitor
 from .rfw import Flxr

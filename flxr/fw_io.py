@@ -186,10 +186,10 @@ class FlxrFileIOManager:
     def get_abs_file_paths(directory_path: str):
         file_paths = []
         for root, dirs, files in os.walk(directory_path):
+            dirs[:] = [d for d in dirs if d != '__pycache__']
             for file in files:
                 file_path = os.path.join(root, file)
                 file_paths.append(file_path)
-            break
         return file_paths
 
     def _secure_framework_files(self):
