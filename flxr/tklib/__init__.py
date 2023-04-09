@@ -35,7 +35,7 @@ def tkpkg_dir() -> str:
 
 #   MODULE IMPORTS
 from .tkl_window import TkinterWindowDispatcher, TkinterWindow
-from .flxr_tk import FlxrTkinterLibrary
+from .flxr_tkl import FlxrTkinterLibrary
 
 
 pass
