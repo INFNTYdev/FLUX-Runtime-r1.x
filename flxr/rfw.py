@@ -126,8 +126,10 @@ class Flxr:
                 self._console_out("Framework modules ready")
                 self.test = self._service_host.serve(self)['TkWindow'](
                     identifier='test',
-                    geometry='1024x768',
-                    borderless=False
+                    width=900,
+                    height=400,
+                    borderless=False,
+                    bg='tan'
                 )
                 self.test.mainloop()
         else:

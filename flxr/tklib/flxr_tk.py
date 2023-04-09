@@ -14,6 +14,7 @@ class FlxrTkinterLibrary:
 
     __LIB_MODULES: list = [
         (TkinterWindowDispatcher, MED),
+        (tk.Tk, MED),
         (TkinterWindow, MED)
     ]
 
@@ -47,7 +48,9 @@ class FlxrTkinterLibrary:
             identifier=identifier,
             title=kwargs.get('title', identifier),
             borderless=kwargs.get('borderless'),
-            geometry=kwargs.get('geometry', '500x250'),
+            width=kwargs.get('width'),
+            height=kwargs.get('height'),
+            bg=kwargs.get('bg', '#F2F7F9'),
         )
 
     def _inject_services(self):
