@@ -26,7 +26,7 @@ class TkinterWindow(tk.Tk):
         self._identifier: str = identifier
 
         tk.Tk.__init__(self)
-        self.__S(TkinterWindow)['console'](text=f"Creating '{identifier}' window...")
+        self.__S(TkinterWindow)['console'](text=f"Dispatching '{identifier}' window...")
         self._window_width: int = kwargs.get('width')
         self._window_height: int = kwargs.get('height')
         self._window_x_pos: int = kwargs.get('xpos', self._center_x())
