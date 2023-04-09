@@ -41,10 +41,13 @@ class FlxrTkinterLibrary:
         )
         self._inject_services()
 
-    def dispatch_new_window(self, identifier: str) -> TkinterWindow:
+    def dispatch_new_window(self, identifier: str, **kwargs) -> TkinterWindow:
         """ Dispatch a new tkinter window """
         return self.__dispatcher.new_window(
-            identifier=identifier
+            identifier=identifier,
+            title=kwargs.get('title', identifier),
+            borderless=kwargs.get('borderless'),
+            geometry=kwargs.get('geometry', '500x250'),
         )
 
     def _inject_services(self):

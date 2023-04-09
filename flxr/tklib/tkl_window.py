@@ -26,6 +26,9 @@ class TkinterWindow(tk.Tk):
         self._identifier: str = identifier
 
         tk.Tk.__init__(self)
+        self.title(kwargs.get('title'))
+        self.overrideredirect(kwargs.get('borderless'))
+        self.geometry(kwargs.get('geometry'))
 
 
 class TkinterWindowDispatcher:
@@ -42,12 +45,15 @@ class TkinterWindowDispatcher:
 
         self.__window_host: dict = {}
 
-    def new_window(self, identifier: str) -> TkinterWindow:
+    def new_window(self, identifier: str, **kwargs) -> TkinterWindow:
         """ Dispatch a new tkinter window """
         window: TkinterWindow = TkinterWindow(
             fw=self.__FW,
             svc=self.__S,
-            identifier=identifier
+            identifier=identifier,
+            title=kwargs.get('title', identifier),
+            borderless=kwargs.get('borderless'),
+            geometry=kwargs.get('geometry'),
         )
         self.__window_host[identifier] = window
         return window

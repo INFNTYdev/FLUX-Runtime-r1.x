@@ -124,6 +124,12 @@ class Flxr:
         if self._status.core_modules_active():
             if not self._fatal_error:
                 self._console_out("Framework modules ready")
+                self.test = self._service_host.serve(self)['TkWindow'](
+                    identifier='test',
+                    geometry='1024x768',
+                    borderless=False
+                )
+                self.test.mainloop()
         else:
             self._console_out("Failed to initialize core modules", error=True)
             self.system_exit()
