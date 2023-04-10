@@ -18,7 +18,7 @@ import os
 #   PACKAGE META
 __PACKAGE_NAME: str = str(__file__).split('\\')[-2]
 __PACKAGE_DIRECTORY: str = str(__file__)[:-11]
-__PACKAGE_VERSION: str = '1.2.2.5'
+__PACKAGE_VERSION: str = '1.2.2.6'
 __PACKAGE_SERVICES: dict = None
 
 
