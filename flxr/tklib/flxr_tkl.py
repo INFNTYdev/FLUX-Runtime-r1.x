@@ -61,6 +61,10 @@ class FlxrTkinterLibrary:
             bg=kwargs.get('bg', '#F2F7F9'),
         )
 
+    def destroy_dependencies(self):
+        """ Destroy all tkinter window instances except main """
+        self.__dispatcher.destroy_dependencies()
+
     def destroy_all(self):
         """ Destroy all tkinter window instances """
         self.__dispatcher.destroy_all()
@@ -71,6 +75,7 @@ class FlxrTkinterLibrary:
             ('TkWindow', TkinterWindowDispatcher, self.dispatch_new_window, LOW),
             ('mainTk', TkinterWindowDispatcher, self.set_main, MED),
             ('launchMain', TkinterWindowDispatcher, self.launch_main, LOW),
+            ('breakChildren', TkinterWindowDispatcher, self.destroy_dependencies, MED),
             ('breakTk', TkinterWindowDispatcher, self.destroy_all, MED)
         ]
         for new in injectables:

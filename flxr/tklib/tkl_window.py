@@ -142,6 +142,19 @@ class TkinterWindowDispatcher:
         self.__window_host[identifier] = window
         return window
 
+    def destroy_dependencies(self):
+        """ Destroy all tkinter window instances except main """
+        delete: list = []
+        self.__S(self)['console'](text=f"Closing all children tkinter window instances...")
+        for _id, __window in self.__window_host.items():
+            if _id != 'main-win':
+                self.__S(self)['console'](text=f"Closing '{_id}' window...")
+                delete.append(_id)
+                __window.destroy()
+        for deletion in delete:
+            del self.__window_host[deletion]
+            self.__S(self)['console'](text=f"Deleted '{deletion}' window")
+
     def destroy_all(self):
         """ Destroy all tkinter window instances """
         self.__S(self)['console'](text=f"Closing all tkinter window instances...")

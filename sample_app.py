@@ -28,6 +28,14 @@ class App1(tk.Tk):
         self.button2.pack(
             expand=True
         )
+        self.button3 = tk.Button(
+            master=self,
+            text='Click to destroy all dependent windows',
+            command=self.destroy_dependents
+        )
+        self.button3.pack(
+            expand=True
+        )
         return
 
     def new_win(self):
@@ -36,6 +44,9 @@ class App1(tk.Tk):
             title=self.__S(App1)['time'](),
             width=700
         )
+
+    def destroy_dependents(self):
+        self.__S(App1)['breakChildren']()
 
     def destroy_all(self):
         self.__S(App1)['breakTk']()
