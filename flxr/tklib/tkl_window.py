@@ -11,18 +11,20 @@ __package__ = tkpkg_n()
 
 # MODULE CLASSES
 class TkinterWindow(tk.Tk):
-    def __init__(self, fw: any, svc: any, identifier: str, **kwargs):
+    def __init__(self, fw: any, svc: any, root: any, identifier: str, **kwargs):
         """
         FLUX tkinter window instance
 
         :param fw: Hosting framework
         :param svc: Framework service call
+        :param root: Root application window
         :param identifier: Window unique identifier
         :param kwargs: Additional window configuration args
         """
 
         self.__FW = fw_obj(fw)
         self.__S = svc
+        self.__root = root
         self._identifier: str = identifier
 
         tk.Tk.__init__(self)
@@ -93,11 +95,11 @@ class TkinterWindow(tk.Tk):
 
     def _center_x(self) -> int:
         """ Returns the center x coordinate """
-        return int((self.winfo_screenwidth()/2)-(self._window_width/2))
+        return int((self.__root.winfo_screenwidth()/2)-(self._window_width/2))
 
     def _center_y(self) -> int:
         """ Returns the center y coordinate """
-        return int((self.winfo_screenheight()/2)-(self._window_height/2))
+        return int((self.__root.winfo_screenheight()/2)-(self._window_height/2))
 
 
 class TkinterWindowDispatcher:
@@ -129,6 +131,7 @@ class TkinterWindowDispatcher:
         window: TkinterWindow = TkinterWindow(
             fw=self.__FW,
             svc=self.__S,
+            root=self.__window_host['main-win'],
             identifier=identifier,
             title=kwargs.get('title', identifier),
             borderless=kwargs.get('borderless'),

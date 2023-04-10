@@ -20,6 +20,14 @@ class App1(tk.Tk):
         self.button.pack(
             expand=True
         )
+        self.button2 = tk.Button(
+            master=self,
+            text='Click to destroy all windows',
+            command=self.destroy_all
+        )
+        self.button2.pack(
+            expand=True
+        )
         return
 
     def new_win(self):
@@ -28,6 +36,9 @@ class App1(tk.Tk):
             title=self.__S(App1)['time'](),
             width=700
         )
+
+    def destroy_all(self):
+        self.__S(App1)['breakTk']()
 
 
 if __name__ == '__main__':

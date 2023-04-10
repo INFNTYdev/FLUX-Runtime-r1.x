@@ -55,9 +55,9 @@ class FlxrTkinterLibrary:
         return self.__dispatcher.new_window(
             identifier=identifier,
             title=kwargs.get('title', identifier),
-            borderless=kwargs.get('borderless'),
-            width=kwargs.get('width'),
-            height=kwargs.get('height'),
+            borderless=kwargs.get('borderless', False),
+            width=kwargs.get('width', 600),
+            height=kwargs.get('height', 275),
             bg=kwargs.get('bg', '#F2F7F9'),
         )
 
