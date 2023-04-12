@@ -53,10 +53,6 @@ class FWFile:
         else:
             return self.__contents
 
-    def modification_stamp(self) -> any:
-        """ Returns the files last modified stamp """
-        return self.__last_modified
-
     def out_of_date(self) -> bool:
         """ Determines if the file is out of date """
         if self.__retrieve_last_modified() != self.__last_modified:
@@ -77,13 +73,10 @@ class FWFile:
         return False
 
     def __read_title(self) -> str:
-        """#"""
-        stop: int = None
+        """ Derive the file title """
         for index in range(1, len(self.__name)):
             if self.__name[-index] == '.':
-                stop: int = -index
-                break
-        return self.__name[:stop]
+                return self.__name[:-index]
 
     def __read_size(self) -> float:
         """ Returns the updated file size """
