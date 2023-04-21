@@ -11,7 +11,7 @@ __package__ = tkpkg_n()
 
 # MODULE CLASSES
 class TkinterWindow(tk.Tk):
-    def __init__(self, fw: any, svc: any, root: any, identifier: str, **kwargs):
+    def __init__(self, fw: any, svc: any, root: any, identifier: str, x: int = None, y: int = None, **kwargs):
         """
         FLUX tkinter window instance
 
@@ -31,8 +31,17 @@ class TkinterWindow(tk.Tk):
         self.__S(TkinterWindow)['console'](text=f"Dispatching '{identifier}' window...")
         self._window_width: int = kwargs.get('width')
         self._window_height: int = kwargs.get('height')
-        self._window_x_pos: int = kwargs.get('xpos', self._center_x())
-        self._window_y_pos: int = kwargs.get('ypos', self._center_y())
+
+        if x is None:
+            self._window_x_pos: int = self._center_x()
+        else:
+            self._window_x_pos: int = x
+
+        if y is None:
+            self._window_y_pos: int = self._center_y()
+        else:
+            self._window_y_pos: int = y
+
         self._user_in_bounds: bool = False
         self.title(kwargs.get('title'))
         self.overrideredirect(kwargs.get('borderless'))
