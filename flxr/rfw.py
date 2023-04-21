@@ -128,7 +128,7 @@ class Flxr:
                 self._service_host.whitelist(
                     requestor=self,
                     cls=self._app_main,
-                    clearance=MED
+                    admin=True
                 )
                 self._wait(2)
                 self.__sys_assets.func(

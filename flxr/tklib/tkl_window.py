@@ -137,6 +137,8 @@ class TkinterWindowDispatcher:
             borderless=kwargs.get('borderless'),
             width=kwargs.get('width'),
             height=kwargs.get('height'),
+            xpos=kwargs.get('xpos'),
+            ypos=kwargs.get('ypos'),
             bg=kwargs.get('bg', '#F2F7F9'),
         )
         self.__window_host[identifier] = window
@@ -162,3 +164,11 @@ class TkinterWindowDispatcher:
             self.__S(self)['console'](text=f"Closing '{_id}' window...")
             __window.destroy()
         self.__window_host.clear()
+
+    def destroy(self, identifier: str):
+        """ Destroy a dispatched window """
+        for _id, __window in self.__window_host.items():
+            if identifier == _id:
+                self.__S(self)['console'](text=f"Destroying '{_id}' window...")
+                __window.destroy()
+        del self.__window_host[identifier]

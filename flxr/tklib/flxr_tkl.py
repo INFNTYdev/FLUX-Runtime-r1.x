@@ -58,6 +58,8 @@ class FlxrTkinterLibrary:
             borderless=kwargs.get('borderless', False),
             width=kwargs.get('width', 600),
             height=kwargs.get('height', 275),
+            xpos=kwargs.get('posx'),
+            ypos=kwargs.get('posy'),
             bg=kwargs.get('bg', '#F2F7F9'),
         )
 
@@ -69,12 +71,17 @@ class FlxrTkinterLibrary:
         """ Destroy all tkinter window instances """
         self.__dispatcher.destroy_all()
 
+    def destroy(self, identifier: str):
+        """ Destroy a dispatched window """
+        self.__dispatcher.destroy(identifier)
+
     def _inject_services(self):
         """ Inject datetime services into distributor """
         injectables: list = [
             ('TkWindow', TkinterWindowDispatcher, self.dispatch_new_window, LOW),
             ('mainTk', TkinterWindowDispatcher, self.set_main, MED),
             ('launchMain', TkinterWindowDispatcher, self.launch_main, LOW),
+            ('breakWindow', TkinterWindowDispatcher, self.destroy, MED),
             ('breakChildren', TkinterWindowDispatcher, self.destroy_dependencies, MED),
             ('breakTk', TkinterWindowDispatcher, self.destroy_all, MED)
         ]
