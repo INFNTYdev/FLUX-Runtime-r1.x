@@ -18,7 +18,7 @@ class FWFile:
         'pyc': 'Compiled Python File',
     }
 
-    def __init__(self, filepath: str, **kwargs):
+    def __init__(self, filepath: str, protected: bool = False):
         """ Framework file """
         self.__path: str = None
         self.__name: str = None
@@ -27,8 +27,8 @@ class FWFile:
         self.__size: float = None
         self.__contents: str = None
         self.__last_modified = None
-        self.__protected: bool = kwargs.get('protected', False)
-        self.__construct(fp=filepath, **kwargs)
+        self.__protected: bool = protected
+        self.__construct(fp=filepath)
 
     def name(self) -> str:
         """ Returns the file name """
@@ -53,10 +53,6 @@ class FWFile:
         else:
             return self.__contents
 
-    def modification_stamp(self) -> any:
-        """ Returns the files last modified stamp """
-        return self.__last_modified
-
     def out_of_date(self) -> bool:
         """ Determines if the file is out of date """
         if self.__retrieve_last_modified() != self.__last_modified:
@@ -77,13 +73,10 @@ class FWFile:
         return False
 
     def __read_title(self) -> str:
-        """#"""
-        stop: int = None
+        """ Derive the file title """
         for index in range(1, len(self.__name)):
             if self.__name[-index] == '.':
-                stop: int = -index
-                break
-        return self.__name[:stop]
+                return self.__name[:-index]
 
     def __read_size(self) -> float:
         """ Returns the updated file size """
@@ -100,10 +93,10 @@ class FWFile:
         """ Returns the files last modified stamp """
         return os.stat(self.__path)[stat.ST_MTIME]
 
-    def __construct(self, **args):
+    def __construct(self, fp: str):
         """ Construct the framework file """
-        self.__path = os.path.abspath(args.get('fp'))
-        self.__name = os.path.basename(args.get('fp'))
+        self.__path = os.path.abspath(fp)
+        self.__name = os.path.basename(self.__path)
         self.__title = self.__read_title()
         self.__type = self.__EXT_DICT[self.__name.split('.')[-1]]
         self.__size = self.__read_size()
