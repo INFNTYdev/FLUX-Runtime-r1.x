@@ -146,8 +146,8 @@ class TkinterWindowDispatcher:
             borderless=kwargs.get('borderless'),
             width=kwargs.get('width'),
             height=kwargs.get('height'),
-            xpos=kwargs.get('xpos'),
-            ypos=kwargs.get('ypos'),
+            x=kwargs.get('xpos'),
+            y=kwargs.get('ypos'),
             bg=kwargs.get('bg', '#F2F7F9'),
         )
         self.__window_host[identifier] = window
