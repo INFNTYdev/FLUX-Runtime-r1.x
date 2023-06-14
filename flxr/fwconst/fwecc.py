@@ -1,0 +1,13 @@
+
+""" Global Framework Exit Codes """
+
+
+#   EXIT VARIABLES
+CLEAN_EXIT: int = 0
+DEFAULT_EXIT: int = 1
+STATUS_FAIL_EXIT: int = 5
+EXCEPTION_FAIL_EXIT: int = 10
+SERVICE_FAIL_EXIT: int = 20
+RFW_FAIL_EXIT: int = 50
+RTE_FAIL_EXIT: int = 100
+APP_FAIL_EXIT: int = 110
