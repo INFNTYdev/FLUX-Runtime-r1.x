@@ -5,7 +5,7 @@ FLUX Runtime-Framework Tkinter Window
 
 
 #   THIRD-PARTY IMPORTS
-pass
+import ctypes
 
 
 #   BUILT-IN IMPORTS
@@ -21,7 +21,6 @@ class FTkWindow(tk.Tk):
 
     _DEFAULT_SIZE: tuple = (300, 200)
     _DEFAULT_RESIZE: tuple = (True, True)
-    _DEFAULT_COORD: tuple = (200, 200)
 
     def __init__(self, fw: any, svc: any, root: tk.Tk, identifier: str, **kwargs) -> None:
         """
@@ -38,9 +37,10 @@ class FTkWindow(tk.Tk):
         self.__root_window = root
         self.__identifier: str = identifier
 
+        self._window_ready: bool = False
         self._window_min: tuple = kwargs.get('minsize', self._DEFAULT_SIZE)
         self._window_max: tuple = kwargs.get('maxsize')
-        self._initial_x_pos, self._initial_y_pos = kwargs.get('coord', self._DEFAULT_COORD)
+        self._initial_x_pos, self._initial_y_pos = kwargs.get('coord', (self.center_screen_x(), self.center_screen_y()))
         self._resizability: tuple = kwargs.get('resizability', self._DEFAULT_RESIZE)
         self._active_window: bool = False
         self._mouse_in_bounds: bool = None
@@ -73,6 +73,7 @@ class FTkWindow(tk.Tk):
         for _events, _function in self._MASTER_BIND_EVENT.items():
             for _event in _events.split(' '):
                 self.bind(_event, _function, add="+")
+        self._window_ready = True
 
     def minimize(self) -> None:
         """ Minimize the application window """
@@ -108,11 +109,23 @@ class FTkWindow(tk.Tk):
 
     def width(self) -> int:
         """ Returns the width of the application window """
+        if not self._window_ready:
+            return self._window_min[0]
         return self.winfo_width()
 
     def height(self) -> int:
         """ Returns the height of the application window """
+        if not self._window_ready:
+            return self._window_min[1]
         return self.winfo_height()
+
+    def screen_width(self) -> int:
+        """ Returns the width of the user screen """
+        return self._user_system().GetSystemMetrics(0)
+
+    def screen_height(self) -> int:
+        """ Returns the height of the user screen """
+        return self._user_system().GetSystemMetrics(1)
 
     def coordinates(self) -> tuple[list, list, list, list]:
         """ Returns the coordinates of the application window """
@@ -130,11 +143,11 @@ class FTkWindow(tk.Tk):
 
     def center_screen_x(self) -> int:
         """ Returns the center of screen x-coordinate """
-        return int((self.__root_window.winfo_screenwidth()/2)-(self.winfo_width()/2))
+        return int((self.screen_width()/2)-(self.width()/2))
 
     def center_screen_y(self) -> int:
         """ Returns the center of screen y-coordinate """
-        return int((self.__root_window.winfo_screenheight()/2)-(self.winfo_height()/2))
+        return int((self.screen_height()/2)-(self.height()/2))
 
     def ref(self, config: str) -> any:
         """ Returns the specified configuration value """
@@ -144,6 +157,11 @@ class FTkWindow(tk.Tk):
     def console(self, msg: str, error: bool = False) -> None:
         """ Send text to the framework console """
         self.__S(FTkWindow)['console'](msg=f"{self.identifier()}: {msg}", error=error)
+
+    @staticmethod
+    def _user_system() -> ctypes.WinDLL:
+        """ Returns the user system WinDLL """
+        return ctypes.windll.user32
 
     def _master_configure_event(self, event: tk.Event) -> None:
         """ Handle window configuration events """
