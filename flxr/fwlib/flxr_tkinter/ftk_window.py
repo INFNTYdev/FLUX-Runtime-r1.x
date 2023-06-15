@@ -154,9 +154,13 @@ class FTkWindow(tk.Tk):
         if config in self._WINDOW_CONFIGURATION.keys():
             return self._WINDOW_CONFIGURATION[config]
 
+    def fwsvc(self, svc: str, **sargs) -> any:
+        """ Execute the specified framework service """
+        return self.__S(FTkWindow)[svc](**sargs)
+
     def console(self, msg: str, error: bool = False) -> None:
         """ Send text to the framework console """
-        self.__S(FTkWindow)['console'](msg=f"{self.identifier()}: {msg}", error=error)
+        self.__S(FTkWindow)['console'](msg=f"ftkw-{self.identifier()}: {msg}", error=error)
 
     @staticmethod
     def _user_system() -> ctypes.WinDLL:

@@ -29,7 +29,7 @@ class FlxrTkinterManager:
         self.__S = svc
         self.__root: tk.Tk = None
 
-        self.__S(self)['wcls'](requestor=self, cls=FTkWindow, clearance=MED)
+        self.__S(self)['acls'](requestor=self, cls=FTkWindow)
         self.__S(self)['acls'](requestor=self, cls=TkinterWindowDispatcher)
 
         self.__dispatcher: TkinterWindowDispatcher = TkinterWindowDispatcher(hfw, svc)
