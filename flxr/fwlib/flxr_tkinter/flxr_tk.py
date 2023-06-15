@@ -40,6 +40,7 @@ class FlxrTkinterManager:
         if (issubclass(window, tk.Tk)) and (self.__root is None):
             self.__root = window
             self.__dispatcher.set_main(window)
+            self.__S(self)['acls'](requestor=self, cls=window)
 
     def start_main(self) -> None:
         """ Start the main application window """
