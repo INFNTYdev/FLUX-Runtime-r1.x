@@ -209,6 +209,10 @@ class Flxr:
             'console': self._console_out,
             'exc': self._exception
         }
+
+    def service(self) -> any:
+        """ Returns the framework service call """
+        return self.__svc_host.serve
     
     def system_exit(self, **kwargs) -> None:
         """ Runtime-Engine shutdown sequence """
