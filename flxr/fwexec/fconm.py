@@ -42,6 +42,8 @@ class FlxrConsoleManager:
     def stop_module(self, force: bool = False) -> None:
         """ Stop framework module """
         if self._run:
+            while (len(self.__console_log) > 0) and (self.__hfw.dev()):
+                pass
             self._run = False
             self.__S(self)['jthr'](handle=self._HANDLE, stop=force)
 
@@ -70,7 +72,7 @@ class FlxrConsoleManager:
     def _runnable(self) -> bool:
         """ Determines if the module
         has permission to execute """
-        if self._run and self.__hfw.running():
+        if self._run:
             return True
         self._status(False)
         return False
@@ -88,11 +90,13 @@ class FlxrConsoleManager:
         """ Update framework console """
         if (len(self.__console_log) > 0) and (not self._pause):
             len_snapshot: int = len(self.__console_log)
-            for _ in range(len_snapshot):
+
+            while len_snapshot > 0:
                 if self.__hfw.dev():
                     self.__console_log.get_next().print_entry()
-                    return
-                self.__console_log.get_next()
+                else:
+                    self.__console_log.get_next()
+                len_snapshot -= 1
 
     def _status(self, status: bool) -> None:
         """ Set the framework module status """
