@@ -176,7 +176,6 @@ class FTkWindow(tk.Tk):
         if str(event).__contains__('FocusIn'):
             if self._active_window is False:
                 self._active_window = True
-            self.console(f"Gained focus")
         elif str(event).__contains__('FocusOut'):
             self._focus_in_bounds = False
 
@@ -191,6 +190,7 @@ class FTkWindow(tk.Tk):
         """ Handle window click events """
         if self._focus_in_bounds is False:
             self._focus_in_bounds = True
+            self.console(f"Gained focus")
 
         if str(event).__contains__('num=1'):
             pass
