@@ -230,6 +230,7 @@ class Flxr:
             if __module[2] is True:
                 self._console_out(f"Stopping {__module[1].__name__}...")
                 self.__fw_assets.asset_func(asset=__module[1], func='stop_module')
+                self.__status.set(module=__module[1], status=False)
         
         self._run = False
         exit(kwargs.get('ecode', DEFAULT_EXIT))
