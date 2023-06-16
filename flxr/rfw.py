@@ -96,6 +96,12 @@ class Flxr:
                 func=self.__status.core_active,
                 clearance=LOW
             )
+            self.__svc_host.new(
+                call='fwactive',
+                cls=Flxr,
+                func=self.running,
+                clearance=ANY
+            )
         except Exception as SvcFailure:
             self._exception(
                 cls=self,
