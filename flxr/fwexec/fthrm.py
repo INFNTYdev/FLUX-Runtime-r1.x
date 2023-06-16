@@ -75,6 +75,11 @@ class FlxrThreadManager:
         del self.__threads[handle]
         self.__S(self)['console'](msg=f"Successfully deleted '{handle}' thread")
 
+    def join_all(self, force: bool = False) -> None:
+        """ Join all threads with main """
+        for _handle in self.__threads.keys():
+            self.join(handle=_handle, force=force)
+
     def _handle_exist(self, handle: str) -> bool:
         """ Determines if a thread handle already exists """
         return handle in self.__threads.keys()
