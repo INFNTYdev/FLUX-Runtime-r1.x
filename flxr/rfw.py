@@ -90,6 +90,12 @@ class Flxr:
                 func=self.__status.set,
                 clearance=LOW
             )
+            self.__svc_host.new(
+                call='cstat',
+                cls=StatusManager,
+                func=self.__status.core_active,
+                clearance=LOW
+            )
         except Exception as SvcFailure:
             self._exception(
                 cls=self,
