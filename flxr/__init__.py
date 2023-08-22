@@ -1,7 +1,7 @@
 
 """
 INFINITY Systems, LLC. 2023 -
-FLUX Runtime Framework
+FLUX Runtime Framework Library
 """
 
 
