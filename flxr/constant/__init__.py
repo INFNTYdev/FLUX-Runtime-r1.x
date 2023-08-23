@@ -1,6 +1,6 @@
 
 """
-FLUX Runtime Framework Model Library
+FLUX Runtime Framework Constant Library
 """
 
 
@@ -17,4 +17,4 @@ pass
 
 
 #   LOCAL IMPORTS
-from .assetchain import AssetChain
+pass

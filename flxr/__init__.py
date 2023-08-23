@@ -28,4 +28,4 @@ pass
 
 
 #   LOCAL IMPORTS
-pass
+from .rfw import Flxr
