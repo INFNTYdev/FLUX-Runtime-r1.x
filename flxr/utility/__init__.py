@@ -19,3 +19,4 @@ pass
 #   LOCAL IMPORTS
 from .assetchain import AssetChain
 from .pproxy import ProcessProxy
+from .sservice import FlxrService

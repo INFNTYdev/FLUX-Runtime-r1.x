@@ -17,4 +17,6 @@ pass
 
 
 #   LOCAL IMPORTS
-pass
+import flxr.constant.error_msg as ErrMsgs
+import flxr.constant.global_func as GlobalFuncs
+import flxr.constant.service_var as SvcVars

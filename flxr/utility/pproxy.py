@@ -13,7 +13,7 @@ from multiprocessing import Process
 
 
 #   EXTERNAL IMPORTS
-pass
+from flxr.constant import ErrMsgs
 
 
 #   MODULE CLASS
@@ -35,5 +35,5 @@ class ProcessProxy:
     def _invalid_process_arg(process_arg) -> None:
         """ Raises value error on invalid process arg """
         raise ValueError(
-            f'Invalid process argument: {process_arg}'
+            ErrMsgs.ERRM_F_001.format(process_arg=process_arg)
         )
