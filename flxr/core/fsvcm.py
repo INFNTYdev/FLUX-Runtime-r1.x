@@ -13,7 +13,7 @@ pass
 
 
 #   EXTERNAL IMPORTS
-from flxr.constant import SvcVars
+from flxr.constant import SvcVars, GlobalFuncs
 from flxr.utility import FlxrService
 from .fwmod import FrameworkModule
 
@@ -31,7 +31,7 @@ class FlxrServiceManager(FrameworkModule):
 
     def calls(self) -> list[str]:
         """ Returns the list of all framework service calls """
-        pass
+        return [name for name in self.__services.keys()]
 
     def new(self, call: str, cls, func, **kwargs) -> None:
         """ Add new service to framework services """
@@ -61,7 +61,7 @@ class FlxrServiceManager(FrameworkModule):
     def _existing_call(self, call: str) -> bool:
         """ Returns true if the provided call exist
         in the services """
-        pass
+        return call in self.__services.keys()
 
     def _whitelisted(self, requestor: type) -> bool:
         """ Returns true if the provided requestor
@@ -71,9 +71,9 @@ class FlxrServiceManager(FrameworkModule):
     def _authorized(self, requestor: type) -> bool:
         """ Returns true if the provided requestor
          has administrative privilege """
-        pass
+        return GlobalFuncs.class_of(requestor) in self.__admin
 
     def _has_permission(self, requestor, svc: FlxrService) -> bool:
-        """ Returns true if the provided requestor has permission to use a  """
-
-    pass
+        """ Returns true if the provided requestor has
+        permission to use the service """
+        pass
