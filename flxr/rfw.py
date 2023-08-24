@@ -129,7 +129,7 @@ class Flxr:
         return {
             'console': self._console_out,
             'exception': self._log_exception,
-            'pproxy': None,
+            'pproxy': self.__process_proxy.processes,
             'exit': self.framework_exit
         }
 
@@ -137,7 +137,18 @@ class Flxr:
         """ Returns framework services """
         if (not self._service_enabled) or (base is True):
             return self.base_service()
-        pass
+        return self.__fw_chain.asset_func(FlxrServiceManager, 'serve', requestor=requestor)
+
+    def inject_service(self, call: str, cls, func, clearance: int = 0) -> None:
+        """ Add new service to framework """
+        self.__fw_chain.asset_func(
+            asset=FlxrServiceManager,
+            _func='new',
+            call=call,
+            cls=cls,
+            func=func,
+            clearance=clearance
+        )
 
     #   ^ ^ ^  PUBLIC METHODS ABOVE THIS POINT  ^ ^ ^   #
 

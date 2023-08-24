@@ -23,6 +23,7 @@ class FrameworkModule:
         if hfw.is_rfw():
             self.__framework = hfw
             self.__type: type = cls
+            self._injectables: list = []
 
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
         """ Send text to the framework log """
@@ -36,3 +37,23 @@ class FrameworkModule:
         """ Returns the processes in the
         framework proxy """
         pass
+
+    def framework(self) -> any:
+        """ Returns the hosting framework instance """
+        return self.__framework
+
+    def to_service_injector(self, load: list[tuple]) -> None:
+        """ Load injector with new services """
+        for injectable in load:
+            if type(injectable) is tuple:
+                _call, _func, _clearance = injectable
+                self._injectables.append({'call': _call, 'func': _func, 'clearance': _clearance})
+
+    def inject_services(self) -> None:
+        """ Inject loaded services into the framework """
+        print(self._injectables)
+        self.__framework.inject_service(
+            call=None,
+            cls=None,
+            clearance=None
+        )

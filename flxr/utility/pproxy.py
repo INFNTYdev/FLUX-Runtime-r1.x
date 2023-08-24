@@ -22,6 +22,10 @@ class ProcessProxy:
         """ Framework process proxy """
         self.__proxy: dict = {}
 
+    def processes(self) -> dict:
+        """ Returns the process proxy """
+        return self.__proxy
+
     def append_process(self, process) -> None:
         """ Add an external process to proxy """
         if (type(process) is tuple) and (len(process) == 2):
