@@ -73,7 +73,12 @@ class Flxr:
                     )
 
                     if self._service_enabled:
-                        pass
+                        self.__fw_chain.asset_func(
+                            asset=FlxrServiceManager,
+                            _func='whitelist',
+                            requestor=Flxr,
+                            cls=_module[1]
+                        )
                     else:
                         pass
 
@@ -122,10 +127,9 @@ class Flxr:
     def services_enabled(self, _set: bool = False, _value: bool = None) -> bool:
         """ Determines if the framework services
         are enabled """
-        if _set:
-            if _value is not None:
-                self._service_enabled = bool(_value)
-                self._console_out(msg=f"Set services status to {bool(_value)}")
+        if _set and (_value is not None):
+            self._service_enabled = bool(_value)
+            self._console_out(msg=f"Services status set to {_value}")
         return self._service_enabled
 
     def base_service(self) -> dict:
@@ -170,7 +174,7 @@ class Flxr:
         """ Framework deployable modules """
         return [
             ['service*', FlxrServiceManager, False, False],
-            #['thread*', FlxrThreadManager, False, False],
+            ['thread*', FlxrThreadManager, False, True],
             #['datetime*', FlxrDatetimeManager, True, False],
             # ['runtime', FlxrRuntimeClock, True, False],
             # ['console*', FlxrConsoleManager, True, False],

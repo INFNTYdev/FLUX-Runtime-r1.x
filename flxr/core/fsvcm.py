@@ -132,7 +132,6 @@ class FlxrServiceManager(FrameworkModule):
             ('osvc', self.override, SvcVars.ANY),
             ('ecall', self._existing_call, SvcVars.LOW),
         ]
-
         for new in _injectables:
             self.new(
                 call=new[0],
@@ -140,7 +139,6 @@ class FlxrServiceManager(FrameworkModule):
                 func=new[1],
                 clearance=new[2]
             )
-
         for call, _func in self.framework().base_service().items():
             self.new(
                 call=call,
@@ -148,5 +146,4 @@ class FlxrServiceManager(FrameworkModule):
                 func=_func,
                 clearance=SvcVars.ANY
             )
-
         self.framework().services_enabled(_set=True, _value=True)
