@@ -148,3 +148,5 @@ class FlxrServiceManager(FrameworkModule):
                 func=_func,
                 clearance=SvcVars.ANY
             )
+
+        self.framework().services_enabled(_set=True, _value=True)

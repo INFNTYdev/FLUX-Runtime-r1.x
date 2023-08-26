@@ -119,9 +119,13 @@ class Flxr:
         """ Returns the framework fatal error flag """
         pass
 
-    def services_enabled(self) -> bool:
+    def services_enabled(self, _set: bool = False, _value: bool = None) -> bool:
         """ Determines if the framework services
         are enabled """
+        if _set:
+            if _value is not None:
+                self._service_enabled = bool(_value)
+                self._console_out(msg=f"Set services status to {bool(_value)}")
         return self._service_enabled
 
     def base_service(self) -> dict:
