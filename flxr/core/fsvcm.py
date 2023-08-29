@@ -28,6 +28,7 @@ class FlxrServiceManager(FrameworkModule):
         """ Framework service manager """
         super().__init__(hfw=hfw, cls=FlxrServiceManager)
         self.__services: dict = {}
+        self.whitelist(requestor=self, cls=self, admin=True)
         self.whitelist(requestor=self, cls=hfw, admin=True)
         self._inject_self()
 
@@ -99,6 +100,10 @@ class FlxrServiceManager(FrameworkModule):
             self.console(msg=SvcVars.SLM_F_006.format(requestor=GlobalFuncs.class_of(requestor)))
         return _svcs
 
+    def serve_call(self) -> any:
+        """ Returns the framework services call """
+        return self.serve
+
     def _existing_call(self, call: str) -> bool:
         """ Returns true if the provided call exist
         in the services """
@@ -146,4 +151,3 @@ class FlxrServiceManager(FrameworkModule):
                 func=_func,
                 clearance=SvcVars.ANY
             )
-        self.framework().services_enabled(_set=True, _value=True)

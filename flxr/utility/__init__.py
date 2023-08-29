@@ -20,3 +20,4 @@ pass
 from .assetchain import AssetChain
 from .pproxy import ProcessProxy
 from .sservice import FlxrService
+from .fwthread import FlxrThread

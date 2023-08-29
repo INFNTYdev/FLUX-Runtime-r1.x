@@ -18,7 +18,7 @@ pass
 
 #   LOCAL IMPORTS
 import flxr
-from .constant import ErrMsgs
+from .constant import ErrMsgs, FlxrMsgs
 from .utility import AssetChain, ProcessProxy
 from .core import StatusManager, FlxrServiceManager, \
     FlxrThreadManager, FlxrDatetimeManager, FlxrConsoleManager, \
@@ -38,8 +38,8 @@ class Flxr:
             self._dev: bool = kwargs.get('dev', False)
             self._app_main: type = main
 
-            self._console_out(msg="INFINITY Systems 2023")
-            self._console_out(msg=f"FLUX Runtime Framework | v{flxr.fwversion()}")
+            self._console_out(msg=FlxrMsgs.FWM_001)
+            self._console_out(msg=FlxrMsgs.FWM_F_002.format(v=flxr.fwversion()))
 
             self._TSTART: float = time.perf_counter()
             self._startup_load_wait: float = .0
@@ -57,6 +57,7 @@ class Flxr:
                 deployable=self._fw_deployable(),
                 hfw=self
             )
+            self.__service_call = None
 
             if kwargs.get('process_proxy') is not None:
                 if type(kwargs.get('process_proxy')) is not list:
@@ -65,31 +66,36 @@ class Flxr:
                 for process in kwargs.get('process_proxy'):
                     self.__process_proxy.append_process(process)
 
-            self._console_out(msg=f"Preparing {self._deployable_count()} framework modules...")
+            self._console_out(msg=FlxrMsgs.FWM_F_003.format(q=self._deployable_count()))
             for index, _module in enumerate(self._fw_deployable()):
                 try:
                     self._console_out(
-                        msg=f"Initializing {_module[1].__name__} - ({index+1}/{self._deployable_count()})"
+                        msg=FlxrMsgs.FWM_F_004.format(
+                            module=_module[1].__name__,
+                            index=index+1,
+                            max=self._deployable_count()
+                        )
                     )
-
                     if self._service_enabled:
                         self.__fw_chain.asset_func(
                             asset=FlxrServiceManager,
-                            _func='whitelist',
+                            _func='authorize',
                             requestor=Flxr,
                             cls=_module[1]
                         )
                     else:
-                        pass
+                        if index > 1:
+                            self._console_out(msg=f"Failed to give {_module[1].__name__} authorization")
 
                     self.__fw_chain[_module[1]] = _module[1](hfw=self)
                     if _module[2] is True:
                         self.__fw_chain.asset_func(
                             asset=_module[1],
-                            func='start_module'
+                            _func='start_module'
                         )
                     else:
                         self.__fw_status.set(module=_module[1], status=True)
+                    self._post_module_initialization(_module[1])
                 except Exception as ModuleInitFailure:
                     print(ModuleInitFailure)
         except Exception as FrameworkFailure:
@@ -124,12 +130,9 @@ class Flxr:
         """ Returns the framework fatal error flag """
         pass
 
-    def services_enabled(self, _set: bool = False, _value: bool = None) -> bool:
-        """ Determines if the framework services
-        are enabled """
-        if _set and (_value is not None):
-            self._service_enabled = bool(_value)
-            self._console_out(msg=f"Services status set to {_value}")
+    def services_enabled(self) -> bool:
+        """ Returns true if the framework
+        services are enabled """
         return self._service_enabled
 
     def base_service(self) -> dict:
@@ -138,6 +141,8 @@ class Flxr:
             'console': self._console_out,
             'exception': self._log_exception,
             'pproxy': self.__process_proxy.processes,
+            'setstat': self.__fw_status.set,
+            'getstat': self.__fw_status.get,
             'exit': self.framework_exit
         }
 
@@ -145,7 +150,7 @@ class Flxr:
         """ Returns framework services """
         if (not self._service_enabled) or (base is True):
             return self.base_service()
-        return self.__fw_chain.asset_func(FlxrServiceManager, 'serve', requestor=requestor)
+        return self.__service_call(requestor=requestor)
 
     def inject_service(self, call: str, cls, func, clearance: int = 0) -> None:
         """ Add new service to framework """
@@ -165,6 +170,18 @@ class Flxr:
         all its components """
         pass
 
+    def _post_module_initialization(self, module: type) -> None:
+        """ Complete module specific tasks
+        after initialization """
+        if module is FlxrServiceManager:
+            self.__fw_chain.asset_func(FlxrServiceManager, 'authorize', requestor=Flxr, cls=StatusManager)
+            self._service_enabled = True
+            self._console_out(msg=FlxrMsgs.FWM_005)
+            self.__service_call = self.__fw_chain.asset_func(FlxrServiceManager, 'serve_call')
+            self._console_out(msg=FlxrMsgs.FWM_006)
+        elif module is FlxrThreadManager:
+            pass
+
     @staticmethod
     def is_rfw() -> bool:
         return True
@@ -173,14 +190,14 @@ class Flxr:
     def _fw_deployable() -> list[list]:
         """ Framework deployable modules """
         return [
-            ['service*', FlxrServiceManager, False, False],
-            ['thread*', FlxrThreadManager, False, True],
-            #['datetime*', FlxrDatetimeManager, True, False],
-            # ['runtime', FlxrRuntimeClock, True, False],
-            # ['console*', FlxrConsoleManager, True, False],
-            # ['fileio*', FlxrFileIOManager, True, False],
-            # ['tkinter', FlxrTkinterManager, False, True],
-            # ['monitor*', FlxrSystemManager, True, True],
+            ['service*', FlxrServiceManager, False],
+            ['thread*', FlxrThreadManager, False],
+            ['datetime*', FlxrDatetimeManager, True],
+            # ['runtime', FlxrRuntimeClock, True],
+            # ['console*', FlxrConsoleManager, True],
+            # ['fileio*', FlxrFileIOManager, True],
+            # ['tkinter', FlxrTkinterManager, False],
+            # ['monitor*', FlxrSystemManager, True],
         ]
 
     def _deployable_count(self) -> int:

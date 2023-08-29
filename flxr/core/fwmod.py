@@ -13,7 +13,7 @@ pass
 
 
 #   EXTERNAL IMPORTS
-pass
+from flxr.constant import ErrMsgs, FlxrMsgs
 
 
 #   MODULE CLASS
@@ -51,9 +51,12 @@ class FrameworkModule:
 
     def inject_services(self) -> None:
         """ Inject loaded services into the framework """
-        print(self._injectables)
-        self.__framework.inject_service(
-            call=None,
-            cls=None,
-            clearance=None
-        )
+        self.console(msg=f"Injecting {self.__type.__name__} services:")
+        for _injectable in self._injectables:
+            self.__framework.inject_service(
+                call=_injectable.get('call'),
+                cls=self.__type,
+                func=_injectable.get('func'),
+                clearance=_injectable.get('clearance')
+            )
+        self._injectables.clear()
