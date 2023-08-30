@@ -9,6 +9,7 @@ pass
 
 
 #   BUILT-IN IMPORTS
+import os
 import time
 
 
@@ -179,8 +180,14 @@ class Flxr:
             self._console_out(msg=FlxrMsgs.FWM_005)
             self.__service_call = self.__fw_chain.asset_func(FlxrServiceManager, 'serve_call')
             self._console_out(msg=FlxrMsgs.FWM_006)
-        elif module is FlxrThreadManager:
-            pass
+        elif module is FlxrFileIOManager:
+            self._console_out(msg=FlxrMsgs.FWM_F_007.format(q=len(self._fw_file_paths())))
+            for _fw_f_path in self._fw_file_paths():
+                self.__fw_chain.asset_func(
+                    asset=FlxrFileIOManager,
+                    _func='link',
+                    path=_fw_f_path
+                )
 
     @staticmethod
     def is_rfw() -> bool:
@@ -199,6 +206,16 @@ class Flxr:
             # ['tkinter', FlxrTkinterManager, False],
             # ['monitor*', FlxrSystemManager, True],
         ]
+
+    @staticmethod
+    def _fw_file_paths() -> list[str]:
+        """ Returns the list of framework file paths """
+        _paths: list = []
+        for root, directories, files in os.walk('flxr\\'):
+            for file in files:
+                if (file.endswith(".py")) and (file != '__init__.py'):
+                    _paths.append(os.path.join(root, file))
+        return _paths
 
     def _deployable_count(self) -> int:
         """ Return the number of deployable

@@ -89,9 +89,9 @@ class FrameworkModule:
         self._injectables.clear()
 
     @staticmethod
-    def wait(ms: float) -> None:
+    def wait(secs: float) -> None:
         """ Sleep for the specified milliseconds """
-        time.sleep(ms)
+        time.sleep(secs)
 
     def _runnable_module(self) -> bool:
         """ Returns true if the framework module is runnable """

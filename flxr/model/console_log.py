@@ -38,6 +38,7 @@ class ConsoleEntry(FlxrLogger):
         _message: str = ''
         if self._print_config.get('error') is True:
             _message += ConsoleVars.ERROR_PREFIX
+            self._print_config['prefix'] = '!'
         elif self._print_config.get('warning') is True:
             _message += ConsoleVars.WARNING_PREFIX
         elif self._print_config.get('notice') is True:

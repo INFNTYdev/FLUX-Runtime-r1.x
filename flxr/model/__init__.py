@@ -17,5 +17,6 @@ pass
 
 
 #   LOCAL IMPORTS
+from .fw_file import FlxrFileRef
 from .console_log import ConsoleEntry
 from .exception_log import ExceptionEntry
