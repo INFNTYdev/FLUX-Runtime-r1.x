@@ -90,7 +90,7 @@ class FrameworkModule:
 
     @staticmethod
     def wait(ms: float) -> None:
-        """ Sleep for the specified miliseconds """
+        """ Sleep for the specified milliseconds """
         time.sleep(ms)
 
     def _runnable_module(self) -> bool:
