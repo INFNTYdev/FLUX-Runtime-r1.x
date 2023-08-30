@@ -13,6 +13,7 @@ pass
 
 
 #   EXTERNAL IMPORTS
+from simplydt import simplydatetime, DateTime, Date, Time
 from .fwmod import FrameworkModule
 
 
@@ -21,4 +22,5 @@ class FlxrDatetimeManager(FrameworkModule):
     def __init__(self, hfw) -> None:
         """ Framework datetime manager """
         super().__init__(hfw=hfw, cls=FlxrDatetimeManager)
-        pass
+        self._run: bool = False
+        self._refresh: float = 0.2

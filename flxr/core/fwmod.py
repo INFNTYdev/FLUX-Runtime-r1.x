@@ -33,6 +33,17 @@ class FrameworkModule:
         """ Send an exception to the framework log """
         self.__framework.service(requestor=self.__type)['exception'](cls=cls, excinfo=excinfo, **kwargs)
 
+    def start_module(self) -> None:
+        """ Start framework module if applicable """
+        if not self._runnable_module():
+            return
+
+        self.console(msg=f"Starting {self.__type.__name__} module...")
+
+    def stop_module(self) -> None:
+        """ Stop framework module if applicable """
+        pass
+
     def process_proxy(self) -> dict:
         """ Returns the processes in the
         framework proxy """
@@ -60,3 +71,20 @@ class FrameworkModule:
                 clearance=_injectable.get('clearance')
             )
         self._injectables.clear()
+
+    def _runnable_module(self) -> bool:
+        """ Returns true if the framework module is runnable """
+        _is_runnable: bool = True
+        if '_mainloop' not in self.__dir__():
+            self.console(msg=ErrMsgs.ERRM_F_004.format(module=self.__type.__name__), error=True)
+            _is_runnable = False
+        if '_runnable' not in self.__dir__():
+            self.console(msg=ErrMsgs.ERRM_F_005.format(module=self.__type.__name__), error=True)
+            _is_runnable = False
+        if '_run' not in self.__dir__():
+            self.console(msg=ErrMsgs.ERRM_F_006.format(module=self.__type.__name__), error=True)
+            _is_runnable = False
+        if '_refresh' not in self.__dir__():
+            self.console(msg=ErrMsgs.ERRM_F_007.format(module=self.__type.__name__), error=True)
+            _is_runnable = False
+        return _is_runnable
