@@ -36,12 +36,24 @@ class FlxrThread:
         """ Returns true if the thread is running """
         return self.__run
 
+    def start(self) -> None:
+        """ Start the framework thread """
+        self.__thread.start()
+
     @staticmethod
     def _verify_handle(handle: str) -> str:
         """ Verify and return thread handle """
-        pass
+        if type(handle) is not str:
+            raise ValueError(
+                f"Invalid thread handle '{handle}'"
+            )
+        return handle
 
     @staticmethod
-    def _verify_thread(handle: str) -> Thread:
+    def _verify_thread(thread: Thread) -> Thread:
         """ Verify and return thread instance """
-        pass
+        if type(thread) is not Thread:
+            raise ValueError(
+                f"Invalid thread instance: {thread}"
+            )
+        return thread

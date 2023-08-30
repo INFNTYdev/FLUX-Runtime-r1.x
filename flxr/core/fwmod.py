@@ -9,7 +9,8 @@ pass
 
 
 #   BUILT-IN IMPORTS
-pass
+import time
+from threading import Thread
 
 
 #   EXTERNAL IMPORTS
@@ -38,7 +39,14 @@ class FrameworkModule:
         if not self._runnable_module():
             return
 
-        self.console(msg=f"Starting {self.__type.__name__} module...")
+        if self._run is False:
+            self.console(msg=f"Starting {self.__type.__name__} module...")
+            self.fw_svc(
+                svc='nthr',
+                handle=self.__type.__name__,
+                thread=Thread(target=self._mainloop),
+                start=True
+            )
 
     def stop_module(self) -> None:
         """ Stop framework module if applicable """
@@ -52,6 +60,14 @@ class FrameworkModule:
     def framework(self) -> any:
         """ Returns the hosting framework instance """
         return self.__framework
+
+    def fw_svc(self, svc: str, **kwargs) -> any:
+        """ Execute the specified framework service """
+        return self.__framework.service(requestor=self.__type)[svc](**kwargs)
+
+    def set_status(self, status: bool) -> None:
+        """ Set the framework module status """
+        self.__framework.service(requestor=self.__type)['setstat'](module=self.__type, status=status)
 
     def to_service_injector(self, load: list[tuple]) -> None:
         """ Load injector with new services """
@@ -71,6 +87,11 @@ class FrameworkModule:
                 clearance=_injectable.get('clearance')
             )
         self._injectables.clear()
+
+    @staticmethod
+    def wait(ms: float) -> None:
+        """ Sleep for the specified miliseconds """
+        time.sleep(ms)
 
     def _runnable_module(self) -> bool:
         """ Returns true if the framework module is runnable """

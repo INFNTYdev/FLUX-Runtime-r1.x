@@ -114,7 +114,7 @@ class Flxr:
     def is_alive(self) -> bool:
         """ Determines if the framework is
         actively running """
-        pass
+        return self._run
 
     def in_startup(self) -> bool:
         """ Determines if the framework is in
@@ -194,7 +194,7 @@ class Flxr:
             ['thread*', FlxrThreadManager, False],
             ['datetime*', FlxrDatetimeManager, True],
             # ['runtime', FlxrRuntimeClock, True],
-            # ['console*', FlxrConsoleManager, True],
+            ['console*', FlxrConsoleManager, True],
             # ['fileio*', FlxrFileIOManager, True],
             # ['tkinter', FlxrTkinterManager, False],
             # ['monitor*', FlxrSystemManager, True],

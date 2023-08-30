@@ -9,7 +9,7 @@ pass
 
 
 #   BUILT-IN IMPORTS
-pass
+from threading import Thread
 
 
 #   EXTERNAL IMPORTS
@@ -38,15 +38,31 @@ class FlxrThreadManager(FrameworkModule):
 
     def threads(self) -> list[str]:
         """ Returns the list of managed thread handles """
-        pass
+        return [handle for handle in self.__threads.keys()]
 
-    def new(self) -> None:
+    def new(self, handle: str, thread: Thread, **kwargs) -> None:
         """ Establish new managed thread """
-        pass
+        if self.existing_handle(handle):
+            return
+
+        self.console(msg=f"Creating '{handle}' thread...")
+        self.__threads[handle] = FlxrThread(
+            handle=handle,
+            thread=thread
+        )
+        if kwargs.get('start', False) is True:
+            self.start(handle)
 
     def start(self, handle: str) -> None:
         """ Start the specified managed thread """
-        pass
+        if not self.existing_handle(handle):
+            return
+
+        if self.thread_running(handle):
+            return
+
+        self.console(msg=f"Starting '{handle}' thread...")
+        self.__threads[handle].start()
 
     def join(self, handle: str, force: bool = False, **kwargs) -> None:
         """ Join the specified managed thread """
@@ -67,4 +83,6 @@ class FlxrThreadManager(FrameworkModule):
     def thread_running(self, handle: str) -> bool:
         """ Returns true if the provided thread
         handle is running """
-        pass
+        if not self.existing_handle(handle):
+            return False
+        return self.__threads[handle].running()
