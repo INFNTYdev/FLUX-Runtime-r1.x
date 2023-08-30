@@ -76,6 +76,7 @@ class FlxrDatetimeManager(FrameworkModule):
     def _mainloop(self) -> None:
         """ Datetime manager main loop """
         self._run = True
+        self._update()
         self.set_status(True)
         while self._runnable():
             self.wait(self._refresh)

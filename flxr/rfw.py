@@ -18,7 +18,7 @@ pass
 
 #   LOCAL IMPORTS
 import flxr
-from .constant import ErrMsgs, FlxrMsgs
+from .constant import ErrMsgs, FlxrMsgs, ConsoleVars
 from .utility import AssetChain, ProcessProxy
 from .core import StatusManager, FlxrServiceManager, \
     FlxrThreadManager, FlxrDatetimeManager, FlxrConsoleManager, \
@@ -38,8 +38,8 @@ class Flxr:
             self._dev: bool = kwargs.get('dev', False)
             self._app_main: type = main
 
-            self._console_out(msg=FlxrMsgs.FWM_001)
-            self._console_out(msg=FlxrMsgs.FWM_F_002.format(v=flxr.fwversion()))
+            self._console_out(msg=FlxrMsgs.FWM_001, pointer=False)
+            self._console_out(msg=FlxrMsgs.FWM_F_002.format(v=flxr.fwversion()), pointer=False)
 
             self._TSTART: float = time.perf_counter()
             self._startup_load_wait: float = .0
@@ -104,7 +104,7 @@ class Flxr:
 
     def dev_mode(self) -> bool:
         """ Returns the framework development flag """
-        pass
+        return self._dev
 
     def active(self) -> bool:
         """ Determines if any portion of the
@@ -195,7 +195,7 @@ class Flxr:
             ['datetime*', FlxrDatetimeManager, True],
             # ['runtime', FlxrRuntimeClock, True],
             ['console*', FlxrConsoleManager, True],
-            # ['fileio*', FlxrFileIOManager, True],
+            ['fileio*', FlxrFileIOManager, True],
             # ['tkinter', FlxrTkinterManager, False],
             # ['monitor*', FlxrSystemManager, True],
         ]
@@ -214,9 +214,11 @@ class Flxr:
         _print_config: dict = {
             'message': msg,
             'error': error,
+            'warning': kwargs.get('warning', False),
             'notice': kwargs.get('notice', False),
             'skip': kwargs.get('skip', False),
-            'prefix': kwargs.get('prefix', ''),
+            'prefix': kwargs.get('prefix', ' '),
+            'pointer': kwargs.get('pointer', True),
             'suffix': kwargs.get('suffix', ''),
             'seperator': kwargs.get('seperator', '|'),
             'show_date': kwargs.get('show_date', True),
@@ -235,8 +237,12 @@ class Flxr:
     def _master_console_output(self, **kwargs) -> None:
         """ Master console output """
         try:
-            if self.__fw_status.get(None):
-                pass
+            if self.__fw_status.get(FlxrConsoleManager) is True:
+                self.__fw_chain.asset_func(
+                    asset=FlxrConsoleManager,
+                    _func='queue_output',
+                    **kwargs
+                )
             else:
                 self._root_console_output(**kwargs)
         except AttributeError:
@@ -244,11 +250,17 @@ class Flxr:
 
     def _root_console_output(self, **kwargs) -> None:
         """ Root console output """
-        _p_str: str = f"\t{kwargs.get('prefix')}- >  "
+        _p_str: str = f"\t{kwargs.get('prefix')}"
+        if kwargs.get('pointer') is True:
+            _p_str += '- > '
+        else:
+            _p_str += ' '*4
         if kwargs.get('error') is True:
-            _p_str += "[ ERROR ] : "
+            _p_str += ConsoleVars.ERROR_PREFIX
+        elif kwargs.get('warning') is True:
+            _p_str += ConsoleVars.WARNING_PREFIX
         elif kwargs.get('notice') is True:
-            _p_str += "[ WARNING ] : "
+            _p_str += ConsoleVars.NOTICE_PREFIX
         _p_str += kwargs.get('message') + kwargs.get('suffix')
         if kwargs.get('skip') is True:
             _p_str = f"\n{_p_str}"
