@@ -23,3 +23,4 @@ from .fthrm import FlxrThreadManager
 from .fdtm import FlxrDatetimeManager
 from .fconm import FlxrConsoleManager
 from .ffiom import FlxrFileIOManager
+from .fsysm import FlxrSystemManager

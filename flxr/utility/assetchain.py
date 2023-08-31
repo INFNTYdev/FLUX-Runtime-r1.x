@@ -22,6 +22,11 @@ class AssetChain(dict):
         """ Framework module asset chain """
         super().__init__()
 
+    def asset_classes(self) -> list[type]:
+        """ Returns the list of asset chain
+        module classes """
+        return [_type for _type in self.keys()]
+
     def asset_func(self, asset: type, _func: str, **fargs) -> any:
         """ Execute the specified asset function """
         if inspect.isclass(asset):

@@ -66,8 +66,10 @@ class FlxrDatetimeManager(FrameworkModule):
         """ Returns true if the framework
         module has clearance to run """
         if not self._run:
+            self.set_status(False)
             return False
         if not self.framework().is_alive():
+            self.set_status(False)
             return False
         if not self.fw_svc(svc='getstat', module=FlxrDatetimeManager):
             return False
@@ -85,3 +87,4 @@ class FlxrDatetimeManager(FrameworkModule):
     def _update(self) -> None:
         """ Update the datetime manager module """
         self.__datetime = simplydatetime.now()
+        self.last_update_made(self.__datetime)

@@ -86,8 +86,10 @@ class FlxrConsoleManager(FrameworkModule):
         """ Returns true if the framework
         module has clearance to run """
         if not self._run:
+            self.set_status(False)
             return False
         if not self.framework().is_alive():
+            self.set_status(False)
             return False
         if not self.fw_svc(svc='getstat', module=FlxrConsoleManager):
             return False
@@ -111,3 +113,4 @@ class FlxrConsoleManager(FrameworkModule):
                 else:
                     self._disregard_next_queued()
                 _len_snapshot -= 1
+            self.last_update_made(self.fw_svc(svc='getDatetime'))

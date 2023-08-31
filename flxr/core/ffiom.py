@@ -77,7 +77,7 @@ class FlxrFileIOManager(FrameworkModule):
 
     def link(self, path: str, **kwargs) -> None:
         """ Link a file to the file I/O manager """
-        if not self.valid_file_path(path):
+        if not self.valid_path(path):
             self._invalid_file_path(fp=path, msg="Could not locate path")
             return
         if not self.existing_system_file(path):
@@ -110,13 +110,13 @@ class FlxrFileIOManager(FrameworkModule):
         self._pause = False
 
     @staticmethod
-    def valid_file_path(fp: str) -> bool:
-        """ Determines if a file path is valid """
+    def valid_path(fp: str) -> bool:
+        """ Return true if a path is valid """
         return os.path.exists(fp)
 
     @staticmethod
     def existing_system_file(fp: str) -> bool:
-        """ Determines if a system file exist """
+        """ Returns true if a system file exist """
         return os.path.isfile(fp)
 
     @staticmethod
@@ -140,8 +140,10 @@ class FlxrFileIOManager(FrameworkModule):
         """ Returns true if the framework
         module has clearance to run """
         if not self._run:
+            self.set_status(False)
             return False
         if not self.framework().is_alive():
+            self.set_status(False)
             return False
         if not self.fw_svc(svc='getstat', module=FlxrFileIOManager):
             return False
@@ -160,4 +162,15 @@ class FlxrFileIOManager(FrameworkModule):
         if self._pause is True:
             return
 
-        pass
+        for _name, _file in self.__references.items():
+            _file: FlxrFileRef
+            if not _file.muted():
+                _drag_time: tuple = _file.last_accessed().until(self.fw_svc('getDatetime'))
+                if _drag_time[-2] >= 1:
+                    _file.mute()
+                    self.console(msg=f"Muted '{_name}'")
+
+            if _file.out_of_date():
+                self.console(msg=f"Updated '{_name}' file")
+                _file.update()
+                self.last_update_made(self.fw_svc(svc='getDatetime'))

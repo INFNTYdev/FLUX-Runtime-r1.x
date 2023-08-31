@@ -23,7 +23,7 @@ from .constant import ErrMsgs, FlxrMsgs, ConsoleVars
 from .utility import AssetChain, ProcessProxy
 from .core import StatusManager, FlxrServiceManager, \
     FlxrThreadManager, FlxrDatetimeManager, FlxrConsoleManager, \
-    FlxrFileIOManager
+    FlxrFileIOManager, FlxrSystemManager
 
 
 #   MODULE CLASS
@@ -164,6 +164,20 @@ class Flxr:
             clearance=clearance
         )
 
+    def asset_bus(self, requestor) -> AssetChain:
+        if not self.is_rfw_manager(requestor):
+            return
+        return self.__fw_chain
+
+    def is_rfw_manager(self, obj) -> bool:
+        """ Returns true if the provided object
+        is the framework system manager """
+        if type(obj) is not FlxrSystemManager:
+            return False
+        if obj is not self.__fw_chain[FlxrSystemManager]:
+            return False
+        return True
+
     #   ^ ^ ^  PUBLIC METHODS ABOVE THIS POINT  ^ ^ ^   #
 
     def framework_exit(self) -> None:
@@ -204,7 +218,7 @@ class Flxr:
             ['console*', FlxrConsoleManager, True],
             ['fileio*', FlxrFileIOManager, True],
             # ['tkinter', FlxrTkinterManager, False],
-            # ['monitor*', FlxrSystemManager, True],
+            ['monitor*', FlxrSystemManager, True],
         ]
 
     @staticmethod

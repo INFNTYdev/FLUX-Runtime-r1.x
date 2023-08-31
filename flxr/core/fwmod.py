@@ -25,6 +25,11 @@ class FrameworkModule:
             self.__framework = hfw
             self.__type: type = cls
             self._injectables: list = []
+            self._threaded: bool = False
+            self._last_update = None
+            self._meta: dict = {
+                'poll': None
+            }
 
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
         """ Send text to the framework log """
@@ -47,6 +52,8 @@ class FrameworkModule:
                 thread=Thread(target=self._mainloop),
                 start=True
             )
+            self._meta['poll'] = self._refresh
+            self._last_update = self.fw_svc('getDatetime')
 
     def stop_module(self) -> None:
         """ Stop framework module if applicable """
@@ -88,6 +95,42 @@ class FrameworkModule:
             )
         self._injectables.clear()
 
+    def last_update_made(self, datetime) -> None:
+        """ Set the modules last updated timestamp """
+        self._last_update = datetime
+
+    #   v v v System Manager Based Methods v v v
+    def threaded_module(self) -> bool:
+        """ Returns true if the framework
+        module is threaded """
+        return self._threaded
+
+    def polling_rate(self) -> float:
+        """ Returns the framework module polling rate """
+        if not self.threaded_module():
+            return None
+        return self._refresh
+
+    def last_updated(self) -> any:
+        """ Returns the modules last updated timestamp """
+        return self._last_update
+
+    def set_poll(self, requestor, rate: float) -> None:
+        """ Set the polling rate of the module """
+        if not self.threaded_module():
+            return
+        if not self.framework().is_rfw_manager(requestor):
+            return
+        self._refresh = float(rate)
+        self.console(msg=f"{self.__type.__name__} polling @ {self._refresh}s")
+
+    def reset_poll(self) -> None:
+        """ Reset the polling rate of the module """
+        if self._refresh != self._meta['poll']:
+            self._refresh = self._meta['poll']
+            self.console(msg=f"{self.__type.__name__} polling @ {self._refresh}s")
+    #   ^ ^ ^ System Manager Based Methods ^ ^ ^
+
     @staticmethod
     def wait(secs: float) -> None:
         """ Sleep for the specified milliseconds """
@@ -108,4 +151,5 @@ class FrameworkModule:
         if '_refresh' not in self.__dir__():
             self.console(msg=ErrMsgs.ERRM_F_007.format(module=self.__type.__name__), error=True)
             _is_runnable = False
+        self._threaded = _is_runnable
         return _is_runnable
