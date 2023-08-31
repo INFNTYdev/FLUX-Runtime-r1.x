@@ -249,7 +249,7 @@ class Flxr:
         return [
             ['service*', FlxrServiceManager, False],
             ['thread*', FlxrThreadManager, False],
-            ['datetime*', FlxrDatetimeManager, True],
+            ['datetime*', FlxrDatetimeManager, False],
             ['runtime', FlxrRuntimeClock, False],
             ['console*', FlxrConsoleManager, True],
             ['fileio*', FlxrFileIOManager, True],
