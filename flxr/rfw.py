@@ -24,6 +24,7 @@ from .utility import AssetChain, ProcessProxy
 from .core import StatusManager, FlxrServiceManager, \
     FlxrThreadManager, FlxrDatetimeManager, FlxrRuntimeClock, \
     FlxrConsoleManager, FlxrFileIOManager, FlxrSystemManager
+from .plugin import FlxrTkinterManager
 
 
 #   MODULE CLASS
@@ -252,7 +253,7 @@ class Flxr:
             ['runtime', FlxrRuntimeClock, False],
             ['console*', FlxrConsoleManager, True],
             ['fileio*', FlxrFileIOManager, True],
-            # ['tkinter', FlxrTkinterManager, False],
+            ['tkinter', FlxrTkinterManager, False],
             ['monitor*', FlxrSystemManager, True],
         ]
 
