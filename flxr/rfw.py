@@ -126,9 +126,11 @@ class Flxr:
             else:
                 self.framework_exit()
         except Exception as FrameworkFailure:
-            self._fatal_error = True
             print(f"\n\n[ FATAL FRAMEWORK ERROR ] : {FrameworkFailure}")
-            pass
+            self._fatal_error = True
+            self._active_environment = False
+            self._service_enabled = False
+            self._startup = False
 
     def dev_mode(self) -> bool:
         """ Returns the framework development flag """
