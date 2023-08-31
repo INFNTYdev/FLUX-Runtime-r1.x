@@ -150,16 +150,16 @@ class Flxr:
     def in_startup(self) -> bool:
         """ Determines if the framework is in
         startup """
-        pass
+        return self._startup
 
     def startup_time(self) -> float:
         """ Returns the framework startup
         time in seconds """
-        pass
+        return self._startup_load_wait
 
     def has_fatal_error(self) -> bool:
         """ Returns the framework fatal error flag """
-        pass
+        return self._fatal_error
 
     def services_enabled(self) -> bool:
         """ Returns true if the framework
