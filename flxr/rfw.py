@@ -22,8 +22,8 @@ import flxr
 from .constant import ErrMsgs, FlxrMsgs, ConsoleVars
 from .utility import AssetChain, ProcessProxy
 from .core import StatusManager, FlxrServiceManager, \
-    FlxrThreadManager, FlxrDatetimeManager, FlxrConsoleManager, \
-    FlxrFileIOManager, FlxrSystemManager
+    FlxrThreadManager, FlxrDatetimeManager, FlxrRuntimeClock, \
+    FlxrConsoleManager, FlxrFileIOManager, FlxrSystemManager
 
 
 #   MODULE CLASS
@@ -214,7 +214,7 @@ class Flxr:
             ['service*', FlxrServiceManager, False],
             ['thread*', FlxrThreadManager, False],
             ['datetime*', FlxrDatetimeManager, True],
-            # ['runtime', FlxrRuntimeClock, True],
+            ['runtime', FlxrRuntimeClock, False],
             ['console*', FlxrConsoleManager, True],
             ['fileio*', FlxrFileIOManager, True],
             # ['tkinter', FlxrTkinterManager, False],
