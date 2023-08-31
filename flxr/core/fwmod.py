@@ -14,7 +14,7 @@ from threading import Thread
 
 
 #   EXTERNAL IMPORTS
-from flxr.constant import ErrMsgs, FlxrMsgs
+from flxr.constant import ErrMsgs, FlxrMsgs, SvcVars
 
 
 #   MODULE CLASS
@@ -77,6 +77,11 @@ class FrameworkModule:
         """ Execute the specified framework service """
         return self.__framework.service(requestor=self.__type)[svc](**kwargs)
 
+    def fw_clearance(self) -> int:
+        """ Returns the security clearance of
+        the framework module """
+        return self.fw_svc(svc='clvl', cls=self.__type)
+
     def set_status(self, status: bool) -> None:
         """ Set the framework module status """
         self.__framework.service(requestor=self.__type)['setstat'](module=self.__type, status=status)
@@ -99,6 +104,17 @@ class FrameworkModule:
                 clearance=_injectable.get('clearance')
             )
         self._injectables.clear()
+
+    def extend_permissions(self, cls: type, **kwargs) -> None:
+        """ Extend framework service permissions to dependant """
+        self.console(msg=f"Extending permissions to {cls.__name__}...")
+        self.fw_svc(
+            svc='wcls',
+            requestor=self.__type,
+            cls=cls,
+            admin=kwargs.get('admin', False),
+            clearance=kwargs.get('clearance', SvcVars.LOW)
+        )
 
     def last_update_made(self, datetime) -> None:
         """ Set the modules last updated timestamp """

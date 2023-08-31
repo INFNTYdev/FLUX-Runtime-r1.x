@@ -104,6 +104,13 @@ class FlxrServiceManager(FrameworkModule):
         """ Returns the framework services call """
         return self.serve
 
+    def class_clearance(self, cls: type) -> int:
+        """ Returns the security clearance of
+        the provided class """
+        if self._whitelisted(cls):
+            return self.__whitelist[GlobalFuncs.class_of(cls)]
+        return None
+
     def _existing_call(self, call: str) -> bool:
         """ Returns true if the provided call exist
         in the services """
@@ -135,6 +142,7 @@ class FlxrServiceManager(FrameworkModule):
             ('wcls', self.whitelist, SvcVars.ANY),
             ('acls', self.authorize, SvcVars.ANY),
             ('osvc', self.override, SvcVars.ANY),
+            ('clvl', self.class_clearance, SvcVars.ANY),
             ('ecall', self._existing_call, SvcVars.LOW),
         ]
         for new in _injectables:
