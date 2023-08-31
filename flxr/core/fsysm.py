@@ -49,15 +49,15 @@ class FlxrSystemManager(FrameworkModule):
     def _update(self) -> None:
         """ Update the framework manager module """
         for _type, __module in self.framework().asset_bus(self).items():
-            self._conduct_module_analysis(_type, __module)
+            self._conduct_analysis(_type, __module)
         self.last_update_made(self.fw_svc(svc='getDatetime'))
 
-    def _conduct_module_analysis(self, module_type: type, _module: FrameworkModule) -> None:
+    def _conduct_analysis(self, module_type: type, _module: FrameworkModule) -> None:
         """ Conduct analysis on the provided
         framework module """
         if _module.threaded_module():
             self._conduct_thread_analysis(module_type, _module)
-        pass
+        self._conduct_module_analysis(module_type, _module)
 
     def _conduct_thread_analysis(self, module_type: type, _module: FrameworkModule) -> None:
         """ Conduct analysis on threaded framework modules """
@@ -69,3 +69,7 @@ class FlxrSystemManager(FrameworkModule):
                 _module.set_poll(requestor=self, rate=3.0)
         elif ((_update_drag[1] <= 2) and (_update_drag[0] == 0)) and (_module.polling_rate() > 2):
             _module.reset_poll()
+
+    def _conduct_module_analysis(self, module_type: type, _module: FrameworkModule) -> None:
+        """ Conduct analysis on framework modules """
+        pass
