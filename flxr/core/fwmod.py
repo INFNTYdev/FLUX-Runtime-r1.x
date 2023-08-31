@@ -57,7 +57,12 @@ class FrameworkModule:
 
     def stop_module(self) -> None:
         """ Stop framework module if applicable """
-        pass
+        if not self._threaded:
+            return
+
+        if self._run is True:
+            self.console(msg=f"Stopping {self.__type.__name__} module...")
+            self._run = False
 
     def process_proxy(self) -> dict:
         """ Returns the processes in the

@@ -56,7 +56,10 @@ class StatusManager(FrameworkModule):
     def all_active(self) -> bool:
         """ Returns true if all deployable modules
         are active """
-        pass
+        for _module in self._status.keys():
+            if not self._status[_module]['status']:
+                return False
+        return True
 
     def existing_module(self, module) -> bool:
         """ Returns true if the provided type is

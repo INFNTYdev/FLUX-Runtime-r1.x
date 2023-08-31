@@ -42,7 +42,7 @@ class Flxr:
             self._console_out(msg=FlxrMsgs.FWM_001, pointer=False)
             self._console_out(msg=FlxrMsgs.FWM_F_002.format(v=flxr.fwversion()), pointer=False)
 
-            self._TSTART: float = time.perf_counter()
+            TSTART: float = time.perf_counter()
             self._startup_load_wait: float = .0
             self._module_load_wait: float = .0
 
@@ -99,8 +99,35 @@ class Flxr:
                     self._post_module_initialization(_module[1])
                 except Exception as ModuleInitFailure:
                     print(ModuleInitFailure)
+
+            self._console_out(msg="Waiting for framework modules...")
+            LSTART: float = time.perf_counter()
+            lclock: float = .0
+            while not self.__fw_status.all_active():
+                time.sleep(.1)
+                lclock += .1
+                if 10 <= lclock <= 10.1:
+                    self._console_out(msg="Startup is taking longer than usual", notice=True, prefix='!')
+                elif 20 <= lclock <= 20.1:
+                    self._console_out(msg="Framework startup took too long", error=True, prefix='!')
+                    self._fatal_error = True
+                    # Start up error notification
+                    break
+
+            self._module_load_wait = round(time.perf_counter()-LSTART, 2)
+            self._startup_load_wait = round(time.perf_counter()-TSTART, 2)
+            self._console_out(msg=f"Module load wait: {self._module_load_wait}s")
+            self._console_out(msg=f"Startup load wait: {self._startup_load_wait}s")
+
+            if not self._fatal_error:
+                self._startup = False
+                self._active_environment = True
+                self._console_out(msg="Runtime framework ready")
+            else:
+                self.framework_exit()
         except Exception as FrameworkFailure:
-            print(f"\n\n[ FATAL FRAMEWORK ERROR ]\n{FrameworkFailure}")
+            self._fatal_error = True
+            print(f"\n\n[ FATAL FRAMEWORK ERROR ] : {FrameworkFailure}")
             pass
 
     def dev_mode(self) -> bool:
@@ -183,7 +210,13 @@ class Flxr:
     def framework_exit(self) -> None:
         """ Gracefully stop the framework and
         all its components """
-        pass
+        self._console_out(msg="Shutting down runtime framework...")
+        for _class, __module in self.__fw_chain.items():
+            if __module.threaded_module():
+                __module.stop_module()
+
+        self._active_environment = False
+        self._run = False
 
     def _post_module_initialization(self, module: type) -> None:
         """ Complete module specific tasks
