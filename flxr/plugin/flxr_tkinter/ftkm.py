@@ -141,6 +141,7 @@ class FlxrTkinterManager(FrameworkModule):
             identifier=identifier,
             **kwargs
         )
+        self.console(msg=f"Succesfully built '{identifier}' window")
 
     def delete_window(self, window) -> None:
         """ Remove FLUX tkinter window from
