@@ -129,7 +129,11 @@ class FluxTk(tk.Tk):
 
     def close(self) -> None:
         """ Close FLUX tkinter window """
-        pass
+        self._window_visible = False
+        self._is_active_window = False
+        self._mouse_in_bounds = False
+        self.destroy()
+        self.console(msg=f"Closed '{self._identifier}' window")
 
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
         """ Send text to the framework log """
