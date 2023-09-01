@@ -51,10 +51,6 @@ class FluxTk(tk.Tk):
             f'+{self._initial_x_pos}+{self._initial_y_pos}'
         )
         self.resizable(self._resizability[0], self._resizability[1])
-        self.bind('<Button-1>', self.test_fun)
-
-    def test_fun(self, event: tk.Event):
-        self.fw_svc('stopTkinter', wait=15)
 
     def width(self) -> int:
         """ Returns FLUX tkinter window width """
