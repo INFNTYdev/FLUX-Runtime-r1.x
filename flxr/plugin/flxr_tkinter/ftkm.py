@@ -157,8 +157,8 @@ class FlxrTkinterManager(FrameworkModule):
 
         self._mainloop_open = True
         if not self._window_host.has_main_window():
+            self.console(msg="Forcing main window...")
             self._window_host.force_main()
-            self.console(msg=f"Forced '{self.main_window_type().__name__}' as main window")
         self.console(msg="Starting application mainloop...")
         self._window_host.main_window().mainloop()
         self.console(msg="Application mainloop closed")

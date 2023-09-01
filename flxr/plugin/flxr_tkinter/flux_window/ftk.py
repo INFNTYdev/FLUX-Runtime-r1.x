@@ -115,6 +115,10 @@ class FluxTk(tk.Tk):
         """ Maxamize FLUX tkinter window """
         pass
 
+    def take_focus(self) -> None:
+        """ Give FLUX tkinter window focus """
+        pass
+
     def hide(self) -> None:
         """ Hide FLUX tkinter window """
         pass

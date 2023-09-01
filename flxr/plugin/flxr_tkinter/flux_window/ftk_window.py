@@ -27,7 +27,6 @@ class FluxWindow(FluxTk):
         self._identifier: str = self._evaluate_identifier(identifier)
         self._is_main: bool = False
         if (main is True) and (not self.__MAIN_LOCK):
-            self.console(msg=f"{self.window_class().__name__} window '{identifier}' set as main")
             self._set_as_main()
 
     def identifier(self) -> str:
@@ -50,6 +49,7 @@ class FluxWindow(FluxTk):
 
     def _set_as_main(self) -> None:
         """ Set window as main window """
+        self.console(msg=f"{self.window_class().__name__} '{self._identifier}' set as main")
         self._is_main = True
         self.__MAIN_LOCK = True
 
