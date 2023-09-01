@@ -121,18 +121,17 @@ class FlxrTkinterManager(FrameworkModule):
         pass
 
     def create_window(self, identifier: str, **kwargs) -> FluxWindow:
-        """ Create and return new FLUX tkinter
-        window instance """
+        """ Create new FLUX tkinter window instance """
         if self._existing_identifier(identifier):
             return
 
+        self.console(msg=f"Creating '{identifier}' window...")
         self._window_host[identifier] = FluxWindow(
             hfw=self.framework(),
             cls=FluxWindow,
             identifier=identifier,
             **kwargs
         )
-        return self._window_host[identifier]
 
     def delete_window(self, window) -> None:
         """ Remove FLUX tkinter window from
