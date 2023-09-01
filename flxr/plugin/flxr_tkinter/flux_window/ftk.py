@@ -54,10 +54,14 @@ class FluxTk(tk.Tk):
 
     def width(self) -> int:
         """ Returns FLUX tkinter window width """
+        if self.fw_svc('tkinterAlive') is False:
+            return self._window_min_size[0]
         return self.winfo_width()
 
     def height(self) -> int:
         """ Returns FLUX tkinter window height """
+        if self.fw_svc('tkinterAlive') is False:
+            return self._window_min_size[1]
         return self.winfo_height()
 
     def display_width(self) -> int:
@@ -76,8 +80,7 @@ class FluxTk(tk.Tk):
     def default_position(self) -> tuple[int, int]:
         """ Returns default FLUX tkinter window
         spawn position (x, y) """
-        return 200, 200
-        #return self.center_x_position(), self.center_y_position()
+        return self.center_x_position(), self.center_y_position()
 
     def mouse_in_bounds(self) -> bool:
         """ Returns true if the mouse is in

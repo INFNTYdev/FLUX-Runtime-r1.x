@@ -27,6 +27,7 @@ class FlxrTkinterManager(FrameworkModule):
         self._mainloop_open: bool = False
         self._window_host: FluxWindowHost = FluxWindowHost()
         self.console(msg="Tkinter window host ready")
+        self.extend_permissions(cls=FluxWindow, admin=True)
         self.to_service_injector(
             load=[
                 ('windowIds', self.window_identifiers, SvcVars.MED),
@@ -52,10 +53,16 @@ class FlxrTkinterManager(FrameworkModule):
                 ('showAll', self.show_all_windows, SvcVars.HIGH),
                 ('closeWindow', self.close_window, SvcVars.HIGH),
                 ('closeAll', self.close_all_windows, SvcVars.HIGH),
-                ('startTkinter', self.start_module, SvcVars.HIGH)
+                ('startTkinter', self.start_module, SvcVars.HIGH),
+                ('tkinterAlive', self.mainloop_alive, SvcVars.ANY)
             ]
         )
         self.inject_services()
+
+    def mainloop_alive(self) -> bool:
+        """ Returns true if the tkinter
+        mainloop is running """
+        return self._mainloop_open
 
     def window_identifiers(self) -> list[str]:
         """ Returns the list of hosted FLUX
