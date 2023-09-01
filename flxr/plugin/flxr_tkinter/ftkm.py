@@ -24,6 +24,7 @@ class FlxrTkinterManager(FrameworkModule):
     def __init__(self, hfw) -> None:
         """ Framework tkinter manager """
         super().__init__(hfw=hfw, cls=FlxrTkinterManager)
+        self._mainloop_open: bool = False
         self._window_host: FluxWindowHost = FluxWindowHost()
         self.console(msg="Tkinter window host ready")
         self.to_service_injector(
@@ -50,7 +51,8 @@ class FlxrTkinterManager(FrameworkModule):
                 ('showWindow', self.show_window, SvcVars.HIGH),
                 ('showAll', self.show_all_windows, SvcVars.HIGH),
                 ('closeWindow', self.close_window, SvcVars.HIGH),
-                ('closeAll', self.close_all_windows, SvcVars.HIGH)
+                ('closeAll', self.close_all_windows, SvcVars.HIGH),
+                ('startTkinter', self.start_module, SvcVars.HIGH)
             ]
         )
         self.inject_services()
@@ -93,7 +95,7 @@ class FlxrTkinterManager(FrameworkModule):
     def main_window_type(self) -> type:
         """ Returns the main FLUX tkinter
         window type """
-        pass
+        return self._window_host.main_window_type()
 
     def window_quantity(self) -> int:
         """ Returns the number of hosted FLUX
@@ -137,6 +139,22 @@ class FlxrTkinterManager(FrameworkModule):
         """ Remove FLUX tkinter window from
         window host """
         pass
+
+    def start_module(self) -> None:
+        """ Start tkinter main loop """
+        if self._mainloop_open:
+            return
+        if not self._window_host.has_windows():
+            self.console(msg=f"Cannot start FluxTkinter with no windows", notice=True)
+            return
+
+        self._mainloop_open = True
+        if not self._window_host.has_main_window():
+            self._window_host.force_main()
+            self.console(msg=f"Forced '{self.main_window_type().__name__}' as main window")
+        self.console(msg="Starting application mainloop...")
+        self._window_host.main_window().mainloop()
+        self.console(msg="Application mainloop closed")
 
     def minimize_window(self, window) -> None:
         """ Minimize hosted FLUX tkinter
