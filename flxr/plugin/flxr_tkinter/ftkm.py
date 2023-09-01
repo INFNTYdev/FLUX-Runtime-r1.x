@@ -54,6 +54,7 @@ class FlxrTkinterManager(FrameworkModule):
                 ('closeWindow', self.close_window, SvcVars.HIGH),
                 ('closeAll', self.close_all_windows, SvcVars.HIGH),
                 ('startTkinter', self.start_module, SvcVars.HIGH),
+                ('stopTkinter', self.stop_module, SvcVars.HIGH),
                 ('tkinterAlive', self.mainloop_alive, SvcVars.ANY)
             ]
         )
@@ -163,6 +164,16 @@ class FlxrTkinterManager(FrameworkModule):
         self.console(msg="Starting application mainloop...")
         self._window_host.main_window().mainloop()
         self.console(msg="Application mainloop closed")
+
+    def stop_module(self, wait: int = 0) -> None:
+        """ Stop tkinter main loop """
+        self.console(msg=f"Stopping the application main loop...", notice=True)
+        if wait > 0:
+            while wait >= 0:
+                self.console(msg=f"Stopping application in {wait} seconds...", notice=True)
+                self.wait(1)
+                wait -= 1
+        self.close_all_windows()
 
     def minimize_window(self, window) -> None:
         """ Minimize hosted FLUX tkinter
