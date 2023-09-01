@@ -20,7 +20,7 @@ from .ftk import FluxTk
 class FluxWindow(FluxTk):
     def __init__(self, hfw, cls, identifier: str, **kwargs) -> None:
         """ FLUX runtime framework tkinter window """
-        super().__init__(hfw=hfw, cls=cls)
+        super().__init__(hfw=hfw, cls=cls, **kwargs)
         self._identifier: str = self._evaluate_identifier(identifier)
 
     def identifier(self) -> str:
