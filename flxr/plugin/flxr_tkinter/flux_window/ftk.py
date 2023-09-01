@@ -9,6 +9,7 @@ pass
 
 
 #   BUILT-IN IMPORTS
+import ctypes
 import tkinter as tk
 
 
@@ -53,19 +54,19 @@ class FluxTk(tk.Tk):
 
     def width(self) -> int:
         """ Returns FLUX tkinter window width """
-        pass
+        return self.winfo_width()
 
     def height(self) -> int:
         """ Returns FLUX tkinter window height """
-        pass
+        return self.winfo_height()
 
     def display_width(self) -> int:
         """ Returns client display width """
-        pass
+        return self._client_system().GetSystemMetrics(0)
 
     def display_height(self) -> int:
         """ Returns client display height """
-        pass
+        return self._client_system().GetSystemMetrics(1)
 
     def coordinates(self) -> tuple[list, list, list, list]:
         """ Returns FLUX tkinter window
@@ -90,12 +91,12 @@ class FluxTk(tk.Tk):
     def center_x_position(self) -> int:
         """ Returns FLUX tkinter window
         center x coordinate """
-        pass
+        return int((self.display_width()/2)-(self.width()/2))
 
     def center_y_position(self) -> int:
         """ Returns FLUX tkinter window
         center y coordinate """
-        pass
+        return int((self.display_height()/2)-(self.height()/2))
 
     def ref(self) -> dict:
         """ Returns custom FLUX tkinter
@@ -181,3 +182,8 @@ class FluxTk(tk.Tk):
             admin=kwargs.get('admin', False),
             clearance=kwargs.get('clearance', SvcVars.LOW)
         )
+
+    @staticmethod
+    def _client_system() -> ctypes.WinDLL:
+        """ Returns the client system WinDLL """
+        return ctypes.windll.user32
