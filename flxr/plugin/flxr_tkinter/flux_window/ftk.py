@@ -76,7 +76,8 @@ class FluxTk(tk.Tk):
     def default_position(self) -> tuple[int, int]:
         """ Returns default FLUX tkinter window
         spawn position (x, y) """
-        return self.center_x_position(), self.center_y_position()
+        return 200, 200
+        #return self.center_x_position(), self.center_y_position()
 
     def mouse_in_bounds(self) -> bool:
         """ Returns true if the mouse is in
