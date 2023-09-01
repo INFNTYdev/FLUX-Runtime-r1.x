@@ -147,6 +147,8 @@ class FrameworkModule:
 
     def reset_poll(self) -> None:
         """ Reset the polling rate of the module """
+        if not self.threaded_module():
+            return
         if self._refresh != self._meta['poll']:
             self._refresh = self._meta['poll']
             self.console(msg=f"{self.__type.__name__} polling @ {self._refresh}s")

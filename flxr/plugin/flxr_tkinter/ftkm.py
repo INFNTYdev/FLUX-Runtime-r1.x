@@ -13,7 +13,10 @@ pass
 
 
 #   EXTERNAL IMPORTS
+from flxr.constant import SvcVars
 from flxr.core.fwmod import FrameworkModule
+from .flux_window import FluxWindow
+from .winhost import FluxWindowHost
 
 
 #   MODULE CLASS
@@ -21,23 +24,53 @@ class FlxrTkinterManager(FrameworkModule):
     def __init__(self, hfw) -> None:
         """ Framework tkinter manager """
         super().__init__(hfw=hfw, cls=FlxrTkinterManager)
+        self._window_host: FluxWindowHost = FluxWindowHost()
+        self.console(msg="Tkinter window host ready")
+        self.to_service_injector(
+            load=[
+                ('windowIds', self.window_identifiers, SvcVars.MED),
+                ('getWindows', self.tkinter_windows, SvcVars.HIGH),
+                ('activeWindow', self.active_window, SvcVars.HIGH),
+                ('getMainWindow', self.main_window, SvcVars.HIGH),
+                ('activeWinId', self.active_window_identifier, SvcVars.MED),
+                ('mainWinId', self.main_window_identifier, SvcVars.MED),
+                ('activeWinType', self.active_window_type, SvcVars.ANY),
+                ('mainWinType', self.main_window_type, SvcVars.ANY),
+                ('hostedWinCount', self.window_quantity, SvcVars.ANY),
+                ('liveWindowCount', self.dispatched_window_quantity, SvcVars.ANY),
+                ('windowWidth', self.window_width, SvcVars.ANY),
+                ('windowHeight', self.window_height, SvcVars.ANY),
+                ('windowCoord', self.window_coordinates, SvcVars.LOW),
+                ('createWindow', self.create_window, SvcVars.HIGH),
+                ('deleteWindow', self.delete_window, SvcVars.HIGH),
+                ('minimize', self.minimize_window, SvcVars.MED),
+                ('maxamize', self.maxamize_window, SvcVars.MED),
+                ('hideWindow', self.hide_window, SvcVars.HIGH),
+                ('hideAll', self.hide_all_windows, SvcVars.HIGH),
+                ('showWindow', self.show_window, SvcVars.HIGH),
+                ('showAll', self.show_all_windows, SvcVars.HIGH),
+                ('closeWindow', self.close_window, SvcVars.HIGH),
+                ('closeAll', self.close_all_windows, SvcVars.HIGH)
+            ]
+        )
+        self.inject_services()
 
     def window_identifiers(self) -> list[str]:
         """ Returns the list of hosted FLUX
         tkinter window identifiers """
-        pass
+        return self._window_host.identifiers()
 
-    def tkinter_windows(self) -> list[any]:
+    def tkinter_windows(self) -> list[FluxWindow]:
         """ Returns the list of hosted FLUX
         tkinter window instances """
         pass
 
-    def active_window(self) -> any:
+    def active_window(self) -> FluxWindow:
         """ Returns the active FLUX tkinter
         window instance """
         pass
 
-    def main_window(self) -> any:
+    def main_window(self) -> FluxWindow:
         """ Returns the main FLUX tkinter
         window instance """
         pass
@@ -87,19 +120,38 @@ class FlxrTkinterManager(FrameworkModule):
         FLUX tkinter window provided """
         pass
 
+    def create_window(self, identifier: str, **kwargs) -> FluxWindow:
+        """ Create and return new FLUX tkinter
+        window instance """
+        if self._existing_identifier(identifier):
+            return
+
+        self._window_host[identifier] = FluxWindow(
+            hfw=self.framework(),
+            cls=FluxWindow,
+            identifier=identifier,
+            **kwargs
+        )
+        return self._window_host[identifier]
+
+    def delete_window(self, window) -> None:
+        """ Remove FLUX tkinter window from
+        window host """
+        pass
+
     def minimize_window(self, window) -> None:
-        """ Minimize the hosted FLUX tkinter
+        """ Minimize hosted FLUX tkinter
         window provided """
         pass
 
     def maxamize_window(self, window) -> None:
-        """ Maxamize the hosted FLUX tkinter
+        """ Maxamize hosted FLUX tkinter
         window provided """
         pass
 
     def hide_window(self, window) -> None:
-        """ Hide the hosted FLUX tkinter
-        window provided """
+        """ Hide hosted FLUX tkinter window
+        provided """
         pass
 
     def hide_all_windows(self) -> None:
@@ -108,8 +160,8 @@ class FlxrTkinterManager(FrameworkModule):
         pass
 
     def show_window(self, window, lift: bool = True) -> None:
-        """ Show the hosted FLUX tkinter
-        window provided """
+        """ Show hosted FLUX tkinter window
+        provided """
         pass
 
     def show_all_windows(self) -> None:
@@ -118,11 +170,16 @@ class FlxrTkinterManager(FrameworkModule):
         pass
 
     def close_window(self, window) -> None:
-        """ Close the hosted FLUX tkinter
-        window provided """
+        """ Close hosted FLUX tkinter window
+        provided """
         pass
 
     def close_all_windows(self, main: bool = True) -> None:
         """ Close all hosted FLUX tkinter
         windows """
         pass
+
+    def _existing_identifier(self, identifier: str) -> bool:
+        """ Returns true if identifier exists
+        in window host """
+        return identifier in self._window_host.identifiers()

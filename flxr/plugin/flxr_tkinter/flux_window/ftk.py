@@ -1,0 +1,183 @@
+
+"""
+Base FLUX Tkinter Window Module
+"""
+
+
+#   THIRD-PARTY IMPORTS
+pass
+
+
+#   BUILT-IN IMPORTS
+import tkinter as tk
+
+
+#   EXTERNAL IMPORTS
+from flxr.constant import SvcVars
+
+
+#   MODULE CLASS
+class FluxTk(tk.Tk):
+    def __init__(self, hfw, cls, **kwargs) -> None:
+        """ Base FLUX tkinter window """
+        if not hfw.is_rfw():
+            raise ValueError(
+                f"Invalid framework parameter provided for {cls.__name__}"
+            )
+
+        self.__framework = hfw
+        self.__type: type = cls
+        self._injectables: list = []
+        self._window_visible: bool = False
+        self._window_min_size: tuple = kwargs.get('minsize')
+        self._window_max_size: tuple = kwargs.get('maxsize')
+        self._initial_x_pos, self._initial_y_pos = \
+            kwargs.get('coord', self.default_position())
+        self._resizability: tuple = kwargs.get('resizability', (True, True))
+        self._is_active_window: bool = False
+        self._mouse_in_bounds: bool = False
+        self._WINDOW_CONFIGURATION: dict = kwargs.get('config', {})
+
+        super().__init__()
+        self.overrideredirect(kwargs.get('borderless', False))
+        self.protocol("WM_DELETE_WINDOW", self.close)
+        self.title(kwargs.get('title', self.__type.__name__))
+        self.minsize(width=self._window_min_size[0], height=self._window_min_size[1])
+        if self._window_max_size is not None:
+            self.maxsize(width=self._window_max_size[0], height=self._window_max_size[1])
+        self.geometry(
+            f'{self._window_min_size[0]}x{self._window_min_size[1]}'
+            f'+{self._initial_x_pos}+{self._initial_y_pos}'
+        )
+        self.resizable(self._resizability[0], self._resizability[1])
+
+    def width(self) -> int:
+        """ Returns FLUX tkinter window width """
+        pass
+
+    def height(self) -> int:
+        """ Returns FLUX tkinter window height """
+        pass
+
+    def display_width(self) -> int:
+        """ Returns client display width """
+        pass
+
+    def display_height(self) -> int:
+        """ Returns client display height """
+        pass
+
+    def coordinates(self) -> tuple[list, list, list, list]:
+        """ Returns FLUX tkinter window
+        4-corner coordinates """
+        pass
+
+    def default_position(self) -> tuple[int, int]:
+        """ Returns default FLUX tkinter window
+        spawn position (x, y) """
+        return self.center_x_position(), self.center_y_position()
+
+    def mouse_in_bounds(self) -> bool:
+        """ Returns true if the mouse is in
+        the FLUX tkinter window bounds """
+        pass
+
+    def has_focus(self) -> bool:
+        """ Returns true if the FLUX tkinter
+        window has focus """
+        pass
+
+    def center_x_position(self) -> int:
+        """ Returns FLUX tkinter window
+        center x coordinate """
+        pass
+
+    def center_y_position(self) -> int:
+        """ Returns FLUX tkinter window
+        center y coordinate """
+        pass
+
+    def ref(self) -> dict:
+        """ Returns custom FLUX tkinter
+        window class configuration """
+        pass
+
+    def minimize(self) -> None:
+        """ Minimize FLUX tkinter window """
+        pass
+
+    def maxamize(self) -> None:
+        """ Maxamize FLUX tkinter window """
+        pass
+
+    def hide(self) -> None:
+        """ Hide FLUX tkinter window """
+        pass
+
+    def show(self, lift: bool = True) -> None:
+        """ Show FLUX tkinter window """
+        pass
+
+    def close(self) -> None:
+        """ Close FLUX tkinter window """
+        pass
+
+    def console(self, msg: str, error: bool = False, **kwargs) -> None:
+        """ Send text to the framework log """
+        self.__framework.service(requestor=self.__type)['console'](msg=msg, error=error, **kwargs)
+
+    def exception(self, cls, excinfo: tuple, **kwargs) -> None:
+        """ Send an exception to the framework log """
+        self.__framework.service(requestor=self.__type)['exception'](cls=cls, excinfo=excinfo, **kwargs)
+
+    def process_proxy(self) -> dict:
+        """ Returns the processes in the
+        framework proxy """
+        pass
+
+    def framework(self) -> any:
+        """ Returns the hosting framework instance """
+        return self.__framework
+
+    def window_class(self) -> type:
+        """ Returns the FLUX tkinter type """
+        return self.__type
+
+    def fw_svc(self, svc: str, **kwargs) -> any:
+        """ Execute the specified framework service """
+        return self.__framework.service(requestor=self.__type)[svc](**kwargs)
+
+    def fw_clearance(self) -> int:
+        """ Returns the security clearance of
+        the FLUX tkinter module """
+        return self.fw_svc(svc='clvl', cls=self.__type)
+
+    def to_service_injector(self, load: list[tuple]) -> None:
+        """ Load injector with new services """
+        for injectable in load:
+            if type(injectable) is tuple:
+                _call, _func, _clearance = injectable
+                self._injectables.append({'call': _call, 'func': _func, 'clearance': _clearance})
+
+    def inject_services(self) -> None:
+        """ Inject loaded services into the framework """
+        self.console(msg=f"Injecting {self.__type.__name__} services:")
+        for _injectable in self._injectables:
+            self.__framework.inject_service(
+                call=_injectable.get('call'),
+                cls=self.__type,
+                func=_injectable.get('func'),
+                clearance=_injectable.get('clearance')
+            )
+        self._injectables.clear()
+
+    def extend_permissions(self, cls: type, **kwargs) -> None:
+        """ Extend framework service permissions to dependant """
+        self.console(msg=f"Extending permissions to {cls.__name__}...")
+        self.fw_svc(
+            svc='wcls',
+            requestor=self.__type,
+            cls=cls,
+            admin=kwargs.get('admin', False),
+            clearance=kwargs.get('clearance', SvcVars.LOW)
+        )
