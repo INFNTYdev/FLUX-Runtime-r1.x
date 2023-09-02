@@ -22,20 +22,25 @@ class FluxWindowHost(dict):
         """ FLUX tkinter window host """
         super().__init__()
 
-    def has_windows(self) -> bool:
-        """ Returns true if at least one FLUX
-        tkinter window resides in host """
-        return len(self.identifiers()) > 0
-
     def hosted_window_count(self) -> int:
         """ Returns number of hosted FLUX
         tkinter windows """
         return len(self.keys())
 
+    def has_windows(self) -> bool:
+        """ Returns true if at least one FLUX
+        tkinter window resides in host """
+        return self.hosted_window_count() > 0
+
     def identifiers(self) -> list[str]:
         """ Returns the list of FLUX tkinter
         window identifiers """
         return [_id for _id in self.keys()]
+
+    def existing_window(self, identifier: str) -> bool:
+        """ Returns true if hosted FLUX tkinter
+        window exists """
+        return identifier in self.identifiers()
 
     def hosted_windows(self) -> list[FluxWindow]:
         """ Returns the list of FLUX tkinter
@@ -45,37 +50,44 @@ class FluxWindowHost(dict):
     def has_main_window(self) -> bool:
         """ Returns true if window host contains
         a main FLUX tkinter window """
-        for _id, __window in self.items():
-            __window: FluxWindow
+        for __window in self.hosted_windows():
             if __window.is_main():
                 return True
         return False
 
-    def main_window_type(self) -> type:
-        """ Returns main hosted FLUX tkinter
-        window type """
-        for _id, __window in self.items():
-            __window: FluxWindow
-            if __window.is_main():
-                return type(__window)
-        return None
-
     def main_window(self) -> FluxWindow:
         """ Returns main hosted FLUX tkinter window """
-        for _id, __window in self.items():
-            __window: FluxWindow
+        for __window in self.hosted_windows():
             if __window.is_main():
                 return __window
         return None
 
-    def existing_window(self, identifier: str) -> bool:
-        """ Returns true if hosted FLUX tkinter
-        window exists """
-        for _id, __window in self.items():
-            __window: FluxWindow
-            if identifier == __window.identifier():
-                return True
-        return False
+    def main_window_type(self) -> type:
+        """ Returns main hosted FLUX tkinter
+        window type """
+        return self.main_window().window_class()
+
+    def main_window_identifier(self) -> str:
+        """ Returns main hosted FLUX
+        tkinter window identifier """
+        return self.main_window().identifier()
+
+    def active_window(self) -> FluxWindow:
+        """ Returns active hosted FLUX tkinter window """
+        for __window in self.hosted_windows():
+            if __window.has_focus():
+                return __window
+        return None
+
+    def active_window_type(self) -> type:
+        """ Returns active hosted FLUX tkinter
+        window type """
+        return self.active_window().window_class()
+
+    def active_window_identifier(self) -> str:
+        """ Returns active hosted FLUX
+        tkinter window identifier """
+        return self.active_window().identifier()
 
     def get_window(self, identifier: str) -> FluxWindow:
         """ Returns hosted FLUX tkinter
@@ -84,31 +96,25 @@ class FluxWindowHost(dict):
             return None
         return self[identifier]
 
-    def get_active(self) -> FluxWindow:
-        """ Returns active hosted FLUX
-        tkinter window instance """
-        for _id, __window in self.items():
-            __window: FluxWindow
-            if __window.has_focus():
-                return __window
-        return None
+    def window_width(self, identifier: str) -> int:
+        """ Returns hosted FLUX tkinter window width """
+        return self.get_window(identifier).width()
 
-    def active_window_identifier(self) -> str:
-        """ Returns active hosted FLUX
-        tkinter window identifier """
-        return self.get_active().identifier()
+    def window_height(self, identifier: str) -> int:
+        """ Returns hosted FLUX tkinter window height """
+        return self.get_window(identifier).height()
 
-    def active_window_type(self) -> type:
-        """ Returns active hosted FLUX
-        tkinter window type """
-        return self.get_active().window_class()
-
-    def force_main(self) -> None:
-        """ Force first hosted FLUX tkinter
-        window as main """
-        self[self.identifiers()[0]].is_main(force=True)
+    def window_coordinates(self, identifier: str) -> tuple[list, list, list, list]:
+        """ Returns hosted FLUX tkinter window
+        4-corner coordinates """
+        return self.get_window(identifier).coordinates()
 
     def delete_window(self, identifier: str) -> None:
         """ Delete hosted FLUX tkinter window
         instance """
         pass
+
+    def force_main(self) -> None:
+        """ Force first hosted FLUX tkinter
+        window as main """
+        self[self.identifiers()[0]].is_main(force=True)

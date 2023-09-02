@@ -32,7 +32,7 @@ class FlxrTkinterManager(FrameworkModule):
             load=[
                 ('windowIds', self.window_identifiers, SvcVars.MED),
                 ('getWindows', self.tkinter_windows, SvcVars.HIGH),
-                #('activeWindow', self.active_window, SvcVars.HIGH),
+                ('activeWindow', self.active_window, SvcVars.HIGH),
                 ('getMainWindow', self.main_window, SvcVars.HIGH),
                 ('getWindow', self.get_window, SvcVars.HIGH),
                 ('activeWinId', self.active_window_identifier, SvcVars.MED),
@@ -41,11 +41,11 @@ class FlxrTkinterManager(FrameworkModule):
                 ('mainWinType', self.main_window_type, SvcVars.ANY),
                 ('hostedWinCount', self.window_quantity, SvcVars.ANY),
                 # ('liveWindowCount', self.dispatched_window_quantity, SvcVars.ANY),
-                # ('windowWidth', self.window_width, SvcVars.ANY),
-                # ('windowHeight', self.window_height, SvcVars.ANY),
-                # ('windowCoord', self.window_coordinates, SvcVars.LOW),
+                ('windowWidth', self.window_width, SvcVars.ANY),
+                ('windowHeight', self.window_height, SvcVars.ANY),
+                ('windowCoord', self.window_coordinates, SvcVars.LOW),
                 ('createWindow', self.create_window, SvcVars.HIGH),
-                #('deleteWindow', self.delete_window, SvcVars.HIGH),
+                ('deleteWindow', self.delete_window, SvcVars.HIGH),
                 # ('minimize', self.minimize_window, SvcVars.MED),
                 # ('maxamize', self.maxamize_window, SvcVars.MED),
                 # ('hideWindow', self.hide_window, SvcVars.HIGH),
@@ -84,7 +84,7 @@ class FlxrTkinterManager(FrameworkModule):
     def active_window(self) -> FluxWindow:
         """ Returns the active FLUX tkinter
         window instance """
-        return self._window_host.get_active()
+        return self._window_host.active_window()
 
     def main_window(self) -> FluxWindow:
         """ Returns the main FLUX tkinter
@@ -124,17 +124,17 @@ class FlxrTkinterManager(FrameworkModule):
     def window_width(self, window) -> int:
         """ Returns the width of the hosted FLUX
          tkinter window provided """
-        pass
+        return self._window_host.window_width(window)
 
     def window_height(self, window) -> int:
         """ Returns the height of the hosted FLUX
          tkinter window provided """
-        pass
+        return self._window_host.window_height(window)
 
     def window_coordinates(self, window) -> tuple[list, list, list, list]:
         """ Returns the coordinates of the hosted
         FLUX tkinter window provided """
-        pass
+        return self._window_host.window_coordinates(window)
 
     def create_window(self, identifier: str, **kwargs) -> None:
         """ Create new FLUX tkinter window instance """
