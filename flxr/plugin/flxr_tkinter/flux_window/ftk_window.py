@@ -44,6 +44,7 @@ class FluxWindow(FluxTk):
         for _events, _function in self._MASTER_EVENT_BIND.items():
             for _event in _events.split(' '):
                 self.new_bind(_event, _function)
+        self._window_viewports: dict = {}
 
     def identifier(self) -> str:
         """ Returns window identifier """

@@ -117,7 +117,13 @@ class FluxWindowHost(dict):
     def delete_window(self, identifier: str) -> None:
         """ Delete hosted FLUX tkinter window
         instance """
-        pass
+        for _id, __window in self.items():
+            __window: FluxWindow
+            if identifier == _id:
+                if __window.is_visible():
+                    __window.close()
+                del self[identifier]
+                return
 
     def minimize_window(self, identifier: str) -> None:
         """ Minimize hosted FLUX tkinter

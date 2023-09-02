@@ -53,6 +53,10 @@ class FluxTk(tk.Tk):
             f'+{self._initial_x_pos}+{self._initial_y_pos}'
         )
         self.resizable(self._resizability[0], self._resizability[1])
+        self.new_bind('<Visibility>', self._super_visibility_event)
+
+    def test_func(self, event: tk.Event):
+        self.console(msg="#", notice=True)
 
     def width(self) -> int:
         """ Returns FLUX tkinter window width """
@@ -153,11 +157,12 @@ class FluxTk(tk.Tk):
 
     def new_bind(self, event: str, func) -> None:
         """ Bind event to FLUX tkinter window """
-        if not self.managed_event(event):
-            self.bind(event, func)
-        else:
-            self.bind(event, func, add='+')
-        self._window_bindings.append((event, func))
+        for _event in event.split(' '):
+            if not self.managed_event(_event):
+                self.bind(_event, func)
+            else:
+                self.bind(_event, func, add='+')
+            self._window_bindings.append((_event, func))
 
     def minimize(self) -> None:
         """ Minimize FLUX tkinter window """
@@ -261,3 +266,7 @@ class FluxTk(tk.Tk):
     def _client_system() -> ctypes.WinDLL:
         """ Returns the client system WinDLL """
         return ctypes.windll.user32
+
+    def _super_visibility_event(self, event: tk.Event) -> None:
+        """ Handle FLUX tkinter module visibility event """
+        self._window_visible = True

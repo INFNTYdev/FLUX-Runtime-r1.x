@@ -153,6 +153,7 @@ class FlxrTkinterManager(FrameworkModule):
     def delete_window(self, window) -> None:
         """ Remove FLUX tkinter window from
         window host """
+        self.console(msg=f"Attempting to delete '{window}' window...")
         self._window_host.delete_window(window)
 
     def start_module(self) -> None:
