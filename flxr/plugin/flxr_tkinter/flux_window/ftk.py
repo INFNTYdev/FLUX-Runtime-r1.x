@@ -156,11 +156,15 @@ class FluxTk(tk.Tk):
 
     def minimize(self) -> None:
         """ Minimize FLUX tkinter window """
-        pass
+        self.iconify()
+        self._window_visible = False
+        self.console(msg=f"Minimized '{self._identifier}' window")
 
-    def maxamize(self) -> None:
-        """ Maxamize FLUX tkinter window """
-        pass
+    def maximize(self) -> None:
+        """ Maximize FLUX tkinter window """
+        self.state('zoomed')
+        self._window_visible = True
+        self.console(msg=f"Maximized '{self._identifier}' window")
 
     def take_focus(self) -> None:
         """ Give FLUX tkinter window focus """
@@ -168,11 +172,17 @@ class FluxTk(tk.Tk):
 
     def hide(self) -> None:
         """ Hide FLUX tkinter window """
-        pass
+        self.withdraw()
+        self._window_visible = False
+        self.console(msg=f"Hid '{self._identifier}' window")
 
     def show(self, lift: bool = True) -> None:
         """ Show FLUX tkinter window """
-        pass
+        self.deiconify()
+        if lift:
+            self.lift()
+        self._window_visible = True
+        self.console(msg=f"'{self._identifier}' window visible")
 
     def close(self) -> None:
         """ Close FLUX tkinter window """

@@ -40,20 +40,20 @@ class FlxrTkinterManager(FrameworkModule):
                 ('activeWinType', self.active_window_type, SvcVars.ANY),
                 ('mainWinType', self.main_window_type, SvcVars.ANY),
                 ('hostedWinCount', self.window_quantity, SvcVars.ANY),
-                # ('liveWindowCount', self.dispatched_window_quantity, SvcVars.ANY),
+                # ('liveWinCount', self.dispatched_window_quantity, SvcVars.ANY),
                 ('windowWidth', self.window_width, SvcVars.ANY),
                 ('windowHeight', self.window_height, SvcVars.ANY),
                 ('windowCoord', self.window_coordinates, SvcVars.LOW),
                 ('createWindow', self.create_window, SvcVars.HIGH),
                 ('deleteWindow', self.delete_window, SvcVars.HIGH),
-                # ('minimize', self.minimize_window, SvcVars.MED),
-                # ('maxamize', self.maxamize_window, SvcVars.MED),
-                # ('hideWindow', self.hide_window, SvcVars.HIGH),
-                # ('hideAll', self.hide_all_windows, SvcVars.HIGH),
-                # ('showWindow', self.show_window, SvcVars.HIGH),
-                # ('showAll', self.show_all_windows, SvcVars.HIGH),
-                # ('closeWindow', self.close_window, SvcVars.HIGH),
-                # ('closeAll', self.close_all_windows, SvcVars.HIGH),
+                ('minimize', self.minimize_window, SvcVars.MED),
+                ('maximize', self.maximize_window, SvcVars.MED),
+                ('hideWindow', self.hide_window, SvcVars.HIGH),
+                ('hideAll', self.hide_all_windows, SvcVars.HIGH),
+                ('showWindow', self.show_window, SvcVars.HIGH),
+                ('showAll', self.show_all_windows, SvcVars.HIGH),
+                ('closeWindow', self.close_window, SvcVars.HIGH),
+                ('closeAll', self.close_all_windows, SvcVars.HIGH),
                 ('startTkinter', self.start_module, SvcVars.HIGH),
                 ('stopTkinter', self.stop_module, SvcVars.HIGH),
                 ('tkinterAlive', self.mainloop_alive, SvcVars.ANY)
@@ -184,39 +184,39 @@ class FlxrTkinterManager(FrameworkModule):
     def minimize_window(self, window) -> None:
         """ Minimize hosted FLUX tkinter
         window provided """
-        pass
+        self._window_host.minimize_window(window)
 
-    def maxamize_window(self, window) -> None:
-        """ Maxamize hosted FLUX tkinter
+    def maximize_window(self, window) -> None:
+        """ Maximize hosted FLUX tkinter
         window provided """
-        pass
+        self._window_host.maximize_window(window)
 
     def hide_window(self, window) -> None:
         """ Hide hosted FLUX tkinter window
         provided """
-        pass
+        self._window_host.hide_window(window)
 
-    def hide_all_windows(self) -> None:
+    def hide_all_windows(self, main: bool = True) -> None:
         """ Hide all hosted FLUX tkinter
         windows """
-        pass
+        self._window_host.hide_all_windows(main=main)
 
     def show_window(self, window, lift: bool = True) -> None:
         """ Show hosted FLUX tkinter window
         provided """
-        pass
+        self._window_host.show_window(window, lift=lift)
 
     def show_all_windows(self) -> None:
         """ Show all hosted FLUX tkinter
         windows """
-        pass
+        self._window_host.show_all_windows()
 
     def close_window(self, window) -> None:
         """ Close hosted FLUX tkinter window
         provided """
-        pass
+        self._window_host.close_window(window)
 
     def close_all_windows(self, main: bool = True) -> None:
         """ Close all hosted FLUX tkinter
         windows """
-        pass
+        self._window_host.close_all_windows(main=main)

@@ -114,6 +114,75 @@ class FluxWindowHost(dict):
         instance """
         pass
 
+    def minimize_window(self, identifier: str) -> None:
+        """ Minimize hosted FLUX tkinter
+        window provided """
+        for _id, __window in self.items():
+            __window: FluxWindow
+            if identifier == _id:
+                __window.minimize()
+                return
+
+    def maximize_window(self, identifier: str) -> None:
+        """ Maximize hosted FLUX tkinter
+        window provided """
+        for _id, __window in self.items():
+            __window: FluxWindow
+            if identifier == _id:
+                __window.maximize()
+                return
+
+    def hide_window(self, identifier: str) -> None:
+        """ Hide hosted FLUX tkinter window
+        provided """
+        for _id, __window in self.items():
+            __window: FluxWindow
+            if identifier == _id:
+                __window.hide()
+                return
+
+    def hide_all_windows(self, main: bool = True) -> None:
+        """ Hide all hosted FLUX tkinter
+        windows """
+        for __window in self.hosted_windows():
+            if (not main) and (not __window.is_main()):
+                __window.hide()
+            elif main is True:
+                __window.hide()
+
+    def show_window(self, identifier: str, lift: bool = True) -> None:
+        """ Show hosted FLUX tkinter window
+        provided """
+        for _id, __window in self.items():
+            __window: FluxWindow
+            if identifier == _id:
+                __window.show(lift=lift)
+                return
+
+    def show_all_windows(self) -> None:
+        """ Show all hosted FLUX tkinter
+        windows """
+        for __window in self.hosted_windows():
+            __window.show()
+
+    def close_window(self, identifier: str) -> None:
+        """ Close hosted FLUX tkinter window
+        provided """
+        for _id, __window in self.items():
+            __window: FluxWindow
+            if identifier == _id:
+                __window.close()
+                return
+
+    def close_all_windows(self, main: bool = True) -> None:
+        """ Close all hosted FLUX tkinter
+        windows """
+        for __window in self.hosted_windows():
+            if (not main) and (not __window.is_main()):
+                __window.close()
+            elif main is True:
+                __window.close()
+
     def force_main(self) -> None:
         """ Force first hosted FLUX tkinter
         window as main """
