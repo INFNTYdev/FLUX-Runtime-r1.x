@@ -40,7 +40,6 @@ class FlxrTkinterManager(FrameworkModule):
                 ('activeWinType', self.active_window_type, SvcVars.ANY),
                 ('mainWinType', self.main_window_type, SvcVars.ANY),
                 ('hostedWinCount', self.window_quantity, SvcVars.ANY),
-                # ^ ^ ^  [ !!! DO THE ABOVE SERVICES FIRST !!! ]  ^ ^ ^
                 # ('liveWindowCount', self.dispatched_window_quantity, SvcVars.ANY),
                 # ('windowWidth', self.window_width, SvcVars.ANY),
                 # ('windowHeight', self.window_height, SvcVars.ANY),
