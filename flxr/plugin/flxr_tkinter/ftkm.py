@@ -40,7 +40,7 @@ class FlxrTkinterManager(FrameworkModule):
                 ('activeWinType', self.active_window_type, SvcVars.ANY),
                 ('mainWinType', self.main_window_type, SvcVars.ANY),
                 ('hostedWinCount', self.window_quantity, SvcVars.ANY),
-                # ('liveWinCount', self.dispatched_window_quantity, SvcVars.ANY),
+                ('liveWinCount', self.dispatched_window_quantity, SvcVars.ANY),
                 ('windowWidth', self.window_width, SvcVars.ANY),
                 ('windowHeight', self.window_height, SvcVars.ANY),
                 ('windowCoord', self.window_coordinates, SvcVars.LOW),
@@ -119,7 +119,7 @@ class FlxrTkinterManager(FrameworkModule):
     def dispatched_window_quantity(self) -> int:
         """ Returns the number of hosted FLUX
          tkinter windows displaying on screen"""
-        pass
+        return self._window_host.visible_window_count()
 
     def window_width(self, window) -> int:
         """ Returns the width of the hosted FLUX

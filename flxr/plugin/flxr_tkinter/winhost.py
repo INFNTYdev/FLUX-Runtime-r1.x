@@ -27,6 +27,11 @@ class FluxWindowHost(dict):
         tkinter windows """
         return len(self.keys())
 
+    def visible_window_count(self) -> int:
+        """ Returns number of visible hosted
+        FLUX tkinter window instances """
+        return len([_id for _id, __win in self.items() if __win.is_visible()])
+
     def has_windows(self) -> bool:
         """ Returns true if at least one FLUX
         tkinter window resides in host """

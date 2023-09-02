@@ -117,6 +117,11 @@ class FluxTk(tk.Tk):
             return
         return self._is_active_window
 
+    def is_visible(self) -> bool:
+        """ Returns true if the FLUX tkinter
+        window is visible """
+        return self._window_visible
+
     def center_x_position(self) -> int:
         """ Returns FLUX tkinter window
         center x coordinate """
