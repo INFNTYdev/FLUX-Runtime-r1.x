@@ -124,23 +124,6 @@ class FluxWindow(FluxTk):
             return
         self._position_last_updated = self._current_datetime()
 
-    def _capture_x_coordinate(self, x: int) -> None:
-        """ Record window current x coordinate """
-        if x == self._current_x_pos:
-            return
-
-        if self._position_last_updated is None:
-            self._current_x_pos = x
-            self._position_last_updated = self._current_datetime()
-            self.console(msg=f"Captured initial window x-coord: {x}")
-        elif self._position_last_updated.until(self._current_datetime())[-1] <= 1:
-            self.console(msg=f"Window x-coord changing: {x}")
-        self.console(msg=f"'{self.identifier()}' x last updated: {self._position_last_updated.until(self._current_datetime())[-1]}")
-
-    def _capture_y_coordinate(self, y: int) -> None:
-        """ Record window current y coordinate """
-        pass
-
     def _set_as_main(self) -> None:
         """ Set window as main window """
         self.console(msg=f"'{self._identifier}' set as main")
