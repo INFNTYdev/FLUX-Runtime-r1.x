@@ -53,7 +53,7 @@ class FluxWindow(FluxTk):
 
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
         """ Send text to the framework log """
-        super().console(msg=f"@{self.window_class().__name__} {msg}", error=error, **kwargs)
+        super().console(msg=f"@{self.window_class().__name__} - {msg}", error=error, **kwargs)
 
     def _master_configure_event(self, event: tk.Event) -> None:
         """ Handle window configure event """
