@@ -17,5 +17,4 @@ pass
 
 
 #   LOCAL IMPORTS
-from .viewhost import FluxViewportHost
 from .winhost import FluxWindowHost
