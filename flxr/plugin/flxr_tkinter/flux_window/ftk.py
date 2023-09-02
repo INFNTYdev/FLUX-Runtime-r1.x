@@ -33,7 +33,7 @@ class FluxTk(tk.Tk):
         self._window_min_size: tuple = kwargs.get('minsize')
         self._window_max_size: tuple = kwargs.get('maxsize')
         self._initial_x_pos, self._initial_y_pos = \
-            kwargs.get('coord', self.default_position())
+            kwargs.get('coord', self.default_coordinates())
         self._resizability: tuple = kwargs.get('resizability', (True, True))
         self._is_active_window: bool = False
         self._mouse_in_bounds: bool = False
@@ -80,10 +80,15 @@ class FluxTk(tk.Tk):
         y2, x3 = (y1+self.winfo_height(), x1+self.winfo_width())
         return [x1, y1], [x1, y2], [x3, y2], [x3, y1]
 
-    def default_position(self) -> tuple[int, int]:
+    def default_coordinates(self) -> tuple[int, int]:
         """ Returns default FLUX tkinter window
         spawn position (x, y) """
         return self.center_x_position(), self.center_y_position()
+
+    def initial_coordinates(self) -> tuple[int, int]:
+        """ Returns initial FLUX tkinter window
+        spawn position (x, y) """
+        return self._initial_x_pos, self._initial_y_pos
 
     def mouse_in_bounds(self, _set: bool = None) -> bool:
         """ Returns true if the mouse is in
