@@ -29,8 +29,11 @@ class FluxWindow(FluxTk):
         self._is_main: bool = False
         if (main is True) and (not self.__MAIN_LOCK):
             self._set_as_main()
+        self._current_width = self._current_height = 0
         self._current_x_pos = self._current_y_pos = 0
+        self._size_last_updated: DateTime = None
         self._position_last_updated: DateTime = None
+        self._size_recapture: bool = False
         self._position_recapture: bool = False
         self._MASTER_EVENT_BIND: dict = {
             '<Enter> <Leave>': self._master_hover_event,
@@ -52,6 +55,11 @@ class FluxWindow(FluxTk):
         if force is True:
             self._set_as_main()
         return self._is_main
+
+    def size_last_updated(self) -> tuple[int, int, int, int, int, int]:
+        """ Returns time since window
+        size was last updated """
+        return self._size_last_updated.until(self._current_datetime())
 
     def position_last_updated(self) -> tuple[int, int, int, int, int, int]:
         """ Returns time since window
@@ -76,6 +84,7 @@ class FluxWindow(FluxTk):
     def _master_configure_event(self, event: tk.Event) -> None:
         """ Handle window configure event """
         self._capture_window_coordinates()
+        self._capture_window_size()
 
     def _master_focus_event(self, event: tk.Event) -> None:
         """ Handle window focus event """
@@ -100,6 +109,30 @@ class FluxWindow(FluxTk):
         """ Handle window click event """
         pass
 
+    def _capture_window_size(self) -> None:
+        """ Record window current size """
+        size: tuple = (self.winfo_width(), self.winfo_height())
+        if not ((size[0] != self._current_width) or (size[1] != self._current_height)):
+            return
+
+        if self._size_last_updated is None:
+            self._current_width = size[0]
+            self._current_height = size[1]
+        elif self.size_last_updated()[-1] > 0:
+            self._current_width = size[0]
+            self._current_height = size[1]
+            self.console(
+                msg=f"Captured '{self.identifier()}' window size @ [{self._current_width}x{self._current_height}]"
+            )
+            if self._size_recapture is True:
+                self._size_recapture = False
+        elif (self.size_last_updated()[-1] <= 1) and (self._size_recapture is False):
+            self.console(msg=f"Scheduling '{self.identifier()}' size recapture...")
+            self._size_recapture = True
+            self.after(1500, self._capture_window_size)
+            return
+        self._size_last_updated = self._current_datetime()
+
     def _capture_window_coordinates(self) -> None:
         """ Record window current position """
         coord: tuple = self.coordinates()[0]
@@ -113,7 +146,8 @@ class FluxWindow(FluxTk):
             self._current_x_pos = coord[0]
             self._current_y_pos = coord[1]
             self.console(
-                msg=f"Captured '{self.identifier()}' window @ [{self._current_x_pos}, {self._current_y_pos}]"
+                msg=f"Captured '{self.identifier()}' window coord @ "
+                    f"[{self._current_x_pos}, {self._current_y_pos}]"
             )
             if self._position_recapture is True:
                 self._position_recapture = False

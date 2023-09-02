@@ -38,6 +38,7 @@ class FluxTk(tk.Tk):
         self._is_active_window: bool = False
         self._mouse_in_bounds: bool = False
         self._window_bindings: list[tuple] = []
+        self._window_widgets: list = []
         self._WINDOW_CONFIGURATION: dict = kwargs.get('config', {})
 
         super().__init__()
@@ -64,6 +65,16 @@ class FluxTk(tk.Tk):
         if self.fw_svc('tkinterAlive') is False:
             return self._window_min_size[1]
         return self.winfo_height()
+
+    def min_size(self) -> tuple[int, int]:
+        """ Returns FLUX tkinter window
+        minimum size """
+        return self._window_min_size
+
+    def max_size(self) -> tuple[int, int]:
+        """ Returns FLUX tkinter window
+        maximum size """
+        return self._window_max_size
 
     def display_width(self) -> int:
         """ Returns client display width """
@@ -128,6 +139,12 @@ class FluxTk(tk.Tk):
             if _bind[0] == event:
                 return True
         return False
+
+    def place(self, child, **pack_args) -> None:
+        """ Place child widget on FLUX
+        tkinter window """
+        self._window_widgets.append(child)
+        child.pack(**pack_args)
 
     def new_bind(self, event: str, func) -> None:
         """ Bind event to FLUX tkinter window """
