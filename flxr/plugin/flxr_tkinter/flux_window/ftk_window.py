@@ -110,17 +110,18 @@ class FluxWindow(FluxTk):
             self._current_x_pos = coord[0]
             self._current_y_pos = coord[1]
         elif self.position_last_updated()[-1] > 0:
-            self.console(msg="I will capture this coordinate")
             self._current_x_pos = coord[0]
             self._current_y_pos = coord[1]
+            self.console(
+                msg=f"Captured '{self.identifier()}' window @ [{self._current_x_pos}, {self._current_y_pos}]"
+            )
             if self._position_recapture is True:
                 self._position_recapture = False
         elif (self.position_last_updated()[-1] <= 1) and (self._position_recapture is False):
-            self.console(msg="Scheduling coordinate recapture...")
+            self.console(msg=f"Scheduling '{self.identifier()}' coordinate recapture...")
             self._position_recapture = True
             self.after(1500, self._capture_window_coordinates)
             return
-
         self._position_last_updated = self._current_datetime()
 
     def _capture_x_coordinate(self, x: int) -> None:
