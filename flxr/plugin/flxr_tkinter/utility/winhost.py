@@ -13,7 +13,7 @@ pass
 
 
 #   EXTERNAL IMPORTS
-from .flux_window import FluxWindow
+from flxr.plugin.flxr_tkinter.flux_window import FluxWindow
 
 
 #   MODULE CLASS

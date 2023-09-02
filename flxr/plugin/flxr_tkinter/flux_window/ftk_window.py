@@ -13,7 +13,7 @@ import tkinter as tk
 
 
 #   EXTERNAL IMPORTS
-from simplydt import DateTime, Date, Time
+from simplydt import DateTime
 from .ftk import FluxTk
 
 

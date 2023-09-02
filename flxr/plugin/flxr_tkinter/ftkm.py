@@ -16,7 +16,7 @@ pass
 from flxr.constant import SvcVars
 from flxr.core.fwmod import FrameworkModule
 from .flux_window import FluxWindow
-from .winhost import FluxWindowHost
+from .utility import FluxWindowHost
 
 
 #   MODULE CLASS
