@@ -59,11 +59,15 @@ class FluxWindow(FluxTk):
     def size_last_updated(self) -> tuple[int, int, int, int, int, int]:
         """ Returns time since window
         size was last updated """
+        if self._size_last_updated is None:
+            return None
         return self._size_last_updated.until(self._current_datetime())
 
     def position_last_updated(self) -> tuple[int, int, int, int, int, int]:
         """ Returns time since window
         position was last updated """
+        if self._position_last_updated is None:
+            return None
         return self._position_last_updated.until(self._current_datetime())
 
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
