@@ -34,6 +34,7 @@ class FlxrTkinterManager(FrameworkModule):
                 ('getWindows', self.tkinter_windows, SvcVars.HIGH),
                 ('activeWindow', self.active_window, SvcVars.HIGH),
                 ('getMainWindow', self.main_window, SvcVars.HIGH),
+                ('getWindow', self.get_window, SvcVars.HIGH),
                 ('activeWinId', self.active_window_identifier, SvcVars.MED),
                 ('mainWinId', self.main_window_identifier, SvcVars.MED),
                 ('activeWinType', self.active_window_type, SvcVars.ANY),
@@ -75,6 +76,11 @@ class FlxrTkinterManager(FrameworkModule):
         tkinter window instances """
         pass
 
+    def get_window(self, window: str) -> FluxWindow:
+        """ Returns the hosted FLUX tkinter
+        window requested """
+        return self._window_host.get_window(window)
+
     def active_window(self) -> FluxWindow:
         """ Returns the active FLUX tkinter
         window instance """
@@ -83,7 +89,7 @@ class FlxrTkinterManager(FrameworkModule):
     def main_window(self) -> FluxWindow:
         """ Returns the main FLUX tkinter
         window instance """
-        pass
+        return self._window_host.main_window()
 
     def active_window_identifier(self) -> str:
         """ Returns the active FLUX tkinter
@@ -93,7 +99,7 @@ class FlxrTkinterManager(FrameworkModule):
     def main_window_identifier(self) -> str:
         """ Returns the main FLUX tkinter
         window identifier """
-        pass
+        return self.main_window().identifier()
 
     def active_window_type(self) -> type:
         """ Returns the active FLUX tkinter

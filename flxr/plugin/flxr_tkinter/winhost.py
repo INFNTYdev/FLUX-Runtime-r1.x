@@ -59,6 +59,22 @@ class FluxWindowHost(dict):
                 return __window
         return None
 
+    def existing_window(self, identifier: str) -> bool:
+        """ Returns true if hosted FLUX tkinter
+        window exists """
+        for _id, __window in self.items():
+            __window: FluxWindow
+            if identifier == __window.identifier():
+                return True
+        return False
+
+    def get_window(self, window: str) -> FluxWindow:
+        """ Returns the hosted FLUX tkinter
+        window requested """
+        if not self.existing_window(window):
+            return None
+        return self[window]
+
     def force_main(self) -> None:
         """ Force first hosted FLUX tkinter
         window as main """
