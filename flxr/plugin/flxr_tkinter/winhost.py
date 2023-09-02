@@ -75,6 +75,15 @@ class FluxWindowHost(dict):
             return None
         return self[window]
 
+    def get_active(self) -> FluxWindow:
+        """ Returns the active hosted FLUX
+        tkinter window instance """
+        for _id, __window in self.items():
+            __window: FluxWindow
+            if __window.has_focus():
+                return __window
+        return None
+
     def force_main(self) -> None:
         """ Force first hosted FLUX tkinter
         window as main """

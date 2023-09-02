@@ -31,29 +31,30 @@ class FlxrTkinterManager(FrameworkModule):
         self.to_service_injector(
             load=[
                 ('windowIds', self.window_identifiers, SvcVars.MED),
-                ('getWindows', self.tkinter_windows, SvcVars.HIGH),
-                ('activeWindow', self.active_window, SvcVars.HIGH),
+                # ('getWindows', self.tkinter_windows, SvcVars.HIGH),
+                #('activeWindow', self.active_window, SvcVars.HIGH),
                 ('getMainWindow', self.main_window, SvcVars.HIGH),
                 ('getWindow', self.get_window, SvcVars.HIGH),
-                ('activeWinId', self.active_window_identifier, SvcVars.MED),
+                # ('activeWinId', self.active_window_identifier, SvcVars.MED),
                 ('mainWinId', self.main_window_identifier, SvcVars.MED),
-                ('activeWinType', self.active_window_type, SvcVars.ANY),
+                # ('activeWinType', self.active_window_type, SvcVars.ANY),
                 ('mainWinType', self.main_window_type, SvcVars.ANY),
-                ('hostedWinCount', self.window_quantity, SvcVars.ANY),
-                ('liveWindowCount', self.dispatched_window_quantity, SvcVars.ANY),
-                ('windowWidth', self.window_width, SvcVars.ANY),
-                ('windowHeight', self.window_height, SvcVars.ANY),
-                ('windowCoord', self.window_coordinates, SvcVars.LOW),
+                # ('hostedWinCount', self.window_quantity, SvcVars.ANY),
+                # ('liveWindowCount', self.dispatched_window_quantity, SvcVars.ANY),
+                # ^ ^ ^  [ !!! DO THE ABOVE SERVICES FIRST !!! ]  ^ ^ ^
+                # ('windowWidth', self.window_width, SvcVars.ANY),
+                # ('windowHeight', self.window_height, SvcVars.ANY),
+                # ('windowCoord', self.window_coordinates, SvcVars.LOW),
                 ('createWindow', self.create_window, SvcVars.HIGH),
-                ('deleteWindow', self.delete_window, SvcVars.HIGH),
-                ('minimize', self.minimize_window, SvcVars.MED),
-                ('maxamize', self.maxamize_window, SvcVars.MED),
-                ('hideWindow', self.hide_window, SvcVars.HIGH),
-                ('hideAll', self.hide_all_windows, SvcVars.HIGH),
-                ('showWindow', self.show_window, SvcVars.HIGH),
-                ('showAll', self.show_all_windows, SvcVars.HIGH),
-                ('closeWindow', self.close_window, SvcVars.HIGH),
-                ('closeAll', self.close_all_windows, SvcVars.HIGH),
+                # ('deleteWindow', self.delete_window, SvcVars.HIGH),
+                # ('minimize', self.minimize_window, SvcVars.MED),
+                # ('maxamize', self.maxamize_window, SvcVars.MED),
+                # ('hideWindow', self.hide_window, SvcVars.HIGH),
+                # ('hideAll', self.hide_all_windows, SvcVars.HIGH),
+                # ('showWindow', self.show_window, SvcVars.HIGH),
+                # ('showAll', self.show_all_windows, SvcVars.HIGH),
+                # ('closeWindow', self.close_window, SvcVars.HIGH),
+                # ('closeAll', self.close_all_windows, SvcVars.HIGH),
                 ('startTkinter', self.start_module, SvcVars.HIGH),
                 ('stopTkinter', self.stop_module, SvcVars.HIGH),
                 ('tkinterAlive', self.mainloop_alive, SvcVars.ANY)
@@ -84,7 +85,7 @@ class FlxrTkinterManager(FrameworkModule):
     def active_window(self) -> FluxWindow:
         """ Returns the active FLUX tkinter
         window instance """
-        pass
+        return self._window_host.get_active()
 
     def main_window(self) -> FluxWindow:
         """ Returns the main FLUX tkinter
@@ -136,9 +137,9 @@ class FlxrTkinterManager(FrameworkModule):
         FLUX tkinter window provided """
         pass
 
-    def create_window(self, identifier: str, **kwargs) -> FluxWindow:
+    def create_window(self, identifier: str, **kwargs) -> None:
         """ Create new FLUX tkinter window instance """
-        if self._existing_identifier(identifier):
+        if self._window_host.existing_window(identifier):
             return
 
         self.console(msg=f"Creating '{identifier}' window...")
@@ -220,8 +221,3 @@ class FlxrTkinterManager(FrameworkModule):
         """ Close all hosted FLUX tkinter
         windows """
         pass
-
-    def _existing_identifier(self, identifier: str) -> bool:
-        """ Returns true if identifier exists
-        in window host """
-        return identifier in self._window_host.identifiers()

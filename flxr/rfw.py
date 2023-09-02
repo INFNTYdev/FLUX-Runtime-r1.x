@@ -123,7 +123,7 @@ class Flxr:
             if not self._fatal_error:
                 self._startup = False
                 self._active_environment = True
-                self._console_out(msg="Runtime framework ready")
+                self._console_out(msg=f"Runtime framework ready with {len(self.service(self))} services")
             else:
                 self.framework_exit()
         except Exception as FrameworkFailure:

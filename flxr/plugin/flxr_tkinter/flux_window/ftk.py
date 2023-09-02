@@ -90,7 +90,7 @@ class FluxTk(tk.Tk):
     def has_focus(self) -> bool:
         """ Returns true if the FLUX tkinter
         window has focus """
-        pass
+        return self._is_active_window
 
     def center_x_position(self) -> int:
         """ Returns FLUX tkinter window
