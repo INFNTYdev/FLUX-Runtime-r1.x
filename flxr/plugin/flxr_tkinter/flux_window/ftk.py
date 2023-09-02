@@ -37,6 +37,7 @@ class FluxTk(tk.Tk):
         self._resizability: tuple = kwargs.get('resizability', (True, True))
         self._is_active_window: bool = False
         self._mouse_in_bounds: bool = False
+        self._window_bindings: list[tuple] = []
         self._WINDOW_CONFIGURATION: dict = kwargs.get('config', {})
 
         super().__init__()
@@ -75,21 +76,29 @@ class FluxTk(tk.Tk):
     def coordinates(self) -> tuple[list, list, list, list]:
         """ Returns FLUX tkinter window
         4-corner coordinates """
-        pass
+        x1, y1 = (self.winfo_rootx(), self.winfo_rooty())
+        y2, x3 = (y1+self.winfo_height(), x1+self.winfo_width())
+        return [x1, y1], [x1, y2], [x3, y2], [x3, y1]
 
     def default_position(self) -> tuple[int, int]:
         """ Returns default FLUX tkinter window
         spawn position (x, y) """
         return self.center_x_position(), self.center_y_position()
 
-    def mouse_in_bounds(self) -> bool:
+    def mouse_in_bounds(self, _set: bool = None) -> bool:
         """ Returns true if the mouse is in
         the FLUX tkinter window bounds """
-        pass
+        if _set is not None:
+            self._mouse_in_bounds = bool(_set)
+            return
+        return self._mouse_in_bounds
 
-    def has_focus(self) -> bool:
+    def has_focus(self, _set: bool = None) -> bool:
         """ Returns true if the FLUX tkinter
         window has focus """
+        if _set is not None:
+            self._is_active_window = bool(_set)
+            return
         return self._is_active_window
 
     def center_x_position(self) -> int:
@@ -106,6 +115,22 @@ class FluxTk(tk.Tk):
         """ Returns custom FLUX tkinter
         window class configuration """
         pass
+
+    def managed_event(self, event: str) -> bool:
+        """ Returns true if provided event
+        is managed by FLUX tkinter window """
+        for _bind in self._window_bindings:
+            if _bind[0] == event:
+                return True
+        return False
+
+    def new_bind(self, event: str, func) -> None:
+        """ Bind event to FLUX tkinter window """
+        if not self.managed_event(event):
+            self.bind(event, func)
+        else:
+            self.bind(event, func, add='+')
+        self._window_bindings.append((event, func))
 
     def minimize(self) -> None:
         """ Minimize FLUX tkinter window """
