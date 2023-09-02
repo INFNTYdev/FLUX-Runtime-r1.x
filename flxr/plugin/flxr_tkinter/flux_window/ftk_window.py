@@ -13,6 +13,7 @@ import tkinter as tk
 
 
 #   EXTERNAL IMPORTS
+from simplydt import DateTime, Date, Time
 from .ftk import FluxTk
 
 
@@ -28,8 +29,9 @@ class FluxWindow(FluxTk):
         self._is_main: bool = False
         if (main is True) and (not self.__MAIN_LOCK):
             self._set_as_main()
-        self._current_width = self._current_height = 0
         self._current_x_pos = self._current_y_pos = 0
+        self._position_last_updated: DateTime = None
+        self._position_recapture: bool = False
         self._MASTER_EVENT_BIND: dict = {
             '<Enter> <Leave>': self._master_hover_event,
             '<Button-1> <Button-3>': self._master_click_event,
@@ -51,21 +53,29 @@ class FluxWindow(FluxTk):
             self._set_as_main()
         return self._is_main
 
+    def position_last_updated(self) -> tuple[int, int, int, int, int, int]:
+        """ Returns time since window
+        position was last updated """
+        return self._position_last_updated.until(self._current_datetime())
+
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
         """ Send text to the framework log """
         super().console(msg=f"@{self.window_class().__name__} - {msg}", error=error, **kwargs)
 
+    def _current_datetime(self) -> DateTime:
+        """ Returns the current datetime """
+        return self.fw_svc('getDatetime')
+
+    def _evaluate_identifier(self, identifier) -> str:
+        """ Evaluate and return the provided
+        window identifier """
+        if type(identifier) is not str:
+            self._invalid_identifier(identifier)
+        return identifier
+
     def _master_configure_event(self, event: tk.Event) -> None:
         """ Handle window configure event """
-        if event.x != self._current_x_pos:
-            self._current_x_pos = event.x
-        if event.y != self._current_y_pos:
-            self._current_y_pos = event.y
-
-        if event.width != self._current_width:
-            self._current_width = event.width
-        if event.height != self._current_height:
-            self._current_height = event.height
+        self._capture_window_coordinates()
 
     def _master_focus_event(self, event: tk.Event) -> None:
         """ Handle window focus event """
@@ -90,12 +100,45 @@ class FluxWindow(FluxTk):
         """ Handle window click event """
         pass
 
-    def _evaluate_identifier(self, identifier) -> str:
-        """ Evaluate and return the provided
-        window identifier """
-        if type(identifier) is not str:
-            self._invalid_identifier(identifier)
-        return identifier
+    def _capture_window_coordinates(self) -> None:
+        """ Record window current position """
+        coord: tuple = self.coordinates()[0]
+        if not ((coord[0] != self._current_x_pos) or (coord[1] != self._current_y_pos)):
+            return
+
+        if self._position_last_updated is None:
+            self._current_x_pos = coord[0]
+            self._current_y_pos = coord[1]
+        elif self.position_last_updated()[-1] > 0:
+            self.console(msg="I will capture this coordinate")
+            self._current_x_pos = coord[0]
+            self._current_y_pos = coord[1]
+            if self._position_recapture is True:
+                self._position_recapture = False
+        elif (self.position_last_updated()[-1] <= 1) and (self._position_recapture is False):
+            self.console(msg="Scheduling coordinate recapture...")
+            self._position_recapture = True
+            self.after(1500, self._capture_window_coordinates)
+            return
+
+        self._position_last_updated = self._current_datetime()
+
+    def _capture_x_coordinate(self, x: int) -> None:
+        """ Record window current x coordinate """
+        if x == self._current_x_pos:
+            return
+
+        if self._position_last_updated is None:
+            self._current_x_pos = x
+            self._position_last_updated = self._current_datetime()
+            self.console(msg=f"Captured initial window x-coord: {x}")
+        elif self._position_last_updated.until(self._current_datetime())[-1] <= 1:
+            self.console(msg=f"Window x-coord changing: {x}")
+        self.console(msg=f"'{self.identifier()}' x last updated: {self._position_last_updated.until(self._current_datetime())[-1]}")
+
+    def _capture_y_coordinate(self, y: int) -> None:
+        """ Record window current y coordinate """
+        pass
 
     def _set_as_main(self) -> None:
         """ Set window as main window """
