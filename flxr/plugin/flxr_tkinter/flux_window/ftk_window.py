@@ -25,7 +25,7 @@ class FluxWindow(FluxTk):
     def __init__(self, hfw, cls, identifier: str, main: bool = False, **kwargs) -> None:
         """ FLUX runtime framework tkinter window """
         super().__init__(hfw=hfw, cls=cls, **kwargs)
-        self._identifier: str = self._evaluate_identifier(identifier)
+        self._identifier: str = self._validate_identifier(identifier)
         self._is_main: bool = False
         if (main is True) and (not self.__MAIN_LOCK):
             self._set_as_main()
@@ -79,7 +79,7 @@ class FluxWindow(FluxTk):
         """ Returns the current datetime """
         return self.fw_svc('getDatetime')
 
-    def _evaluate_identifier(self, identifier) -> str:
+    def _validate_identifier(self, identifier) -> str:
         """ Evaluate and return the provided
         window identifier """
         if type(identifier) is not str:
