@@ -16,6 +16,7 @@ import tkinter as tk
 from simplydt import DateTime
 from flxr.plugin.flxr_tkinter.flux_view import FluxViewPort
 from .ftk import FluxTk
+from .viewhost import FluxViewportHost
 
 
 #   MODULE CLASS
@@ -45,7 +46,8 @@ class FluxWindow(FluxTk):
         for _events, _function in self._MASTER_EVENT_BIND.items():
             for _event in _events.split(' '):
                 self.new_bind(_event, _function)
-        self._window_viewports: dict = {}
+        self._viewport_host: FluxViewportHost = FluxViewportHost()
+        self.populate_viewports([('test01', FluxViewPort)])
 
         #   VIEWPROT DEV HERE
         self.place(
@@ -86,6 +88,21 @@ class FluxWindow(FluxTk):
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
         """ Send text to the framework log """
         super().console(msg=f"@{self.window_class().__name__} - {msg}", error=error, **kwargs)
+
+    def populate_viewports(self, viewports: list[tuple[str, type]]) -> None:
+        """ Place provided FLUX viewport
+        type(s) in window """
+        for _VP in viewports:
+            try:
+                _identifier, _type = _VP
+                self.console(msg=f"Initializing {_type.__name__} '{_identifier}'...")
+                pass
+            except Exception as UnexpectedFailure:
+                self.console(
+                    msg=f"Failed to initialize {_VP.__name__} in '{self.identifier()}' window",
+                    error=True
+                )
+                self.console(msg=str(UnexpectedFailure), error=True)
 
     def _current_datetime(self) -> DateTime:
         """ Returns the current datetime """

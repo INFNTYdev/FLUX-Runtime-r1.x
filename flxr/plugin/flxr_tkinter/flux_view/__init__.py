@@ -17,4 +17,5 @@ pass
 
 
 #   LOCAL IMPORTS
+from .viewf import FluxViewFrame
 from .viewp import FluxViewPort

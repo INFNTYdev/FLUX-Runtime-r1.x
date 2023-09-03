@@ -29,6 +29,7 @@ class FluxView(tk.Frame):
             self._view_visible: bool = False
             self._view_relative_width: float = 0.
             self._view_relative_height: float = 0.
+            self._is_active_view: bool = False
             self._validate_relativity(
                 w=kwargs.get('rel_width', 100),
                 h=kwargs.get('rel_height', 100)
@@ -51,7 +52,6 @@ class FluxView(tk.Frame):
                 relief=kwargs.get('relief', 'flat')
             )
             self.pack_propagate(kwargs.get('propagate', False))
-            self.console(msg=f"Successfully built '{self._identifier}'")
 
     def identifier(self) -> str:
         """ Returns FLUX tkinter view identifier """
@@ -92,17 +92,23 @@ class FluxView(tk.Frame):
     def mouse_in_bounds(self, _set: bool = None) -> bool:
         """ Returns true if the mouse is in
         the FLUX tkinter view bounds """
-        pass
+        if _set is not None:
+            self._mouse_in_bounds = bool(_set)
+            return
+        return self._mouse_in_bounds
 
     def has_focus(self, _set: bool = None) -> bool:
         """ Returns true if the FLUX tkinter
         view has focus """
-        pass
+        if _set is not None:
+            self._is_active_view = bool(_set)
+            return
+        return self._is_active_view
 
     def is_visible(self) -> bool:
         """ Returns true if the FLUX tkinter
         view is visible """
-        pass
+        return self._view_visible
 
     def ref(self, key: str) -> any:
         """ Returns custom FLUX tkinter
@@ -112,7 +118,10 @@ class FluxView(tk.Frame):
     def managed_event(self, event: str) -> bool:
         """ Returns true if provided event
         is managed by FLUX tkinter view """
-        pass
+        for _bind in self._view_bindings:
+            if _bind[0] == event:
+                return True
+        return False
 
     def new_bind(self, event: str, func) -> None:
         """ Bind event to FLUX tkinter view """

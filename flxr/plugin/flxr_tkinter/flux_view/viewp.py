@@ -24,5 +24,8 @@ class FluxViewPort(FluxView):
             hfw=hfw,
             cls=cls,
             master=master,
-            identifier=identifier
+            identifier=identifier,
+            **kwargs
         )
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
