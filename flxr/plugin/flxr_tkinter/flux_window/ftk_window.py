@@ -14,6 +14,7 @@ import tkinter as tk
 
 #   EXTERNAL IMPORTS
 from simplydt import DateTime
+from flxr.plugin.flxr_tkinter.flux_view import FluxViewPort
 from .ftk import FluxTk
 
 
@@ -45,6 +46,17 @@ class FluxWindow(FluxTk):
             for _event in _events.split(' '):
                 self.new_bind(_event, _function)
         self._window_viewports: dict = {}
+
+        #   VIEWPROT DEV HERE
+        self.place(
+            child=FluxViewPort(
+                hfw=self.framework(),
+                cls=FluxWindow,
+                master=self,
+                identifier='testViewport01'
+            ),
+            expand=True
+        )
 
     def identifier(self) -> str:
         """ Returns window identifier """

@@ -117,7 +117,7 @@ class Flxr:
 
             self._module_load_wait = round(time.perf_counter()-LSTART, 2)
             self._startup_load_wait = round(time.perf_counter()-TSTART, 2)
-            self._console_out(msg=f"Module load wait: {self._module_load_wait}s")
+            self._console_out(msg=f"Thread load wait: {self._module_load_wait}s")
             self._console_out(msg=f"Startup load wait: {self._startup_load_wait}s")
 
             if not self._fatal_error:

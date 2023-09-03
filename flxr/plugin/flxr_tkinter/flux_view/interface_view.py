@@ -51,26 +51,89 @@ class FluxView(tk.Frame):
                 relief=kwargs.get('relief', 'flat')
             )
             self.pack_propagate(kwargs.get('propagate', False))
+            self.console(msg=f"Successfully built '{self._identifier}'")
 
     def identifier(self) -> str:
         """ Returns FLUX tkinter view identifier """
         return self._identifier
 
+    def parent(self) -> any:
+        """ Returns FLUX tkinter view
+        parent widget """
+        return self._parent
+
     def width(self) -> int:
         """ Returns FLUX tkinter view width """
         if self.fw_svc('tkinterAlive') is False:
-            return self._view_relative_width
+            return self._calculate_relative_width()
         return self.winfo_width()
 
     def height(self) -> int:
         """ Returns FLUX tkinter view height """
         if self.fw_svc('tkinterAlive') is False:
-            return self._view_relative_height
+            return self._calculate_relative_height()
         return self.winfo_height()
+
+    def display_width(self) -> int:
+        """ Returns client display width """
+        return self.parent().display_width()
+
+    def display_height(self) -> int:
+        """ Returns client display height """
+        return self.parent().display_height()
+
+    def coordinates(self) -> tuple[list, list, list, list]:
+        """ Returns FLUX tkinter view
+        4-corner coordinates """
+        x1, y1 = (self.winfo_rootx(), self.winfo_rooty())
+        y2, x3 = (y1+self.winfo_height(), x1+self.winfo_width())
+        return [x1, y1], [x1, y2], [x3, y2], [x3, y1]
+
+    def mouse_in_bounds(self, _set: bool = None) -> bool:
+        """ Returns true if the mouse is in
+        the FLUX tkinter view bounds """
+        pass
+
+    def has_focus(self, _set: bool = None) -> bool:
+        """ Returns true if the FLUX tkinter
+        view has focus """
+        pass
+
+    def is_visible(self) -> bool:
+        """ Returns true if the FLUX tkinter
+        view is visible """
+        pass
+
+    def ref(self, key: str) -> any:
+        """ Returns custom FLUX tkinter
+        view class configuration """
+        pass
+
+    def managed_event(self, event: str) -> bool:
+        """ Returns true if provided event
+        is managed by FLUX tkinter view """
+        pass
+
+    def new_bind(self, event: str, func) -> None:
+        """ Bind event to FLUX tkinter view """
+        for _event in event.split(' '):
+            if not self.managed_event(_event):
+                self.bind(_event, func)
+            else:
+                self.bind(_event, func, add='+')
+            self._view_bindings.append((_event, func))
+
+    def take_focus(self) -> None:
+        """ Give FLUX tkinter view focus """
+        pass
 
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
         """ Send text to the framework log """
-        self.__framework.service(requestor=self.__type)['console'](msg=msg, error=error, **kwargs)
+        self.__framework.service(requestor=self.__type)['console'](
+            msg=f"< @{self.view_class().__name__}: {self.identifier()} > - {msg}",
+            error=error,
+            **kwargs
+        )
 
     def exception(self, cls, excinfo: tuple, **kwargs) -> None:
         """ Send an exception to the framework log """
@@ -131,12 +194,12 @@ class FluxView(tk.Frame):
     def _calculate_relative_width(self) -> int:
         """ Returns calculated FLUX tkinter
         view width """
-        return int(self._parent.winfo_width()*self._view_relative_width)
+        return int(self._parent.width()*self._view_relative_width)
 
     def _calculate_relative_height(self) -> int:
         """ Returns calculated FLUX tkinter
         view height """
-        return int(self._parent.winfo_height()*self._view_relative_height)
+        return int(self._parent.height()*self._view_relative_height)
 
     def _validate_identifier(self, identifier) -> str:
         """ Evaluate and return the provided

@@ -136,7 +136,7 @@ class FluxTk(tk.Tk):
         center y coordinate """
         return int((self.display_height()/2)-(self.height()/2))
 
-    def ref(self, key: str) -> dict:
+    def ref(self, key: str) -> any:
         """ Returns custom FLUX tkinter
         window class configuration """
         pass
