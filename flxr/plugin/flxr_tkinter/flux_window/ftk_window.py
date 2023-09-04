@@ -61,6 +61,63 @@ class FluxWindow(FluxTk):
             self._set_as_main()
         return self._is_main
 
+    def viewport_count(self) -> int:
+        """ Returns the number of hosted
+        FLUX viewports """
+        return self._viewport_host.viewport_count()
+
+    def has_viewports(self) -> bool:
+        """ Returns true if at least one
+        FLUX viewport resides in the host """
+        return self._viewport_host.has_viewports()
+
+    def viewport_identifiers(self) -> list[str]:
+        """ Returns list of hosted FLUX
+        viewport identifiers """
+        return self._viewport_host.identifiers()
+
+    def existing_viewport(self, identifier: str) -> bool:
+        """ Returns true if hosted FLUX
+        viewport exists """
+        return self._viewport_host.existing_viewport(identifier)
+
+    def hosted_viewports(self) -> list[FluxViewPort]:
+        """ Returns list of FLUX
+        viewport instances """
+        return self._viewport_host.hosted_viewports()
+
+    def active_viewport(self) -> FluxViewPort:
+        """ Returns active hosted FLUX viewport """
+        return self._viewport_host.active_viewport()
+
+    def active_viewport_type(self) -> type:
+        """ Returns active hosted FLUX
+        viewport type """
+        return self._viewport_host.active_viewport_type()
+
+    def active_viewport_identifier(self) -> str:
+        """ Returns active hosted FLUX
+        viewport identifier """
+        return self._viewport_host.active_viewport_identifier()
+
+    def get_viewport(self, identifier: str) -> FluxViewPort:
+        """ Returns hosted FLUX viewport
+        requested """
+        return self._viewport_host.get_viewport(identifier)
+
+    def viewport_width(self, identifier: str) -> int:
+        """ Returns hosted FLUX viewport width """
+        return self._viewport_host.viewport_width(identifier)
+
+    def viewport_height(self, identifier: str) -> int:
+        """ Returns hosted FLUX viewport height """
+        return self._viewport_host.viewport_height(identifier)
+
+    def viewport_coordinates(self, identifier: str) -> tuple[list, list, list, list]:
+        """ Returns hosted FLUX viewport
+        4-corner coordinates """
+        return self._viewport_host.viewport_coordinates(identifier)
+
     def size_last_updated(self) -> tuple[int, int, int, int, int, int]:
         """ Returns time since window
         size was last updated """
@@ -75,9 +132,14 @@ class FluxWindow(FluxTk):
             return None
         return self._position_last_updated.until(self._current_datetime())
 
-    def console(self, msg: str, error: bool = False, **kwargs) -> None:
-        """ Send text to the framework log """
-        super().console(msg=f"@{self.window_class().__name__} - {msg}", error=error, **kwargs)
+    def display_viewport(self, identifier: str) -> None:
+        """ Give the hosted FLUX viewport
+        requested focus """
+        self._viewport_host.display_viewport(identifier)
+
+    def delete_viewport(self, identifier: str) -> None:
+        """ Delete hosted FLUX viewport instance """
+        self._viewport_host.delete_viewport(identifier)
 
     def populate(self, viewports: list[tuple[str, type]]) -> None:
         """ Place provided FLUX viewport
@@ -105,6 +167,10 @@ class FluxWindow(FluxTk):
                     error=True
                 )
                 self.console(msg=str(UnexpectedFailure), error=True)
+
+    def console(self, msg: str, error: bool = False, **kwargs) -> None:
+        """ Send text to the framework log """
+        super().console(msg=f"@{self.window_class().__name__} - {msg}", error=error, **kwargs)
 
     def _current_datetime(self) -> DateTime:
         """ Returns the current datetime """
