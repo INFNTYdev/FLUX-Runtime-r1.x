@@ -183,6 +183,16 @@ class Flxr:
             return self.base_service()
         return self.__service_call(requestor=requestor)
 
+    def set_main_window(self, window: str or type, start: bool = False) -> None:
+        """ Set FLUX tkinter window as
+        main window """
+        self.__fw_chain.asset_func(
+            asset=FlxrTkinterManager,
+            _func='set_main_window',
+            window=window,
+            start=start
+        )
+
     def inject_service(self, call: str, cls, func, clearance: int = 0) -> None:
         """ Add new service to framework """
         self.__fw_chain.asset_func(

@@ -45,6 +45,7 @@ class FlxrTkinterManager(FrameworkModule):
                 ('windowHeight', self.window_height, SvcVars.ANY),
                 ('windowCoord', self.window_coordinates, SvcVars.LOW),
                 ('createWindow', self.create_window, SvcVars.HIGH),
+                ('addWindow', self.add_window, SvcVars.HIGH),
                 ('deleteWindow', self.delete_window, SvcVars.HIGH),
                 ('minimize', self.minimize_window, SvcVars.MED),
                 ('maximize', self.maximize_window, SvcVars.MED),
@@ -137,7 +138,8 @@ class FlxrTkinterManager(FrameworkModule):
         return self._window_host.window_coordinates(window)
 
     def create_window(self, identifier: str, **kwargs) -> None:
-        """ Create new FLUX tkinter window instance """
+        """ Create new FLUX tkinter window
+        instance in host """
         if self._window_host.existing_window(identifier):
             return
 
@@ -149,6 +151,35 @@ class FlxrTkinterManager(FrameworkModule):
             **kwargs
         )
         self.console(msg=f"Succesfully built '{identifier}' window")
+
+    def add_window(self, identifier: str, cls: type, **kwargs) -> None:
+        """ Add new FLUX tkinter window type to host """
+        if self._window_host.existing_window(identifier):
+            return
+
+        self.console(msg=f"Initializing '{identifier}' window...")
+        self._window_host[identifier] = cls(
+            hfw=self.framework(),
+            cls=cls,
+            identifier=identifier,
+            main=kwargs.get('main', False)
+        )
+        self.console(msg=f"Succesfully built '{identifier}' window")
+
+    def set_main_window(self, window: str or type, start: bool = False) -> None:
+        """ Set FLUX tkinter window instance as
+        main window """
+        if type(window) is str:
+            self._window_host.set_main(window)
+        elif type(window) is type:
+            self.add_window(
+                identifier='main',
+                cls=window,
+                main=True
+            )
+
+        if start is True:
+            self.start_module()
 
     def delete_window(self, window) -> None:
         """ Remove FLUX tkinter window from

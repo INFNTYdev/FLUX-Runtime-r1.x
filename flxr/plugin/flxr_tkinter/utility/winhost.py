@@ -194,6 +194,11 @@ class FluxWindowHost(dict):
             elif main is True:
                 __window.close()
 
+    def set_main(self, identifier: str) -> None:
+        """ Force first hosted FLUX tkinter
+        window as main """
+        self.get_window(identifier).is_main(force=True)
+
     def force_main(self) -> None:
         """ Force first hosted FLUX tkinter
         window as main """
