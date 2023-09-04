@@ -204,6 +204,14 @@ class Flxr:
             clearance=clearance
         )
 
+    def run_application(self) -> None:
+        """ Run main application supplied """
+        self.__fw_chain.asset_func(
+            asset=FlxrTkinterManager,
+            _func='start_module'
+        )
+        self.framework_exit()
+
     def asset_bus(self, requestor) -> AssetChain:
         if not self.is_rfw_manager(requestor):
             return
