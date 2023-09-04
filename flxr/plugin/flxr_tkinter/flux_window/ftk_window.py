@@ -95,11 +95,18 @@ class FluxWindow(FluxTk):
         for _VP in viewports:
             try:
                 _identifier, _type = _VP
-                self.console(msg=f"Initializing {_type.__name__} '{_identifier}'...")
+                self.console(msg=f"Initializing {_type.__name__} '{_identifier}' in '{self.identifier()}'...")
+                self.extend_permissions(cls=_type, admin=True)
+                self._viewport_host[_identifier] = _type(
+                    hfw=self.framework(),
+                    cls=_type,
+                    master=self,
+                    identifier=_identifier
+                )
                 pass
             except Exception as UnexpectedFailure:
                 self.console(
-                    msg=f"Failed to initialize {_VP.__name__} in '{self.identifier()}' window",
+                    msg=f"Failed to initialize {_VP} in '{self.identifier()}' window",
                     error=True
                 )
                 self.console(msg=str(UnexpectedFailure), error=True)
