@@ -52,6 +52,7 @@ class FluxView(tk.Frame):
                 relief=kwargs.get('relief', 'flat')
             )
             self.pack_propagate(kwargs.get('propagate', False))
+            self.new_bind('<Configure>', self._master_configure_event)
 
     def identifier(self) -> str:
         """ Returns FLUX tkinter view identifier """
@@ -236,4 +237,12 @@ class FluxView(tk.Frame):
         FLUX tkinter view identifiers """
         raise ValueError(
             f"Invalid {self.__type.__name__} identifier: {identifier}"
+        )
+
+    def _master_configure_event(self, event: tk.Event) -> None:
+        """ Handle FLUX tkinter view
+        configuration event """
+        self.config(
+            width=self._calculate_relative_width(),
+            height=self._calculate_relative_height()
         )
