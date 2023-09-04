@@ -158,13 +158,14 @@ class FlxrTkinterManager(FrameworkModule):
             return
 
         self.console(msg=f"Initializing '{identifier}' window...")
+        self.extend_permissions(cls=cls, admin=True)
         self._window_host[identifier] = cls(
             hfw=self.framework(),
             cls=cls,
             identifier=identifier,
             main=kwargs.get('main', False)
         )
-        self.console(msg=f"Succesfully built '{identifier}' window")
+        self.console(msg=f"Successfully built '{identifier}' window")
 
     def set_main_window(self, window: str or type, start: bool = False) -> None:
         """ Set FLUX tkinter window instance as
