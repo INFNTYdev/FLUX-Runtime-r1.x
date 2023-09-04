@@ -43,22 +43,12 @@ class FluxWindow(FluxTk):
             '<FocusIn> <FocusOut>': self._master_focus_event,
             '<Configure>': self._master_configure_event,
         }
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(0, weight=1)
         for _events, _function in self._MASTER_EVENT_BIND.items():
             for _event in _events.split(' '):
                 self.new_bind(_event, _function)
         self._viewport_host: FluxViewportHost = FluxViewportHost()
-        self.populate_viewports([('test01', FluxViewPort)])
-
-        #   VIEWPROT DEV HERE
-        self.place(
-            child=FluxViewPort(
-                hfw=self.framework(),
-                cls=FluxWindow,
-                master=self,
-                identifier='testViewport01'
-            ),
-            expand=True
-        )
 
     def identifier(self) -> str:
         """ Returns window identifier """
@@ -89,13 +79,15 @@ class FluxWindow(FluxTk):
         """ Send text to the framework log """
         super().console(msg=f"@{self.window_class().__name__} - {msg}", error=error, **kwargs)
 
-    def populate_viewports(self, viewports: list[tuple[str, type]]) -> None:
+    def populate(self, viewports: list[tuple[str, type]]) -> None:
         """ Place provided FLUX viewport
         type(s) in window """
         for _VP in viewports:
             try:
                 _identifier, _type = _VP
-                self.console(msg=f"Initializing {_type.__name__} '{_identifier}' in '{self.identifier()}'...")
+                self.console(
+                    msg=f"Initializing {_type.__name__} '{_identifier}' in '{self.identifier()}' window..."
+                )
                 self.extend_permissions(cls=_type, admin=True)
                 self._viewport_host[_identifier] = _type(
                     hfw=self.framework(),
@@ -103,7 +95,10 @@ class FluxWindow(FluxTk):
                     master=self,
                     identifier=_identifier
                 )
-                pass
+                self._viewport_host[_identifier].grid(column=0, row=0)
+                self.console(
+                    msg=f"{_type.__name__} '{_identifier}' initialization complete"
+                )
             except Exception as UnexpectedFailure:
                 self.console(
                     msg=f"Failed to initialize {_VP} in '{self.identifier()}' window",
