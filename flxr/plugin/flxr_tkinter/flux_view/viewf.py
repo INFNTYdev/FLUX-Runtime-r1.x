@@ -20,4 +20,10 @@ from .interface_view import FluxView
 class FluxViewFrame(FluxView):
     def __init__(self, hfw, cls, master, identifier: str, **kwargs) -> None:
         """ FLUX interface viewframe """
-        pass
+        super().__init__(
+            hfw=hfw,
+            cls=cls,
+            master=master,
+            identifier=identifier,
+            **kwargs
+        )
