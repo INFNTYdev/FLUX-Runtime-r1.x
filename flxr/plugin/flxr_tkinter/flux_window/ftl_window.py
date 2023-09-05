@@ -148,7 +148,7 @@ class FluxSubWindow(FluxToplevel):
             try:
                 _identifier, _type = _VP
                 self.console(
-                    msg=f"Initializing {_type.__name__} '{_identifier}' in '{self.identifier()}' window:"
+                    msg=f"Initializing [{_type.__name__} '{_identifier}'] in '{self.identifier()}' window:"
                 )
                 self.extend_permissions(cls=_type, admin=True)
                 self._viewport_host[_identifier] = _type(
@@ -157,7 +157,7 @@ class FluxSubWindow(FluxToplevel):
                     master=self,
                     identifier=_identifier
                 )
-                self._viewport_host[_identifier].grid(column=0, row=0)
+                self._viewport_host[_identifier].grid(column=0, row=0, sticky=tk.NSEW)
                 self.console(
                     msg=f"{_type.__name__} '{_identifier}' initialization complete"
                 )

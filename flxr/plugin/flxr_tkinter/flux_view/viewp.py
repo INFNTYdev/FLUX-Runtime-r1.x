@@ -123,7 +123,7 @@ class FluxViewPort(FluxView):
                     master=self,
                     identifier=_identifier
                 )
-                self._viewframes[_identifier].grid(column=0, row=0)
+                self._viewframes[_identifier].grid(column=0, row=0, sticky=tk.NSEW)
                 self.console(
                     msg=f"{_type.__name__} '{_identifier}' initialization complete"
                 )
