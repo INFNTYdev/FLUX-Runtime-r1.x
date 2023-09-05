@@ -146,11 +146,11 @@ class FlxrTkinterManager(FrameworkModule):
         self.console(msg=f"Creating '{identifier}' window...")
         self._window_host[identifier] = FluxWindow(
             hfw=self.framework(),
-            cls=FluxWindow,
+            cls=kwargs.pop('cls', FluxWindow),
             identifier=identifier,
             **kwargs
         )
-        self.console(msg=f"Succesfully built '{identifier}' window")
+        self.console(msg=f"Successfully built '{identifier}' window")
 
     def add_window(self, identifier: str, cls: type, **kwargs) -> None:
         """ Add new FLUX tkinter window type to host """

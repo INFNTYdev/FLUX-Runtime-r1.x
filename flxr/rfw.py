@@ -183,6 +183,16 @@ class Flxr:
             return self.base_service()
         return self.__service_call(requestor=requestor)
 
+    def add_window(self, identifier: str, cls: type, **kwargs) -> None:
+        """ Add FLUX tkinter window type to host """
+        self.__fw_chain.asset_func(
+            asset=FlxrTkinterManager,
+            _func='add_window',
+            identifier=identifier,
+            cls=cls,
+            **kwargs
+        )
+
     def set_main_window(self, window: str or type, start: bool = False) -> None:
         """ Set FLUX tkinter window as
         main window """
@@ -235,6 +245,11 @@ class Flxr:
         for _class, __module in self.__fw_chain.items():
             if __module.threaded_module():
                 __module.stop_module()
+            else:
+                self.__fw_status.set(
+                    module=_class,
+                    status=False
+                )
 
         self._active_environment = False
         self._run = False

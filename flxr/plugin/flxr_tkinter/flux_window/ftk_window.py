@@ -148,7 +148,7 @@ class FluxWindow(FluxTk):
             try:
                 _identifier, _type = _VP
                 self.console(
-                    msg=f"Initializing {_type.__name__} '{_identifier}' in '{self.identifier()}' window..."
+                    msg=f"Initializing {_type.__name__} '{_identifier}' in '{self.identifier()}' window:"
                 )
                 self.extend_permissions(cls=_type, admin=True)
                 self._viewport_host[_identifier] = _type(
