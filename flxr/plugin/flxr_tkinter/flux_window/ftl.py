@@ -55,9 +55,6 @@ class FluxToplevel(tk.Toplevel):
         self.resizable(self._resizability[0], self._resizability[1])
         self.new_bind('<Visibility>', self._super_visibility_event)
 
-    def test_func(self, event: tk.Event):
-        self.console(msg="#", notice=True)
-
     def width(self) -> int:
         """ Returns FLUX tkinter window width """
         if self.fw_svc('tkinterAlive') is False:
@@ -152,8 +149,15 @@ class FluxToplevel(tk.Toplevel):
     def place(self, child, **pack_args) -> None:
         """ Place child widget on FLUX
         tkinter window """
-        self._window_widgets.append(child)
-        child.pack(**pack_args)
+        try:
+            self._window_widgets.append(child)
+            child.pack(**pack_args)
+        except Exception as UnexpectedFailure:
+            self.console(
+                msg=f"Failed to place {child} in '{self.__type.__name__}' window",
+                error=True
+            )
+            self.console(msg=str(UnexpectedFailure), error=True)
 
     def new_bind(self, event: str, func) -> None:
         """ Bind event to FLUX tkinter window """

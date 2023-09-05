@@ -108,7 +108,7 @@ class FluxViewPort(FluxView):
                 return
 
     def populate(self, viewframes: list[tuple[str, type]]) -> None:
-        """ Populate provided FLUX viewframe
+        """ Populate provided FLUX view
         type(s) in viewport grid """
         for _VF in viewframes:
             try:
@@ -155,7 +155,7 @@ class FluxViewPort(FluxView):
             )
         except Exception as UnexpectedFailure:
             self.console(
-                msg=f"Failed to initialize {view} in '{self.identifier()}' viewport",
+                msg=f"Failed to manually initialize {view} in '{self.identifier()}' viewport",
                 error=True
             )
             self.console(msg=str(UnexpectedFailure), error=True)
