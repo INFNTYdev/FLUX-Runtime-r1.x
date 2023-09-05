@@ -18,3 +18,4 @@ pass
 
 #   LOCAL IMPORTS
 from .ftk_window import FluxWindow
+from .ftl_window import FluxSubWindow
