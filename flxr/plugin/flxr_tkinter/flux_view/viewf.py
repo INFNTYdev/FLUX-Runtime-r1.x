@@ -27,3 +27,16 @@ class FluxViewFrame(FluxView):
             identifier=identifier,
             **kwargs
         )
+
+    def place(self, widget, **pack_args) -> None:
+        """ Place provided widget in
+        viewframe using pack manager """
+        try:
+            self.new_child(widget)
+            widget.pack(**pack_args)
+        except Exception as UnexpectedFailure:
+            self.console(
+                msg=f"Failed to place {widget} in '{self.identifier()}' viewframe",
+                error=True
+            )
+            self.console(msg=str(UnexpectedFailure), error=True)
