@@ -124,6 +124,10 @@ class FluxView(tk.Frame):
                 return True
         return False
 
+    def new_child(self, widget) -> None:
+        """ Add child widget to FLUX tkinter view """
+        self._view_widgets.append(widget)
+
     def new_bind(self, event: str, func) -> None:
         """ Bind event to FLUX tkinter view """
         for _event in event.split(' '):
