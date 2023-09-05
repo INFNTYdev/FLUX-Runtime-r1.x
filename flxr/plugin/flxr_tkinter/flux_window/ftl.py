@@ -182,7 +182,7 @@ class FluxToplevel(tk.Toplevel):
 
     def take_focus(self) -> None:
         """ Give FLUX tkinter window focus """
-        pass
+        self.focus_set()
 
     def hide(self) -> None:
         """ Hide FLUX tkinter window """
