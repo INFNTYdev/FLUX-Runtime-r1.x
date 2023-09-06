@@ -139,9 +139,9 @@ class FluxView(tk.Frame):
 
     def take_focus(self) -> None:
         """ Give FLUX tkinter view focus """
+        self.tkraise()
         self._is_active_view = True
         self.console(msg=f"'{self.identifier()}' took focus")
-        pass
 
     def console(self, msg: str, error: bool = False, **kwargs) -> None:
         """ Send text to the framework log """
