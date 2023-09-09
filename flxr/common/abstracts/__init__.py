@@ -1,6 +1,6 @@
 
 """
-FLUX Runtime Framework Common Library
+FLUX Runtime Framework Common Class Abstracts Library
 """
 
 
@@ -17,5 +17,5 @@ pass
 
 
 #   LOCAL IMPORTS
-from .protocols import Flux
-from .abstracts import Fwm, FwmT
+from .fwm import Fwm
+from .tfwm import FwmT

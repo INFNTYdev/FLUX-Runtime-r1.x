@@ -87,7 +87,10 @@ class Flxr:
                         )
                     else:
                         if index > 1:
-                            self._console_out(msg=f"Failed to give {_module[1].__name__} authorization")
+                            self._console_out(
+                                msg=f"Failed to give {_module[1].__name__} authorization",
+                                error=True
+                            )
 
                     self.__fw_chain[_module[1]] = _module[1](hfw=self)
                     if _module[2] is True:
@@ -280,14 +283,14 @@ class Flxr:
     def _fw_deployable() -> list[list]:
         """ Framework deployable modules """
         return [
-            ['service*', FlxrServiceManager, False],
-            ['thread*', FlxrThreadManager, False],
-            ['datetime*', FlxrDatetimeManager, False],
-            ['runtime', FlxrRuntimeClock, False],
-            ['console*', FlxrConsoleManager, True],
-            ['fileio*', FlxrFileIOManager, True],
-            ['tkinter', FlxrTkinterManager, False],
-            ['monitor*', FlxrSystemManager, True],
+            #['service*', FlxrServiceManager, False],
+            #['thread*', FlxrThreadManager, False],
+            #['datetime*', FlxrDatetimeManager, False],
+            #['runtime', FlxrRuntimeClock, False],
+            # ['console*', FlxrConsoleManager, True],
+            # ['fileio*', FlxrFileIOManager, True],
+            # ['tkinter', FlxrTkinterManager, False],
+            # ['monitor*', FlxrSystemManager, True],
         ]
 
     @staticmethod
