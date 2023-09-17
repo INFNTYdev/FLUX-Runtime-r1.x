@@ -126,15 +126,24 @@ class FlxrServiceManager(DeployableFwm):
             )
             self.console(msg=SvcVars.SLM_F_001.format(call=call))
 
+    def remove(self, requestor, call: str) -> None:
+        """ Remove specified service
+        from framework services """
+        if not self.authorized(requestor):
+            return
+        if not self.existing_call(call):
+            return
+        del self.__services[call]
+
     def override(self, requestor, call: str, using: type, func, **kwargs) -> None:
         """ Override an existing framework
         service with a new """
-        pass
-
-    def remove(self, call: str) -> None:
-        """ Remove specified service
-        from framework services """
-        pass
+        if not self.authorized(requestor):
+            return
+        if not self.existing_call(call):
+            return
+        self.remove(requestor=requestor, call=call)
+        self.new(call=call, cls=using, func=func, **kwargs)
 
     def __inject_self(self) -> None:
         """ Manually inject base
