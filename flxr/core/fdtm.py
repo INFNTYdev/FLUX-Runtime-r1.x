@@ -13,13 +13,13 @@ pass
 
 
 #   EXTERNAL IMPORTS
+from flxr.common.core import DeployableFwm
 from flxr.constant import SvcVars
 from simplydt import simplydatetime, DateTime, Date, Time
-from .fwmod import FrameworkModule
 
 
 #   MODULE CLASS
-class FlxrDatetimeManager(FrameworkModule):
+class FlxrDatetimeManager(DeployableFwm):
     def __init__(self, hfw) -> None:
         """ Framework datetime manager """
         super().__init__(hfw=hfw, cls=FlxrDatetimeManager)
@@ -35,27 +35,27 @@ class FlxrDatetimeManager(FrameworkModule):
         )
         self.inject_services()
 
-    def current_date(self) -> str:
-        """ Returns the current date """
-        return self.datetime().date()
+    @staticmethod
+    def datetime() -> DateTime:
+        """ Returns current datetime object """
+        return simplydatetime.now()
 
     def get_date(self) -> Date:
-        """ Returns the current date object """
+        """ Returns current date object """
         return self.datetime().get_date()
 
-    def current_time(self, hformat: int = 12) -> str:
-        """ Returns the current time """
-        return self.datetime().time(hformat=hformat)
-
     def get_time(self) -> Time:
-        """ Returns the current time object """
+        """ Returns current time object """
         return self.datetime().get_time()
 
     def current_datetime(self, hformat: int = 12) -> str:
-        """ Returns the current datetime """
+        """ Returns current datetime """
         return self.datetime().date_time(hformat=hformat)
 
-    @staticmethod
-    def datetime() -> DateTime:
-        """ Returns the current datetime object """
-        return simplydatetime.now()
+    def current_date(self) -> str:
+        """ Returns current date """
+        return self.datetime().date()
+
+    def current_time(self, hformat: int = 12) -> str:
+        """ Returns current time """
+        return self.datetime().time(hformat=hformat)
