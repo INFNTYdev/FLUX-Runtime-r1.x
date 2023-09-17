@@ -1,6 +1,6 @@
 
 """
-FLUX Runtime Framework Common Class Abstracts Library
+FLUX Runtime Framework Core Common Library
 """
 
 
@@ -18,4 +18,4 @@ pass
 
 #   LOCAL IMPORTS
 from .fwm import Fwm
-from .tfwm import FwmT
+from .dfwm import DeployableFwm
