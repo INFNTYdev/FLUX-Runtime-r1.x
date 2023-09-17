@@ -13,13 +13,13 @@ pass
 
 
 #   EXTERNAL IMPORTS
+from flxr.common.core import DeployableFwm
 from flxr.constant import SvcVars
 from simplydt import simplydatetime, DateTime, Date, Time
-from .fwmod import FrameworkModule
 
 
 #   MODULE CLASS
-class FlxrRuntimeClock(FrameworkModule):
+class FlxrRuntimeClock(DeployableFwm):
     def __init__(self, hfw) -> None:
         """ Framework thread manager """
         super().__init__(hfw=hfw, cls=FlxrRuntimeClock)
@@ -30,18 +30,34 @@ class FlxrRuntimeClock(FrameworkModule):
                 ('runtimeStamp', self.runtime_stamp, SvcVars.ANY),
                 ('runtimeString', self.runtime_string, SvcVars.ANY),
                 ('runtimeOrigin', self.runtime_origin, SvcVars.ANY),
-                ('startDate', self.start_date, SvcVars.ANY),
-                ('startTime', self.start_time, SvcVars.ANY)
+                ('originDate', self.origin_date, SvcVars.ANY),
+                ('originTime', self.origin_time, SvcVars.ANY),
             ]
         )
         self.inject_services()
 
+    def runtime_origin(self) -> DateTime:
+        """ Returns framework runtime
+        clock origin datetime """
+        return self.__origin
+
+    def origin_date(self) -> Date:
+        """ Returns framework runtime
+        clock origin date """
+        return self.runtime_origin().get_date()
+
+    def origin_time(self) -> Time:
+        """ Returns framework runtime
+        clock origin time """
+        return self.runtime_origin().get_time()
+
     def runtime(self) -> tuple[int, int, int, int, int, int]:
-        """ Returns the current framework runtime """
-        return self.__origin.until(simplydatetime.now())
+        """ Returns current framework runtime """
+        return self.runtime_origin().until(simplydatetime.now())
 
     def runtime_stamp(self) -> str:
-        """ Returns the current framework runtime stamp """
+        """ Returns current
+        framework runtime stamp """
         _rt: str = ''
         for index, _value in enumerate(self.runtime()[1:]):
             if index+1 != 5:
@@ -51,7 +67,8 @@ class FlxrRuntimeClock(FrameworkModule):
         return _rt
 
     def runtime_string(self) -> str:
-        """ Returns the current framework runtime string """
+        """ Returns current
+        framework runtime string """
         _rt: str = ''
         label: list = ['Months', 'Days', 'Hours', 'Minutes', 'Seconds']
         for index, _value in enumerate(self.runtime()[1:]):
@@ -60,18 +77,3 @@ class FlxrRuntimeClock(FrameworkModule):
             else:
                 _rt += f'{_value} {label[index]}'
         return _rt
-
-    def runtime_origin(self) -> DateTime:
-        """ Returns the framework runtime
-        clock origin datetime """
-        return self.__origin
-
-    def start_date(self) -> Date:
-        """ Returns the framework runtime
-        clock origin date """
-        return self.__origin.get_date()
-
-    def start_time(self) -> Time:
-        """ Returns the framework runtime
-        clock origin time """
-        return self.__origin.get_time()

@@ -290,7 +290,7 @@ class Flxr:
             ['service*', FlxrServiceManager, False],
             ['thread*', FlxrThreadManager, False],
             ['datetime*', FlxrDatetimeManager, False],
-            #['runtime', FlxrRuntimeClock, False],
+            ['runtime', FlxrRuntimeClock, False],
             # ['console*', FlxrConsoleManager, True],
             # ['fileio*', FlxrFileIOManager, True],
             # ['tkinter', FlxrTkinterManager, False],
