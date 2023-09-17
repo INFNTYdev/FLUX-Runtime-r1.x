@@ -112,6 +112,6 @@ class Fwm(ABC):
 
     def __validate_type(self, cls) -> type:
         """ Validate class type parameter """
-        if type(cls) is type:
-            return cls
-        self.__invalid_parameter('cls', cls)
+        if not isinstance(cls, type):
+            self.__invalid_parameter('cls', cls)
+        return cls
