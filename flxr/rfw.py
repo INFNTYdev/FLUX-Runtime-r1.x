@@ -288,7 +288,7 @@ class Flxr:
         """ Framework deployable modules """
         return [
             ['service*', FlxrServiceManager, False],
-            #['thread*', FlxrThreadManager, False],
+            ['thread*', FlxrThreadManager, False],
             #['datetime*', FlxrDatetimeManager, False],
             #['runtime', FlxrRuntimeClock, False],
             # ['console*', FlxrConsoleManager, True],
