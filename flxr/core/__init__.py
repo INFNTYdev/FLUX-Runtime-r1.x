@@ -18,8 +18,8 @@ pass
 
 #   LOCAL IMPORTS
 from .fstatm import StatusManager
-
 from .fsvcm import FlxrServiceManager
+
 from .fthrm import FlxrThreadManager
 from .fdtm import FlxrDatetimeManager
 from .fwrtc import FlxrRuntimeClock

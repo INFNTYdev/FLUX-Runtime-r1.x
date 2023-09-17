@@ -102,7 +102,11 @@ class Flxr:
                         self.__fw_status.set(module=_module[1], status=True)
                     self._post_module_initialization(_module[1])
                 except Exception as ModuleInitFailure:
-                    print(ModuleInitFailure)
+                    self._console_out(
+                        msg=f"[ FAILED TO INITIALIZE {_module[1].__name__} MODULE ]",
+                        error=True
+                    )
+                    self._console_out(msg=f"Reason: {ModuleInitFailure}", error=True)
 
             self._console_out(msg="Waiting for framework modules...")
             LSTART: float = time.perf_counter()
@@ -283,7 +287,7 @@ class Flxr:
     def _fw_deployable() -> list[list]:
         """ Framework deployable modules """
         return [
-            #['service*', FlxrServiceManager, False],
+            ['service*', FlxrServiceManager, False],
             #['thread*', FlxrThreadManager, False],
             #['datetime*', FlxrDatetimeManager, False],
             #['runtime', FlxrRuntimeClock, False],
