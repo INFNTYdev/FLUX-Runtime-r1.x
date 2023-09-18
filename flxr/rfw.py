@@ -284,14 +284,14 @@ class Flxr:
     def _fw_deployable() -> list[list]:
         """ Framework deployable modules """
         return [
-            ['service*', FlxrServiceManager, False],
-            ['thread*', FlxrThreadManager, False],
-            ['datetime*', FlxrDatetimeManager, False],
-            ['runtime', FlxrRuntimeClock, False],
-            ['console*', FlxrConsoleManager, True],
-            # ['fileio*', FlxrFileIOManager, True],
-            # ['tkinter', FlxrTkinterManager, False],
-            # ['monitor*', FlxrSystemManager, True],
+            ['service*', FlxrServiceManager],
+            ['thread*', FlxrThreadManager],
+            ['datetime*', FlxrDatetimeManager],
+            ['runtime', FlxrRuntimeClock],
+            ['console*', FlxrConsoleManager],
+            #['fileio*', FlxrFileIOManager],
+            # ['tkinter', FlxrTkinterManager],
+            # ['monitor*', FlxrSystemManager],
         ]
 
     @staticmethod
