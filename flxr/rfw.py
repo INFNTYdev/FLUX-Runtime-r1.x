@@ -93,11 +93,8 @@ class Flxr:
                             )
 
                     self.__fw_chain[_module[1]] = _module[1](hfw=self)
-                    if _module[2] is True:
-                        self.__fw_chain.asset_func(
-                            asset=_module[1],
-                            _func='start_module'
-                        )
+                    if self.__fw_chain[_module[1]].threaded():
+                        self.__fw_chain[_module[1]].start_module()
                     else:
                         self.__fw_status.set(module=_module[1], status=True)
                     self._post_module_initialization(_module[1])
@@ -250,7 +247,7 @@ class Flxr:
         all its components """
         self._console_out(msg="Shutting down runtime framework...")
         for _class, __module in self.__fw_chain.items():
-            if __module.threaded_module():
+            if __module.threaded():
                 __module.stop_module()
             else:
                 self.__fw_status.set(
@@ -291,7 +288,7 @@ class Flxr:
             ['thread*', FlxrThreadManager, False],
             ['datetime*', FlxrDatetimeManager, False],
             ['runtime', FlxrRuntimeClock, False],
-            # ['console*', FlxrConsoleManager, True],
+            ['console*', FlxrConsoleManager, True],
             # ['fileio*', FlxrFileIOManager, True],
             # ['tkinter', FlxrTkinterManager, False],
             # ['monitor*', FlxrSystemManager, True],

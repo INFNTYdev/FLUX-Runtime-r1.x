@@ -19,3 +19,4 @@ pass
 #   LOCAL IMPORTS
 from .fwm import Fwm
 from .dfwm import DeployableFwm
+from .tdfwm import ThreadedFwm

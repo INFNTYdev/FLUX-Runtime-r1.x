@@ -33,6 +33,10 @@ class Fwm(ABC):
         """ Returns module type """
         return self.__class
 
+    def fwm_name(self) -> str:
+        """ Returns module class name """
+        return self.fwm_class().__name__
+
     def hfw_service(self, svc: str, **svc_args) -> any:
         """ Execute specified framework service """
         return self.__framework.service(requestor=self.fwm_class())[svc](**svc_args)
