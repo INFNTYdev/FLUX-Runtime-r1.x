@@ -290,7 +290,7 @@ class Flxr:
             ['runtime', FlxrRuntimeClock],
             ['console*', FlxrConsoleManager],
             #['fileio*', FlxrFileIOManager],
-            # ['tkinter', FlxrTkinterManager],
+            ['tkinter', FlxrTkinterManager],
             # ['monitor*', FlxrSystemManager],
         ]
 

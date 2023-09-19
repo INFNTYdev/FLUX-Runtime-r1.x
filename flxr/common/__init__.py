@@ -17,4 +17,4 @@ pass
 
 
 #   LOCAL IMPORTS
-from .protocols import Flux
+from .protocols import Flux, FwV

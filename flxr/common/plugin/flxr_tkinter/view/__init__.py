@@ -1,6 +1,6 @@
 
 """
-FLUX Runtime Framework Common Protocols Library
+FLUX-Tkinter View Package
 """
 
 
@@ -17,5 +17,4 @@ pass
 
 
 #   LOCAL IMPORTS
-from .fwp import Flux
-from .fwvmp import FwV
+from .ftkwindow import FTkWindow

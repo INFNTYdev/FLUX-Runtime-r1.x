@@ -20,7 +20,7 @@ from flxr.common.protocols import Flux
 #   MODULE CLASS
 class Fwm(ABC):
     def __init__(self, hfw: Flux, cls: type) -> None:
-        """ FLUX runtime framework module """
+        """ Base FLUX runtime framework module """
         self.__framework: Flux = self.__validate_hfw(hfw)
         self.__class: type = self.__validate_type(cls)
         self.__injectables: list = []
