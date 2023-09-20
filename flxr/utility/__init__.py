@@ -17,6 +17,7 @@ pass
 
 
 #   LOCAL IMPORTS
+from .clientm import ClientManager
 from .assetchain import AssetChain
 from .pproxy import ProcessProxy
 from .sservice import FlxrService

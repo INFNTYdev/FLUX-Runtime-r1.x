@@ -24,7 +24,7 @@ class FluxWindow(tk.Tk, FTkWindow):
         tk.Tk.__init__(self)
         FTkWindow.__init__(self, hfw=hfw, cls=cls, uid=uid, parent=parent, **kwargs)
         self.overrideredirect(kwargs.get('borderless', False))
-        # self.protocol("WM_DELETE_WINDOW", self.close)
+        self.protocol("WM_DELETE_WINDOW", self.close)
         self.title(kwargs.get('title', self.identifier()))
         self.minsize(
             width=self.properties.min_size()[0],
@@ -36,11 +36,10 @@ class FluxWindow(tk.Tk, FTkWindow):
                 height=self.properties.max_size()[1]
             )
         self.geometry(
-            f'{self.properties.min_size()[0]}x{self.properties.min_size()[1]}'
+            f'{self.properties.relative_width()}x{self.properties.relative_height()}'
             f'+{self.initial_coordinates()[0]}+{self.initial_coordinates()[1]}'
         )
         self.resizable(
             kwargs.get('resizability', (True, True))[0],
             kwargs.get('resizability', (True, True))[1]
         )
-        # Visibility bind here (see old 'ftk.py' for more details)

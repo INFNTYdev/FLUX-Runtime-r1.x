@@ -20,7 +20,7 @@ pass
 #   LOCAL IMPORTS
 import flxr
 from .constant import ErrMsgs, FlxrMsgs, ConsoleVars
-from .utility import AssetChain, ProcessProxy
+from .utility import ClientManager, AssetChain, ProcessProxy
 from .core import StatusManager, FlxrServiceManager, \
     FlxrThreadManager, FlxrDatetimeManager, FlxrRuntimeClock, \
     FlxrConsoleManager, FlxrFileIOManager, FlxrSystemManager
@@ -50,7 +50,7 @@ class Flxr:
             self.__fatal_error: bool = False
             self.__startup_load_wait: float = .0
             self.__thread_load_wait: float = .0
-            # ClientManager here
+            self.__client: ClientManager = ClientManager()
             self.__fw_chain: AssetChain = AssetChain()
             self.__process_proxy: ProcessProxy = ProcessProxy()
             self.__status: StatusManager = StatusManager(
@@ -70,9 +70,7 @@ class Flxr:
                 try:
                     self.__console_out(
                         msg=FlxrMsgs.FWM_F_004.format(
-                            module=_module[1].__name__,
-                            index=index + 1,
-                            max=self.deployable_count()
+                            module=_module[1].__name__, index=index+1, max=self.deployable_count()
                         )
                     )
                     self.__module_initialization(module=_module[1])
@@ -159,6 +157,10 @@ class Flxr:
             'getstat': self.__status.get,
             'exit': self.framework_exit
         }
+
+    def client(self) -> ClientManager:
+        """ Returns framework uclient manager """
+        return self.__client
 
     def service(self, requestor, base: bool = False) -> dict:
         """ Returns appropriate framework

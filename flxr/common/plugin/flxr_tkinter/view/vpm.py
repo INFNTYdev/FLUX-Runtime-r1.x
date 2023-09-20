@@ -24,10 +24,10 @@ class FwvPropertyManager:
         self.__fwv_master: FwV = parent
         self.__main: bool = False
         self.__dynamic: bool = True
-        self.__min_size: tuple = kwargs.get('minsize', (400, 200))
+        self.__min_size: tuple = kwargs.get('minsize', (0, 0))
         self.__max_size: tuple = kwargs.get('maxsize')
-        self.__relative_width: float = kwargs.get('rel_width', 50)/100
-        self.__relative_height: float = kwargs.get('rel_height', 50)/100
+        self.__relative_width: float = kwargs.get('rel_width', 40)/100
+        self.__relative_height: float = kwargs.get('rel_height', 30)/100
 
     def is_main(self) -> bool:
         """ Returns true if framework
@@ -54,21 +54,27 @@ class FwvPropertyManager:
         maximum screen realestate """
         return self.__max_size
 
-    def __calculate_relative_width(self) -> int:
+    def relative_width(self) -> int:
         """ Returns framework view
         calculated relative width """
         if self.__fwv_master is None:
-            pass
+            return int(self.__fwv.uclient.display_width()*self.__relative_width)
         else:
-            return int(self.parent().properties.width()*self.__relative_width)
+            try:
+                return int(self.parent().properties.width()*self.__relative_width)
+            except AttributeError:
+                return int(self.parent().winfo_width()*self.__relative_width)
 
-    def __calculate_relative_height(self) -> int:
+    def relative_height(self) -> int:
         """ Returns framework view
         calculated relative height """
         if self.__fwv_master is None:
-            pass
+            return int(self.__fwv.uclient.display_height()*self.__relative_height)
         else:
-            return int(self.parent().properties.height()*self.__relative_height)
+            try:
+                return int(self.parent().properties.height()*self.__relative_height)
+            except AttributeError:
+                return int(self.parent().winfo_height()*self.__relative_height)
 
     def width(self) -> int:
         """ Returns framework view width """
@@ -104,20 +110,64 @@ class FwvPropertyManager:
 
     def set_width(self, width: int) -> None:
         """ Set framework view width """
-        pass
+        if width < self.__min_size[0]:
+            return
+        if self.__max_size is not None:
+            if width > self.__max_size[0]:
+                return
+        if self.__fwv.view_type() == 'FTkWindow':
+            self.__fwv.geometry(f'{width}x{self.height()}')
+        elif self.__fwv.view_type() == 'FTkView':
+            self.__fwv.config(width=width)
 
     def set_height(self, height: int) -> None:
         """ Set framework view height """
-        pass
+        if height < self.__min_size[1]:
+            height = self.__min_size[1]
+        if self.__max_size is not None:
+            if height > self.__max_size[1]:
+                height = self.__max_size[1]
+        if self.__fwv.view_type() == 'FTkWindow':
+            self.__fwv.geometry(f'{self.width()}x{height}')
+        elif self.__fwv.view_type() == 'FTkView':
+            self.__fwv.config(height=height)
 
     def set_relative_width(self, width: int) -> None:
         """ Set framework view relative width """
-        pass
+        if (width < 0) or (width > 100):
+            return
+        if self.__fwv_master is None:
+            _relative_width = int(self.__fwv.uclient.display_width()*(width/100))
+        else:
+            try:
+                _relative_width = int(self.parent().properties.width()*(width/100))
+            except AttributeError:
+                _relative_width = int(self.parent().winfo_width()*(width/100))
+        if self.__fwv.view_type() == 'FTkWindow':
+            self.__fwv.geometry(
+                f'{_relative_width}x{self.height()}'
+            )
+        elif self.__fwv.view_type() == 'FTkView':
+            self.__fwv.config(width=_relative_width)
 
     def set_relative_height(self, height: int) -> None:
         """ Set framework view relative height """
-        pass
+        if (height < 0) or (height > 100):
+            return
+        if self.__fwv_master is None:
+            _relative_height = int(self.__fwv.uclient.display_height()*(height/100))
+        else:
+            try:
+                _relative_height = int(self.parent().properties.height()*(height/100))
+            except AttributeError:
+                _relative_height = int(self.parent().winfo_height()*(height/100))
+        if self.__fwv.view_type() == 'FTkWindow':
+            self.__fwv.geometry(
+                f'{self.width()}x{_relative_height}'
+            )
+        elif self.__fwv.view_type() == 'FTkView':
+            self.__fwv.config(height=_relative_height)
 
     def view_geometry_event(self, event: tk.Event) -> None:
-        """ Capture framework view geometry """
+        """ Handle framework view configure event """
         pass

@@ -18,6 +18,7 @@ from flxr.common.protocols import Flux
 from .vpm import FwvPropertyManager
 from .vhost import FwvHost
 from .vevent import FwvEventHandler
+from flxr.utility import ClientManager
 
 
 #   MODULE CLASS
@@ -30,18 +31,24 @@ class FwVm(Fwm, ABC):
         self.__views: FwvHost = FwvHost(client=self)
         self.__event_handler: FwvEventHandler = FwvEventHandler(client=self)
 
+    @abstractmethod
+    def view_type(self) -> str: ...
+
     def identifier(self) -> str:
-        """ Returns framework view identifier """
+        """ Returns framework
+        view identifier """
         return self.__identifier
 
     @property
-    def client(self) -> None:
-        """ Returns framework client manager """
-        return None
+    def uclient(self) -> ClientManager:
+        """ Returns framework
+        user client manager """
+        return self.hfw().client()
 
     @property
     def properties(self) -> FwvPropertyManager:
-        """ Returns framework view property manager """
+        """ Returns framework
+        view property manager """
         return self.__properties
 
     @property
@@ -51,11 +58,13 @@ class FwVm(Fwm, ABC):
 
     @property
     def event(self) -> FwvEventHandler:
-        """ Returns framework view event handler """
+        """ Returns framework
+        view event handler """
         return self.__event_handler
 
     def present(self, view: str) -> None:
-        """ Display specified hosted framework view """
+        """ Display specified
+        hosted framework view """
         pass
 
     @abstractmethod

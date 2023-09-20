@@ -26,7 +26,7 @@ class FwvEventHandler:
         self.__focus_in_bounds: bool = False
         self.__mouse_in_bounds: bool = False
         self.__MASTER_EVENT_BIND: dict = {
-            '<Configure>': self.__master_configure_event,
+            '<Visibility>': self.__master_visibility_event,
             '<FocusIn> <FocusOut>': self.__master_focus_event,
             '<Enter> <Leave>': self.__master_hover_event,
             '<Button-1> <Button-3>': self.__master_click_event,
@@ -66,42 +66,46 @@ class FwvEventHandler:
                 self.__fwv.bind(_event, func, add='+')
             self.__bindings.append((_event, func))
 
-    def __update_visibility(self, visible: bool) -> None:
+    def update_visibility(self, visible: bool) -> None:
         """ Update framework
         view visibility flag """
         if visible is not self.__visible:
             self.__visible = visible
 
-    def __update_focus(self, focus: bool) -> None:
+    def update_focus(self, focus: bool) -> None:
         """ Update framework
         view focus flag """
         if focus is not self.__focus_in_bounds:
             self.__focus_in_bounds = focus
 
-    def __update_mouse(self, inbounds: bool) -> None:
+    def update_mouse(self, inbounds: bool) -> None:
         """ Update framework view
         mouse inbounds flag """
         if inbounds is not self.__mouse_in_bounds:
             self.__mouse_in_bounds = inbounds
 
-    def __master_configure_event(self, event: tk.Event) -> None:
-        """ Handle framework view configure event """
-        self.__fwv.properties.view_geometry_event(event=event)
+    def __master_visibility_event(self, event: tk.Event) -> None:
+        """ Handle framework view visibility event """
+        if event.state == 'VisibilityUnobscured':
+            self.update_visibility(visible=True)
+            self.__fwv.console(msg=f"window visible")
 
     def __master_focus_event(self, event: tk.Event) -> None:
         """ Handle framework view focus event """
         if str(event).__contains__('FocusIn'):
-            self.__update_focus(focus=True)
+            self.update_focus(focus=True)
+            self.__fwv.console(msg=f"window gained focus")
         elif str(event).__contains__('FocusOut'):
-            self.__update_focus(focus=False)
+            self.update_focus(focus=False)
+            self.__fwv.console(msg=f"window lost focus")
 
     def __master_hover_event(self, event: tk.Event) -> None:
         """ Handle framework view hover event """
         if str(event).__contains__('Enter'):
-            self.__update_mouse(inbounds=True)
+            self.update_mouse(inbounds=True)
         elif str(event).__contains__('Leave'):
-            self.__update_mouse(inbounds=False)
+            self.update_mouse(inbounds=False)
 
     def __master_click_event(self, event: tk.Event) -> None:
         """ Handle framework view click event """
-        self.__update_focus(focus=True)
+        self.update_focus(focus=True)
