@@ -106,6 +106,15 @@ class FwvHost(dict):
     def place_child(self, child, **pack_args) -> None:
         """ Place child widgets
         in framework view (static) """
+        if self.__grid_configured:
+            self.__client_fwv.console(
+                msg=f"Cannot manually place child in dynamic view",
+                error=True
+            )
+            return
+        if not self.__pack_configured:
+            self.__pack_configured = True
+            self.__client_fwv.properties.update_view_characteristic(dynamic=False)
         try:
             self.__child_widgets.append(child)
             child.pack(**pack_args)
