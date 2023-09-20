@@ -23,7 +23,7 @@ class FwvPropertyManager:
         self.__fwv: FwV = client
         self.__fwv_master: FwV = parent
         self.__main: bool = False
-        self.__dynamic: bool = True
+        self.__dynamic: bool = None
         self.__min_size: tuple = kwargs.get('minsize', (0, 0))
         self.__max_size: tuple = kwargs.get('maxsize')
         self.__relative_width: float = kwargs.get('rel_width', 40)/100
@@ -167,3 +167,8 @@ class FwvPropertyManager:
             )
         elif self.__fwv.view_type() == 'FTkView':
             self.__fwv.config(height=_relative_height)
+
+    def update_view_characteristic(self, dynamic: bool) -> None:
+        """ Update framework view characteristic """
+        if dynamic is not self.__dynamic:
+            self.__dynamic = dynamic

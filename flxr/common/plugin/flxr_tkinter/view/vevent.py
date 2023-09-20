@@ -88,16 +88,16 @@ class FwvEventHandler:
         """ Handle framework view visibility event """
         if event.state == 'VisibilityUnobscured':
             self.update_visibility(visible=True)
-            self.__fwv.console(msg=f"window visible")
+            self.__fwv.console(msg=f"view visible")
 
     def __master_focus_event(self, event: tk.Event) -> None:
         """ Handle framework view focus event """
         if str(event).__contains__('FocusIn'):
             self.update_focus(focus=True)
-            self.__fwv.console(msg=f"window gained focus")
+            self.__fwv.console(msg=f"gained focus")
         elif str(event).__contains__('FocusOut'):
             self.update_focus(focus=False)
-            self.__fwv.console(msg=f"window lost focus")
+            self.__fwv.console(msg=f"lost focus")
 
     def __master_hover_event(self, event: tk.Event) -> None:
         """ Handle framework view hover event """

@@ -17,4 +17,5 @@ pass
 
 
 #   LOCAL IMPORTS
+from .ftkview import FTkView
 from .ftkwindow import FTkWindow
