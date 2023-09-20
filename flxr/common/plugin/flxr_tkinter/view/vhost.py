@@ -106,7 +106,15 @@ class FwvHost(dict):
     def place_child(self, child, **pack_args) -> None:
         """ Place child widgets
         in framework view (static) """
-        pass
+        try:
+            self.__child_widgets.append(child)
+            child.pack(**pack_args)
+        except Exception as UnexpectedFailure:
+            self.__client_fwv.console(
+                msg=f"Failed to place {child} in '{self.__client_fwv.identifier()}' view",
+                error=True
+            )
+            self.__client_fwv.console(msg=UnexpectedFailure, error=True)
 
     def place_view(self, uid: str, view: type, **pack_args) -> None:
         """ Manually place views
