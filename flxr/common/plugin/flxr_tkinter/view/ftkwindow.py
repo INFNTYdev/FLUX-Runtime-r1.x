@@ -21,7 +21,7 @@ from simplydt import DateTime
 #   MODULE CLASS
 class FTkWindow(FwVm):
     def __init__(self, hfw: Flux, cls: type, uid: str, parent: any = None, **kwargs) -> None:
-        """ Base FLUX runtime framework tkinter window """
+        """ Base FLUX runtime framework tkinter window view """
         super().__init__(hfw=hfw, cls=cls, uid=uid, parent=parent, **kwargs)
         self.__initial_coordinates: tuple[int, int] = kwargs.get('coord', self.default_coordinates())
         self.__last_width: int = None

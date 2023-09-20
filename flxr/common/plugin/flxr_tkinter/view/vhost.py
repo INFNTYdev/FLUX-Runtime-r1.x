@@ -9,7 +9,7 @@ pass
 
 
 #   BUILT-IN IMPORTS
-pass
+import tkinter as tk
 
 
 #   EXTERNAL IMPORTS
@@ -23,6 +23,7 @@ class FwvHost(dict):
         super().__init__()
         self.__client_fwv: FwV = client
         self.__child_widgets: list = []
+        self.__grid_configured: bool = False
 
     def count(self) -> int:
         """ Returns number of hosted
@@ -93,10 +94,42 @@ class FwvHost(dict):
         in framework view (static) """
         pass
 
+    def __configure_view_grid(self) -> None:
+        """ Configure client
+        framework view grid """
+        if not self.__grid_configured:
+            self.__client_fwv.rowconfigure(0, weight=1)
+            self.__client_fwv.columnconfigure(0, weight=1)
+            self.__grid_configured = True
+            self.__client_fwv.properties.update_view_characteristic(dynamic=True)
+
     def populate(self, views: list[tuple[str, type]]) -> None:
         """ Populate framework view
         with provided views (dynamic) """
-        pass
+        if not self.__grid_configured:
+            self.__configure_view_grid()
+        for _VF in views:
+            try:
+                _identifier, _type = _VF
+                self.__client_fwv.console(
+                    msg=f"Initializing {_type.__name__} '{_identifier}'..."
+                )
+                self.__client_fwv.extend_permissions(cls=_type, admin=True)
+                self[_identifier] = _type(
+                    hfw=self.__client_fwv.hfw(),
+                    uid=_identifier,
+                    parent=self.__client_fwv
+                )
+                self[_identifier].grid(column=0, row=0)
+                self.__client_fwv.console(
+                    msg=f"{_type.__name__} '{_identifier}' initialization complete"
+                )
+            except Exception as UnexpectedFailure:
+                self.__client_fwv.console(
+                    msg=f"Failed to initialize {_VF} in '{self.__client_fwv.identifier()}'",
+                    error=True
+                )
+                self.__client_fwv.console(msg=str(UnexpectedFailure), error=True)
 
     def remove(self, view: str) -> None:
         """ Remove specified view from host """
