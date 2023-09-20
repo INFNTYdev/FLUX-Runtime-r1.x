@@ -167,7 +167,3 @@ class FwvPropertyManager:
             )
         elif self.__fwv.view_type() == 'FTkView':
             self.__fwv.config(height=_relative_height)
-
-    def view_geometry_event(self, event: tk.Event) -> None:
-        """ Handle framework view configure event """
-        pass
