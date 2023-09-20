@@ -18,15 +18,16 @@ from flxr.common import FwV
 
 #   MODULE CLASS
 class FwvPropertyManager:
-    def __init__(self, client: FwV) -> None:
+    def __init__(self, client: FwV, parent: FwV, **kwargs) -> None:
         """ FLUX framework view property manager """
         self.__fwv: FwV = client
+        self.__fwv_master: FwV = parent
         self.__main: bool = False
         self.__dynamic: bool = True
-        self.__min_size: tuple = ()
-        self.__max_size: tuple = ()
-        self.__relative_width: float = None
-        self.__relative_height: float = None
+        self.__min_size: tuple = kwargs.get('minsize', (400, 200))
+        self.__max_size: tuple = kwargs.get('maxsize')
+        self.__relative_width: float = kwargs.get('rel_width', 50)/100
+        self.__relative_height: float = kwargs.get('rel_height', 50)/100
 
     def is_main(self) -> bool:
         """ Returns true if framework
@@ -38,53 +39,68 @@ class FwvPropertyManager:
         view is dynamic """
         return self.__dynamic
 
-    def parent(self) -> any:
+    def parent(self) -> FwV:
         """ Returns framework
         view parent if any """
-        pass
+        return self.__fwv_master
 
     def min_size(self) -> tuple[int, int]:
         """ Returns framework view
         minimum screen realestate """
-        pass
+        return self.__min_size
 
     def max_size(self) -> tuple[int, int]:
         """ Returns framework view
         maximum screen realestate """
-        pass
+        return self.__max_size
+
+    def __calculate_relative_width(self) -> int:
+        """ Returns framework view
+        calculated relative width """
+        if self.__fwv_master is None:
+            pass
+        else:
+            return int(self.parent().properties.width()*self.__relative_width)
+
+    def __calculate_relative_height(self) -> int:
+        """ Returns framework view
+        calculated relative height """
+        if self.__fwv_master is None:
+            pass
+        else:
+            return int(self.parent().properties.height()*self.__relative_height)
 
     def width(self) -> int:
         """ Returns framework view width """
-        pass
+        if self.__fwv.hfw_service('tkinterAlive') is False:
+            return self.__min_size[0]
+        return self.__fwv.winfo_width()
 
     def height(self) -> int:
         """ Returns framework view height """
-        pass
-
-    def relative_width(self) -> float:
-        """ Returns framework view width """
-        pass
-
-    def relative_height(self) -> float:
-        """ Returns framework view height """
-        pass
+        if self.__fwv.hfw_service('tkinterAlive') is False:
+            return self.__min_size[1]
+        return self.__fwv.winfo_height()
 
     def coordinates(self) -> tuple[tuple, tuple, tuple, tuple]:
         """ Returns framework view
         4-corner coordinates """
-        pass
+        x1, y1 = (self.__fwv.winfo_rootx(), self.__fwv.winfo_rooty())
+        y2, x3 = (y1 + self.__fwv.winfo_height(), x1 + self.__fwv.winfo_width())
+        return (x1, y1), (x1, y2), (x3, y2), (x3, y1)
 
     def set_as_main(self, main: bool = True) -> None:
         """ Set framework view as main view """
-        self.__main = main
+        if main is not self.__main:
+            self.__main = main
 
     def set_min_size(self, width: int, height: int) -> None:
         """ Set framework view minimum size """
-        pass
+        self.__min_size = width, height
 
     def set_max_size(self, width: int, height: int) -> None:
         """ Set framework view maximum size """
-        pass
+        self.__max_size = width, height
 
     def set_width(self, width: int) -> None:
         """ Set framework view width """
@@ -102,6 +118,6 @@ class FwvPropertyManager:
         """ Set framework view relative height """
         pass
 
-    def capture_view_geometry(self) -> None:
+    def view_geometry_event(self, event: tk.Event) -> None:
         """ Capture framework view geometry """
         pass

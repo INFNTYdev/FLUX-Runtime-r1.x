@@ -55,7 +55,7 @@ class ThreadedFwm(DeployableFwm):
         if not self.__run:
             self.set_status(False)
             return False
-        elif not self.hfw().is_alive():
+        elif not self.hfw().active():
             self.set_status(False)
             return False
         elif self.status() is not True:

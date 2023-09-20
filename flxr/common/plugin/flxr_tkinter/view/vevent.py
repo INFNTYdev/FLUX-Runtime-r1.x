@@ -26,10 +26,10 @@ class FwvEventHandler:
         self.__focus_in_bounds: bool = False
         self.__mouse_in_bounds: bool = False
         self.__MASTER_EVENT_BIND: dict = {
+            '<Configure>': self.__master_configure_event,
             '<FocusIn> <FocusOut>': self.__master_focus_event,
             '<Enter> <Leave>': self.__master_hover_event,
             '<Button-1> <Button-3>': self.__master_click_event,
-            # '<Configure>': self._master_configure_event,
         }
         for _events, _function in self.__MASTER_EVENT_BIND.items():
             self.new_bind(_events, _function)
@@ -83,6 +83,10 @@ class FwvEventHandler:
         mouse inbounds flag """
         if inbounds is not self.__mouse_in_bounds:
             self.__mouse_in_bounds = inbounds
+
+    def __master_configure_event(self, event: tk.Event) -> None:
+        """ Handle framework view configure event """
+        self.__fwv.properties.view_geometry_event(event=event)
 
     def __master_focus_event(self, event: tk.Event) -> None:
         """ Handle framework view focus event """

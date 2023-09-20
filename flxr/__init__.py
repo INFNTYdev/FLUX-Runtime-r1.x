@@ -6,7 +6,7 @@ FLUX Runtime Framework Library
 
 
 #   PACKAGE META
-__FW_VER: str = '1.3.0.78'
+__FW_VER: str = '1.3.0.8'
 
 
 #   PACKAGE METHODS

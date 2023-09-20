@@ -26,7 +26,7 @@ class FwVm(Fwm, ABC):
         """ Base FLUX runtime framework view module """
         super().__init__(hfw=hfw, cls=cls)
         self.__identifier: str = uid
-        self.__properties: FwvPropertyManager = FwvPropertyManager(client=self)
+        self.__properties: FwvPropertyManager = FwvPropertyManager(client=self, parent=parent, **kwargs)
         self.__views: FwvHost = FwvHost(client=self)
         self.__event_handler: FwvEventHandler = FwvEventHandler(client=self)
 

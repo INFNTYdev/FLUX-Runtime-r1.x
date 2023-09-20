@@ -23,7 +23,7 @@ class FTkWindow(FwVm):
     def __init__(self, hfw: Flux, cls: type, uid: str, parent: any = None, **kwargs) -> None:
         """ Base FLUX runtime framework tkinter window """
         super().__init__(hfw=hfw, cls=cls, uid=uid, parent=parent, **kwargs)
-        self.__initial_coordinates: tuple[int, int] = ()
+        self.__initial_coordinates: tuple[int, int] = kwargs.get('coord', self.default_coordinates())
         self.__last_width: int = None
         self.__last_height: int = None
         self.__last_x_position: int = None
@@ -36,22 +36,22 @@ class FTkWindow(FwVm):
     def initial_coordinates(self) -> tuple[int, int]:
         """ Returns window intital
         spawn coordinates """
-        pass
+        return self.__initial_coordinates
 
     def center_x_position(self) -> int:
         """ Returns window
         center x coordinate """
-        pass
+        return 500
 
-    def center_y_coordinate(self) -> int:
+    def center_y_position(self) -> int:
         """ Returns window
         center y coordinate """
-        pass
+        return 500
 
     def default_coordinates(self) -> tuple[int, int]:
         """ Returns window
         default coordinates """
-        pass
+        return self.center_x_position(), self.center_y_position()
 
     def minimize(self) -> None:
         """ Minimize window """

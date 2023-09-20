@@ -71,7 +71,7 @@ class FlxrConsoleManager(ThreadedFwm):
         )
         self.__index += 1
         self.__local_log[self.runtime()] = _record
-        if self.hfw().dev_mode():
+        if self.hfw().developer_mode():
             self.__queue.append(_record)
 
     def pause(self) -> None:
@@ -92,7 +92,7 @@ class FlxrConsoleManager(ThreadedFwm):
         if (len(self.__queue) > 0) and (not self.__pause):
             _len_snapshot: int = len(self.__queue)
             while _len_snapshot > 0:
-                if self.hfw().dev_mode():
+                if self.hfw().developer_mode():
                     self.__get_next_queued().print_entry()
                 else:
                     self.__disregard_next_queued()
