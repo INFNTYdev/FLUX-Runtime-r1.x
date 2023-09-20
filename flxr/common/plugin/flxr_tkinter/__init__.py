@@ -19,5 +19,5 @@ pass
 #   LOCAL IMPORTS
 # from .fviewf iimport FluxViewframe
 # from .fviewp import FluxViewport
-# from .fsubwin import FluxSubWindow
+from .fsubwin import FluxSubWindow
 from .fwin import FluxWindow

@@ -40,7 +40,7 @@ class FlxrTkinterManager(DeployableFwm):
                 ('windowHeight', self.get_window_height, SvcVars.ANY),
                 ('windowCoord', self.get_window_coordinates, SvcVars.LOW),
                 ('createWindow', self.create_window, SvcVars.HIGH),
-                # ('addWindow', self.add_window, SvcVars.HIGH),
+                ('addWindow', self.add_window, SvcVars.HIGH),
                 # ('deleteWindow', self.delete_window, SvcVars.HIGH),
                 # ('minimize', self.minimize_window, SvcVars.MED),
                 # ('maximize', self.maximize_window, SvcVars.MED),
@@ -208,9 +208,14 @@ class FlxrTkinterManager(DeployableFwm):
         )
         self.console(msg=f"Successfully built '{uid}' window")
 
-    def add_window(self, uid: str, cls: type, **kwargs) -> None:
+    def add_window(self, cls: type, main: bool = False) -> None:
         """ Add new managed window """
-        pass
+        self.console(msg=f"Initializing '{cls.__name__}' window...")
+        self.extend_permissions(cls=cls, admin=True)
+        self.__windows.append(cls(hfw=self.hfw()))
+        if main is True:
+            self.__windows[-1].properties.set_as_main()
+        self.console(msg=f"Successfully attached '{cls.__name__}' window")
 
     def start_tkinter(self) -> None:
         """ Start tkinter main loop """

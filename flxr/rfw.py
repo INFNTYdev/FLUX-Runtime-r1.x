@@ -183,9 +183,14 @@ class Flxr:
             clearance=clearance
         )
 
-    def attach_window(self, uid: str, cls: type, **kwargs) -> None:
+    def attach_window(self, cls: type, **kwargs) -> None:
         """ Add application window to framework """
-        pass
+        self.__fw_chain.asset_func(
+            asset=FlxrTkinterManager,
+            _func='add_window',
+            cls=cls,
+            main=kwargs.get('main', False)
+        )
 
     def set_main_window(self, window: str or type) -> None:
         """ Set specified application
