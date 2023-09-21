@@ -46,12 +46,12 @@ class FwvPropertyManager:
 
     def min_size(self) -> tuple[int, int]:
         """ Returns framework view
-        minimum screen realestate """
+        minimum screen real-estate """
         return self.__min_size
 
     def max_size(self) -> tuple[int, int]:
         """ Returns framework view
-        maximum screen realestate """
+        maximum screen real-estate """
         return self.__max_size
 
     def relative_width(self) -> int:
@@ -117,6 +117,7 @@ class FwvPropertyManager:
                 return
         if self.__fwv.view_type() == 'FTkWindow':
             self.__fwv.geometry(f'{width}x{self.height()}')
+            self.__fwv.update()
         elif self.__fwv.view_type() == 'FTkView':
             self.__fwv.config(width=width)
 
