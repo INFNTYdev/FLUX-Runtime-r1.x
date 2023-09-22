@@ -20,13 +20,13 @@ from flxr.constant import SvcVars
 
 #   MODULE CLASS
 class FlxrTkinterManager(DeployableFwm):
-    def __init__(self, hfw) -> None:
+    def __init__(self, hfw, core: bool) -> None:
         """ Framework tkinter manager """
-        super().__init__(hfw=hfw, cls=FlxrTkinterManager)
+        super().__init__(hfw=hfw, cls=FlxrTkinterManager, core=core)
         self.__tkinter_alive: bool = False
         self.__windows: list[FluxWindow] = []
         self.extend_permissions(cls=FluxWindow, admin=True)
-        self.to_service_injector(
+        self.load_injector(
             load=[
                 ('windowIds', self.window_identifiers, SvcVars.MED),
                 ('hostedWindows', self.managed_windows, SvcVars.HIGH),
@@ -200,7 +200,7 @@ class FlxrTkinterManager(DeployableFwm):
         self.console(msg=f"Creating '{uid}' window...")
         self.__windows.append(
             kwargs.get('cls', FluxWindow)(
-                hfw=self.hfw(),
+                hfw=self.framework(),
                 cls=kwargs.pop('cls', FluxWindow),
                 uid=uid,
                 **kwargs
@@ -212,7 +212,7 @@ class FlxrTkinterManager(DeployableFwm):
         """ Add new managed window """
         self.console(msg=f"Initializing '{cls.__name__}' window...")
         self.extend_permissions(cls=cls, admin=True)
-        self.__windows.append(cls(hfw=self.hfw()))
+        self.__windows.append(cls(hfw=self.framework()))
         if main is True:
             self.__windows[-1].properties.set_as_main()
         self.console(msg=f"Successfully attached '{cls.__name__}' window")
@@ -235,7 +235,7 @@ class FlxrTkinterManager(DeployableFwm):
             self.__tkinter_alive = False
         except Exception:
             self.__tkinter_alive = False
-            self.console(msg="An error ocurred during application runtime", error=True)
+            self.console(msg="An error occurred during application runtime", error=True)
         self.console(msg="Application mainloop closed")
 
     def stop_tkinter(self, wait: int = 0) -> None:

@@ -4,14 +4,6 @@ Framework Console Manager Module
 """
 
 
-#   THIRD-PARTY IMPORTS
-pass
-
-
-#   BUILT-IN IMPORTS
-pass
-
-
 #   EXTERNAL IMPORTS
 from flxr.common.core import ThreadedFwm
 from flxr.constant import SvcVars
@@ -20,16 +12,16 @@ from flxr.model import ConsoleEntry
 
 #   MODULE CLASS
 class FlxrConsoleManager(ThreadedFwm):
-    def __init__(self, hfw) -> None:
+    def __init__(self, hfw, core: bool) -> None:
         """ Framework console manager """
-        super().__init__(hfw=hfw, cls=FlxrConsoleManager, handle='fwconsole')
+        super().__init__(hfw=hfw, cls=FlxrConsoleManager, handle='fwconsole', core=core)
         self.__index: int = 0
         self.__pause: bool = False
         self.__queue: list[ConsoleEntry] = []
         self.__local_log: dict[ConsoleEntry] = {}
         self.set_mainloop(func=self.__mainloop)
         self.set_poll(requestor=self, poll=0.15)
-        self.to_service_injector(
+        self.load_injector(
             load=[
                 ('pauseConsole', self.pause, SvcVars.MED),
                 ('resumeConsole', self.resume, SvcVars.MED),
@@ -71,7 +63,7 @@ class FlxrConsoleManager(ThreadedFwm):
         )
         self.__index += 1
         self.__local_log[self.runtime()] = _record
-        if self.hfw().developer_mode():
+        if self.hfw.developer_mode():
             self.__queue.append(_record)
 
     def pause(self) -> None:
@@ -92,7 +84,7 @@ class FlxrConsoleManager(ThreadedFwm):
         if (len(self.__queue) > 0) and (not self.__pause):
             _len_snapshot: int = len(self.__queue)
             while _len_snapshot > 0:
-                if self.hfw().developer_mode():
+                if self.hfw.developer_mode():
                     self.__get_next_queued().print_entry()
                 else:
                     self.__disregard_next_queued()

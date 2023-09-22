@@ -70,14 +70,14 @@ class Flxr:
                 try:
                     self.__console_out(
                         msg=FlxrMsgs.FWM_F_004.format(
-                            module=_module[1].__name__, index=index+1, max=self.deployable_count()
+                            module=_module[0].__name__, index=index+1, max=self.deployable_count()
                         )
                     )
-                    self.__module_initialization(module=_module[1])
-                    self.__post_module_initialization(module=_module[1])
+                    self.__module_initialization(module=_module[0], core=_module[1])
+                    self.__post_module_initialization(module=_module[0])
                 except Exception as ModuleInitFailure:
                     self.__console_out(
-                        msg=f"[ FAILED TO INITIALIZE {_module[1].__name__} MODULE ]",
+                        msg=f"[ FAILED TO INITIALIZE {_module[0].__name__} MODULE ]",
                         error=True
                     )
                     self.__console_out(msg=f"Reason: {ModuleInitFailure}", error=True)
@@ -102,14 +102,14 @@ class Flxr:
     def __fw_deployable() -> list[tuple[str, type]]:
         """ Framework deployable module manifest """
         return [
-            ('service*', FlxrServiceManager),
-            ('thread*', FlxrThreadManager),
-            ('datetime*', FlxrDatetimeManager),
-            ('runtime', FlxrRuntimeClock),
-            ('console*', FlxrConsoleManager),
-            # ('fileio*', FlxrFileIOManager),
-            #('tkinter', FlxrTkinterManager),
-            # ('monitor*', FlxrSystemManager),
+            (FlxrServiceManager, True),
+            (FlxrThreadManager, True),
+            (FlxrDatetimeManager, True),
+            (FlxrRuntimeClock, False),
+            (FlxrConsoleManager, False),
+            # (FlxrFileIOManager, False),
+            #(FlxrTkinterManager, False),
+            # (FlxrSystemManager, True),
         ]
 
     def developer_mode(self) -> bool:
@@ -159,8 +159,17 @@ class Flxr:
         }
 
     def client(self) -> ClientManager:
-        """ Returns framework uclient manager """
+        """ Returns framework client manager """
         return self.__client
+
+    def class_clearance(self, cls: type) -> int:
+        """ Returns framework security
+        clearance of provided module class """
+        return self.__fw_chain.asset_func(
+            asset=FlxrServiceManager,
+            _func='class_clearance',
+            cls=cls
+        )
 
     def service(self, requestor, base: bool = False) -> dict:
         """ Returns appropriate framework
@@ -270,7 +279,7 @@ class Flxr:
         }
         self.__master_console_output(**print_config)
 
-    def __module_initialization(self, module: type) -> None:
+    def __module_initialization(self, module: type, core: bool) -> None:
         """ Initialize deployable framework module """
         if self.services_enabled():
             self.__fw_chain.asset_func(
@@ -279,7 +288,7 @@ class Flxr:
                 requestor=Flxr,
                 cls=module
             )
-        self.__fw_chain[module] = module(hfw=self)
+        self.__fw_chain[module] = module(hfw=self, core=core)
         if self.__fw_chain[module].threaded():
             self.__fw_chain[module].start_module()
         else:
@@ -297,7 +306,7 @@ class Flxr:
             elif 20 <= lclock <= 20.1:
                 self.__fatal_error = True
                 self.__console_out(msg="Framework startup took too long", error=True, prefix='!')
-                # Start up error notification
+                # TODO: Start up error notification
                 break
 
     def __post_module_initialization(self, module: type) -> None:

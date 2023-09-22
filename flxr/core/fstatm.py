@@ -36,11 +36,6 @@ class StatusManager(Fwm):
             return False
         return self.__status[GlobalFuncs.class_of(module)]['status']
 
-    def core_active(self) -> bool:
-        """ Returns true if all
-        core modules are active """
-        pass
-
     def all_active(self) -> bool:
         """ Returns true if all deployable
         modules are active """
@@ -68,6 +63,4 @@ class StatusManager(Fwm):
         """ Include initial framework modules
         in status manager """
         for _module in deployable:
-            self.__status[_module[1]] = {'core': False, 'status': False}
-            if _module[0][-1] == '*':
-                self.__status[_module[1]]['core'] = True
+            self.__status[_module[0]] = {'status': False}

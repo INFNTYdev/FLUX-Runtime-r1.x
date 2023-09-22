@@ -4,32 +4,29 @@ Deployable FLUX Framework Dependant Module
 """
 
 
-#   THIRD-PARTY IMPORTS
-pass
-
-
 #   BUILT-IN IMPORTS
 from threading import Thread
+from typing import Callable
+import time
 
 
 #   EXTERNAL IMPORTS
 from .dfwm import DeployableFwm
 from flxr.common.protocols import Flux
 from simplydt import simplydatetime, DateTime
-from flxr.constant import ErrMsgs
 
 
 #   MODULE CLASS
 class ThreadedFwm(DeployableFwm):
-    def __init__(self, hfw: Flux, cls: type, handle: str) -> None:
+    def __init__(self, hfw: Flux, cls: type, handle: str, core: bool) -> None:
         """ Base threaded deployable
         FLUX runtime framework module """
-        super().__init__(hfw=hfw, cls=cls)
+        super().__init__(hfw=hfw, cls=cls, core=core)
         self.__run: bool = False
-        self.__refresh: list[float, float] = []
-        self.__mainloop = None
+        self.__handle: str = str(handle)
+        self.__refresh: list[float] = []
+        self.__mainloop: Callable = None
         self.__last_update: DateTime = None
-        self.__handle: str = handle
 
     @staticmethod
     def threaded() -> bool: return True
@@ -44,7 +41,7 @@ class ThreadedFwm(DeployableFwm):
         has been set by module """
         return self.__mainloop is not None
 
-    def get_mainloop(self) -> any:
+    def get_mainloop(self) -> Callable:
         """ Returns threaded module
         loop function """
         return self.__mainloop
@@ -55,7 +52,7 @@ class ThreadedFwm(DeployableFwm):
         if not self.__run:
             self.set_status(False)
             return False
-        elif not self.hfw().active():
+        elif self.hfw.active() is not True:
             self.set_status(False)
             return False
         elif self.status() is not True:
@@ -64,7 +61,7 @@ class ThreadedFwm(DeployableFwm):
 
     def poll_rate(self) -> float:
         """ Returns module threading poll rate """
-        return self.__refresh[0]
+        return self.__refresh[-1]
 
     def last_update(self) -> DateTime:
         """ Returns module thread last
@@ -80,16 +77,11 @@ class ThreadedFwm(DeployableFwm):
     def set_poll(self, requestor, poll: float) -> None:
         """ Set threaded module polling rate """
         if requestor is self:
-            if len(self.__refresh) == 2:
-                self.__refresh = [poll, self.__refresh[0]]
-            else:
-                self.__refresh.append(poll)
-                if len(self.__refresh) == 2:
-                    self.set_poll(requestor=requestor, poll=poll)
+            self.__refresh.append(float(poll))
 
     def reset_poll(self) -> None:
         """ Reset threaded module poll rate """
-        self.__refresh = [self.__refresh[1]]
+        self.__refresh = [self.__refresh[0]]
 
     def start_module(self) -> None:
         """ Start framework module thread """
@@ -115,6 +107,9 @@ class ThreadedFwm(DeployableFwm):
         """ Update module 'last updated' datetime """
         self.__last_update = simplydatetime.now()
 
+    @staticmethod
+    def wait(secs: float) -> None: time.sleep(secs)
+
     def __execute_loop(self) -> None:
         """ Threaded module host loop """
         self.__run = True
@@ -122,4 +117,4 @@ class ThreadedFwm(DeployableFwm):
         self.set_status(True)
         while self.runnable():
             self.__mainloop()
-            self.wait(self.__refresh[0])
+            self.wait(self.poll_rate())

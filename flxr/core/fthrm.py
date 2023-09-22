@@ -4,10 +4,6 @@ Framework Thread Manager Module
 """
 
 
-#   THIRD-PARTY IMPORTS
-pass
-
-
 #   BUILT-IN IMPORTS
 from threading import Thread
 
@@ -20,11 +16,11 @@ from flxr.constant import SvcVars
 
 #   MODULE CLASS
 class FlxrThreadManager(DeployableFwm):
-    def __init__(self, hfw) -> None:
+    def __init__(self, hfw, core: bool) -> None:
         """ Framework thread manager """
-        super().__init__(hfw=hfw, cls=FlxrThreadManager)
+        super().__init__(hfw=hfw, cls=FlxrThreadManager, core=core)
         self.__threads: dict[FlxrThread] = {}
-        self.to_service_injector(
+        self.load_injector(
             load=[
                 ('thrs', self.handles, SvcVars.LOW),
                 ('nthr', self.new, SvcVars.MED),
@@ -64,7 +60,6 @@ class FlxrThreadManager(DeployableFwm):
         """ Establish new managed thread """
         if self.existing_handle(handle):
             return
-
         self.console(msg=f"Creating '{handle}' thread...")
         self.__threads[handle] = FlxrThread(
             handle=handle,
@@ -75,12 +70,12 @@ class FlxrThreadManager(DeployableFwm):
 
     def delete(self, handle: str) -> None:
         """ Delete specified managed thread """
-        pass
+        # TODO: Setup thread manager delete behavior
 
     def join(self, handle: str, force: bool = False, **kwargs) -> None:
         """ Join the specified managed thread """
-        pass
+        # TODO: Setup thread manager join behavior
 
     def join_all(self, force: bool = False, **kwargs) -> None:
         """ Join all managed threads with main """
-        pass
+        # TODO: Setup thread manager join all behavior

@@ -24,9 +24,9 @@ class FlxrServiceManager(DeployableFwm):
     __whitelist: dict = {}
     __admin: list = []
 
-    def __init__(self, hfw) -> None:
+    def __init__(self, hfw, core: bool) -> None:
         """ Framework service manager """
-        super().__init__(hfw=hfw, cls=FlxrServiceManager)
+        super().__init__(hfw=hfw, cls=FlxrServiceManager, core=core)
         self.__services: dict = {}
         self.whitelist(requestor=self, cls=self, admin=True)
         self.whitelist(requestor=self, cls=hfw, admin=True)
@@ -165,10 +165,10 @@ class FlxrServiceManager(DeployableFwm):
                 func=new[1],
                 clearance=new[2]
             )
-        for call, _func in self.hfw().base_service().items():
+        for call, _func in self.hfw.base_service().items():
             self.new(
                 call=call,
-                cls=type(self.hfw()),
+                cls=type(self.framework()),
                 func=_func,
                 clearance=SvcVars.ANY
             )

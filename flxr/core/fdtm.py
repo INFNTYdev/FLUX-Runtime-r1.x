@@ -4,14 +4,6 @@ Framework Datetime Manager Module
 """
 
 
-#   THIRD-PARTY IMPORTS
-pass
-
-
-#   BUILT-IN IMPORTS
-pass
-
-
 #   EXTERNAL IMPORTS
 from flxr.common.core import DeployableFwm
 from flxr.constant import SvcVars
@@ -20,10 +12,10 @@ from simplydt import simplydatetime, DateTime, Date, Time
 
 #   MODULE CLASS
 class FlxrDatetimeManager(DeployableFwm):
-    def __init__(self, hfw) -> None:
+    def __init__(self, hfw, core: bool) -> None:
         """ Framework datetime manager """
-        super().__init__(hfw=hfw, cls=FlxrDatetimeManager)
-        self.to_service_injector(
+        super().__init__(hfw=hfw, cls=FlxrDatetimeManager, core=core)
+        self.load_injector(
             load=[
                 ('date', self.current_date, SvcVars.ANY),
                 ('time', self.current_time, SvcVars.ANY),

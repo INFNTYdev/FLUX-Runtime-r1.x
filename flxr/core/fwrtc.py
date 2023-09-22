@@ -4,14 +4,6 @@ Framework Runtime Clock Module
 """
 
 
-#   THIRD-PARTY IMPORTS
-pass
-
-
-#   BUILT-IN IMPORTS
-pass
-
-
 #   EXTERNAL IMPORTS
 from flxr.common.core import DeployableFwm
 from flxr.constant import SvcVars
@@ -20,11 +12,11 @@ from simplydt import simplydatetime, DateTime, Date, Time
 
 #   MODULE CLASS
 class FlxrRuntimeClock(DeployableFwm):
-    def __init__(self, hfw) -> None:
+    def __init__(self, hfw, core: bool) -> None:
         """ Framework thread manager """
-        super().__init__(hfw=hfw, cls=FlxrRuntimeClock)
+        super().__init__(hfw=hfw, cls=FlxrRuntimeClock, core=core)
         self.__origin: DateTime = simplydatetime.now()
-        self.to_service_injector(
+        self.load_injector(
             load=[
                 ('runtime', self.runtime_string, SvcVars.ANY),
                 ('runtimeStamp', self.runtime_stamp, SvcVars.ANY),
