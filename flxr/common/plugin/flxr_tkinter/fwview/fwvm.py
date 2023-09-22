@@ -1,6 +1,6 @@
 
 """
-FLUX Runtime Framework Tkinter Manager Module
+FLUX Runtime Framework View Abstract
 """
 
 
@@ -10,7 +10,7 @@ from abc import ABC, abstractmethod
 
 #   EXTERNAL IMPORTS
 from flxr.common.core import Fwm
-from .fwvhost import FwvHost
+from .utility import FwvHost, FwvPropertyManager, FwvEventHandler
 from flxr.utility import ClientManager
 
 
@@ -39,7 +39,7 @@ class FwVm(Fwm, ABC):
 
     @property
     @abstractmethod
-    def properties(self) -> None:
+    def properties(self) -> FwvPropertyManager:
         """ Framework view property manager """
         ...
 
@@ -50,7 +50,7 @@ class FwVm(Fwm, ABC):
 
     @property
     @abstractmethod
-    def event(self) -> None:
+    def event(self) -> FwvEventHandler:
         """ Framework view event handler """
         ...
 
