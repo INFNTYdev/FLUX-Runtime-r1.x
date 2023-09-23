@@ -17,6 +17,8 @@ pass
 
 
 #   LOCAL IMPORTS
-from .fwvpm import FwvPropertyManager
-from .fwvevent import FwvEventHandler
+from .winpm import WindowPropertyManager
+from .winevent import WindowEventHandler
+# from .viewpm import ViewPropertyManager
+# from .viewevent import ViewEventHandler
 from .fwvhost import FwvHost

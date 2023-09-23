@@ -24,7 +24,7 @@ from .utility import ClientManager, AssetChain, ProcessProxy
 from .core import StatusManager, FlxrServiceManager, \
     FlxrThreadManager, FlxrDatetimeManager, FlxrRuntimeClock, \
     FlxrConsoleManager, FlxrFileIOManager, FlxrSystemManager
-#from .plugin import FlxrTkinterManager
+from .plugin import FlxrTkinterManager
 
 
 #   MODULE CLASS
@@ -108,7 +108,7 @@ class Flxr:
             (FlxrRuntimeClock, False),
             (FlxrConsoleManager, False),
             # (FlxrFileIOManager, False),
-            #(FlxrTkinterManager, False),
+            (FlxrTkinterManager, False),
             # (FlxrSystemManager, True),
         ]
 

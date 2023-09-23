@@ -65,7 +65,7 @@ class FlxrTkinterManager(DeployableFwm):
     def window_identifiers(self) -> list[str]:
         """ Returns list of managed
         window identifiers """
-        return [_window.identifier() for _window in self.__windows]
+        return [_window.uid() for _window in self.__windows]
 
     def window_count(self) -> int:
         """ Returns number of
@@ -93,7 +93,7 @@ class FlxrTkinterManager(DeployableFwm):
         if not self.existing_window(window):
             return None
         for _window in self.managed_windows():
-            if _window.identifier() == window:
+            if _window.uid() == window:
                 return _window
 
     def main_window(self) -> FluxWindow:
@@ -108,14 +108,14 @@ class FlxrTkinterManager(DeployableFwm):
         """ Returns main managed
         window identifier if any """
         if self.main_window() is not None:
-            return self.main_window().identifier()
+            return self.main_window().uid()
         return None
 
     def active_window(self) -> FluxWindow:
         """ Returns managed window
         instance holding focus """
         for _window in self.managed_windows():
-            if _window.event.focus_in_bounds():
+            if _window.event.focus_inbounds():
                 return _window
         return None
 
@@ -123,7 +123,7 @@ class FlxrTkinterManager(DeployableFwm):
         """ Returns active managed
         window identifier if any """
         if self.active_window() is not None:
-            return self.active_window().identifier()
+            return self.active_window().uid()
         return None
 
     def get_window_width(self, window: str) -> int:
@@ -226,7 +226,7 @@ class FlxrTkinterManager(DeployableFwm):
             return
 
         if self.main_window() is None:
-            self.console(msg=f"Forcing '{self.__windows[0].identifier()}' as main window...", notice=True)
+            self.console(msg=f"Forcing '{self.__windows[0].uid()}' as main window...", notice=True)
             self.__windows[0].properties.set_as_main()
         self.console(msg="Starting tkinter mainloop...")
         try:

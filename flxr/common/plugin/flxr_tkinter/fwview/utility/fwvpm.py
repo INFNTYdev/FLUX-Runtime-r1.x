@@ -19,6 +19,9 @@ class FwvPropertyManager:
         self.__size_lock: bool = False
         self.__background: str = kwargs.get('bg')
 
+    def ftk(self) -> FwV:
+        return self.__ftk
+
     def is_main(self) -> bool:
         """ Returns true if framework
         view is main view """
@@ -80,7 +83,6 @@ class FwvPropertyManager:
         if kwargs.get('dynamic') is not None:
             if bool(kwargs.get('dynamic')) is not self.__dynamic:
                 self.__dynamic = bool(kwargs.get('dynamic'))
-
         if kwargs.get('main') is not None:
             if bool(kwargs.get('main')) is not self.__main:
                 self.__main = bool(kwargs.get('main'))

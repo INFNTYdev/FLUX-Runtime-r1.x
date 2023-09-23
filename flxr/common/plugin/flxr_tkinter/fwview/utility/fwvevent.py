@@ -31,6 +31,9 @@ class FwvEventHandler:
         for _events, _function in self.__SUPER_EVENT_BIND.items():
             self.bind(event=_events, func=_function)
 
+    def ftk(self) -> FwV:
+        return self.__ftk
+
     def bindings(self) -> list[tuple[str, Callable]]:
         """ Returns list of
         framework view bindings """
@@ -83,19 +86,22 @@ class FwvEventHandler:
     def __super_visibility_event(self, event: tk.Event) -> None:
         """ Handle framework view visibility event """
         if event.state == 'VisibilityUnobscured':
-            self.update(visibility=True)
-            self.__ftk.console(msg=f"view visible")
+            if self.visible() is False:
+                self.update(visibility=True)
+                self.__ftk.console(msg=f"view visible")
         else:
             self.__ftk.console(msg=f"Unknown visibility event: {event}", notice=True)
 
     def __super_focus_event(self, event: tk.Event) -> None:
         """ Handle framework view focus event """
         if str(event).__contains__('FocusIn'):
-            self.update(focus_inbounds=True)
-            self.__ftk.console(msg=f"gained focus")
+            if not self.focus_inbounds():
+                self.update(focus_inbounds=True)
+                self.__ftk.console(msg=f"gained focus")
         elif str(event).__contains__('FocusOut'):
-            self.update(focus_inbounds=False)
-            self.__ftk.console(msg=f"lost focus")
+            if self.focus_inbounds():
+                self.update(focus_inbounds=False)
+                self.__ftk.console(msg=f"lost focus")
 
     def __super_hover_event(self, event: tk.Event) -> None:
         """ Handle framework view hover event """

@@ -10,7 +10,9 @@ from abc import ABC, abstractmethod
 
 #   EXTERNAL IMPORTS
 from flxr.common.core import Fwm
-from .utility import FwvHost, FwvPropertyManager, FwvEventHandler
+from .utility.fwvpm import FwvPropertyManager
+from .utility.fwvevent import FwvEventHandler
+from .utility import FwvHost
 from flxr.utility import ClientManager
 
 

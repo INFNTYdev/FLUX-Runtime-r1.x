@@ -20,4 +20,4 @@ pass
 # from .fviewf import FluxViewframe
 # from .fviewp import FluxViewport
 # from .fsubwin import FluxSubWindow
-# from .fwin import FluxWindow
+from .fwin import FluxWindow
