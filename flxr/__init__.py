@@ -1,40 +1,31 @@
 
-""" INFINITY Systems, LLC. 2023 - FLUX Runtime-Engine Framework """
-
-
-#   BUILT-IN IMPORTS
-import os
-import sys
-import time
-from threading import Thread
-
-
-#   INFINITY IMPORTS
-from simplydt import simplydatetime, DateTime, Date, Time
+"""
+INFINITY Systems, LLC. 2023 -
+FLUX Runtime Framework Library
+"""
 
 
 #   PACKAGE META
-__FRAMEWORK_PACKAGE: str = __file__.split('\\')[-2]
-__FRAMEWORK_VERSION: str = '1.5.0.2'
+__FW_VER: str = '1.3.0.8'
 
 
 #   PACKAGE METHODS
-def flxr_pkg_n() -> str:
-    """ Returns package name """
-    return __FRAMEWORK_PACKAGE
+def fwversion() -> str:
+    """ Returns the framework version """
+    return __FW_VER
 
 
-def flxr_pkg_v() -> str:
-    """ Returns package version """
-    return __FRAMEWORK_VERSION
+#   THIRD-PARTY IMPORTS
+pass
 
 
-#   MODULE IMPORTS
-...
-from flxr.fwconst import *
-from .fwsvc import *
-from .fwbase import *
-from .fwexec import *
-...
-from .fwlib import *
+#   BUILT-IN IMPORTS
+pass
+
+
+#   EXTERNAL IMPORTS
+pass
+
+
+#   LOCAL IMPORTS
 from .rfw import Flxr
